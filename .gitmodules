@@ -1,6 +1,3 @@
-[submodule "Java-Libs"]
-	path = Java-Libs
-	url = https://github.com/frc5587/Java-Libs.git
 [submodule "src/main/java/org/frc5587/lib"]
 	path = src/main/java/org/frc5587/lib
 	url = https://github.com/frc5587/Java-Libs.git
