@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import org.frc5587.lib.control.DeadbandJoystick;
-import org.frc5587.lib.control.DeadbandXboxController;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
@@ -27,9 +24,6 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final DeadbandJoystick joy = new DeadbandJoystick(0, 1.5);
-  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -39,11 +33,9 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
+   * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
