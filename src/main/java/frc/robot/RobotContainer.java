@@ -5,10 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import org.frc5587.lib.control.DeadbandXboxController;
+
+import frc.robot.subsystems.ClimberArm;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -20,9 +25,12 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // Controllers
+  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+  // Subsystems
+  private final ClimberArm climberArm = new ClimberArm();  
+  // Commands
+  // Others
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -39,15 +47,27 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Instantiate Y-button on XboxController
+    JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
+    // Instantiate left trigger on XboxController
+    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+
+    /*
+     * Climber Arm
+     */
+
+     /**
+      * When the Y-button and left trigger are active, run the motor.
+      * When they are not active, stop the motor.
+      */
+     yButton.and(leftTrigger.negate()).whenActive(climberArm::on, climberArm).whenInactive(climberArm::stop, climberArm);
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }
