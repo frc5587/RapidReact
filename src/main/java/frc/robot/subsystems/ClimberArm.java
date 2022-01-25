@@ -27,8 +27,15 @@ public class ClimberArm extends SubsystemBase {
     /**
      * Move motor forwards
      */
-    public void on() {
+    public void forwards() {
         motor.set(0.3);
+    }
+
+    /**
+     * Move motor backwards
+     */
+    public void backwards() {
+        motor.set(-0.3);
     }
 
     /**
@@ -37,4 +44,6 @@ public class ClimberArm extends SubsystemBase {
     public void stop() {
         motor.set(0);
     }
+
+
 }

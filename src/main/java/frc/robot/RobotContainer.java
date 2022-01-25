@@ -57,10 +57,16 @@ public class RobotContainer {
      */
 
      /**
-      * When the Y-button and left trigger are active, run the motor.
+      * When the Y-button is active, run the motor forwards.
+      * When it is not active, stop the motor.
+      */
+     yButton.and(leftTrigger.negate()).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
+
+     /**
+      * When the Y-button and left trigger are active, run the motor forwards.
       * When they are not active, stop the motor.
       */
-     yButton.and(leftTrigger.negate()).whenActive(climberArm::on, climberArm).whenInactive(climberArm::stop, climberArm);
+      yButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
   }
 
   /**
