@@ -49,6 +49,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Instantiate Y-button on XboxController
     JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
+    JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
     // Instantiate left trigger on XboxController
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
 
@@ -60,13 +62,16 @@ public class RobotContainer {
       * When the Y-button is active, run the motor forwards.
       * When it is not active, stop the motor.
       */
-     yButton.and(leftTrigger.negate()).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
+     yButton.and(leftTrigger.negate()).whenActive(climberArm::forwards, climberArm).whenInactive(climberArm::stop, climberArm);
 
      /**
       * When the Y-button and left trigger are active, run the motor forwards.
       * When they are not active, stop the motor.
       */
       yButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
+
+      aButton.whenActive(climberArm::grip);
+      bButton.whenActive(climberArm::release);
   }
 
   /**

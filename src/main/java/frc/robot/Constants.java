@@ -15,11 +15,14 @@ package frc.robot;
 public final class Constants {
     public static final class ClimberArmConstants {
         // motor ports
-        public static final int MOTOR = 25;
+        public static final int MOTOR = 26;
 
         public static final boolean MOTOR_INVERTED = true;
         // motor limits
-        public static final int STALL_LIMIT = 20;
-        public static final int FREE_LIMIT = 25;
+        // public static final int STALL_LIMIT = 40;
+        // public static final int FREE_LIMIT = 35;
+
+        public static final double FORWARD_THROTTLE = 1;
+        public static final double BACKWARDS_THROTTLE = 1;
     }
 }
