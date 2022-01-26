@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,6 +15,27 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final class DrivetrainConstants {
+        public static final boolean LEFT_SIDE_INVERTED = false;
+        public static final boolean RIGHT_SIDE_INVERTED = true;
+
+        // motor current limits
+        public static final int SMART_CURRENT_LIMIT = 35;
+        public static final int HARD_CURRENT_LIMIT = 40;
+        public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // seconds
+        public static final StatorCurrentLimitConfiguration STATOR_CURRENT_LIMIT_CONFIGURATION = new StatorCurrentLimitConfiguration(
+            true, 
+            DrivetrainConstants.SMART_CURRENT_LIMIT, 
+            DrivetrainConstants.HARD_CURRENT_LIMIT, 
+            DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY
+        );
+
+        // auto stuff
+        public static final double WHEEL_DIAMETER_METERS = 0.1524;
+        public static final int HISTORY_LIMIT = 32;
+        public static final int ENCODER_EPR = 2048;
+        public static final double GEARING = (54/20) * (50/12);
+    }
     public static final class ClimberArmConstants {
         // motor ports
         public static final int MOTOR = 26;
