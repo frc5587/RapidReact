@@ -19,7 +19,7 @@ public class Drivetrain extends DrivetrainBase {
     public static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_DIAMETER_METERS,
         DrivetrainConstants.HISTORY_LIMIT,
-        false,
+        DrivetrainConstants.INVERT_GYRO,
         DrivetrainConstants.ENCODER_EPR,
         DrivetrainConstants.GEARING,
         DrivetrainConstants.LEFT_SIDE_INVERTED,
@@ -55,22 +55,22 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     protected double getLeftPositionTicks() {
-        return rightLeader.getSelectedSensorPosition();
+        return rightLeader.getSelectedSensorPosition() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
     }
 
     @Override
     protected double getRightPositionTicks() {
-        return rightLeader.getSelectedSensorPosition();
+        return rightLeader.getSelectedSensorPosition() * (DrivetrainConstants.RIGHT_ENCODERS_INVERTED ? -1:1);
     }
 
     @Override
     protected double getLeftVelocityTicksPerSecond() {
-        return leftLeader.getSelectedSensorVelocity();
+        return leftLeader.getSelectedSensorVelocity() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
     }
 
     @Override
     protected double getRightVelocityTicksPerSecond() {
-        return rightLeader.getSelectedSensorVelocity();
+        return rightLeader.getSelectedSensorVelocity() * (DrivetrainConstants.RIGHT_ENCODERS_INVERTED ? -1:1);
     }
 
     @Override

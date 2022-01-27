@@ -18,6 +18,8 @@ public final class Constants {
     public static final class DrivetrainConstants {
         public static final boolean LEFT_SIDE_INVERTED = false;
         public static final boolean RIGHT_SIDE_INVERTED = true;
+        public static final boolean LEFT_ENCODERS_INVERTED = false;
+        public static final boolean RIGHT_ENCODERS_INVERTED = true;
 
         // motor current limits
         public static final int SMART_CURRENT_LIMIT = 35;
@@ -35,6 +37,7 @@ public final class Constants {
         public static final int HISTORY_LIMIT = 32;
         public static final int ENCODER_EPR = 2048;
         public static final double GEARING = (54/20) * (50/12);
+        public static final boolean INVERT_GYRO = false;
     }
     public static final class ClimberArmConstants {
         // motor ports
