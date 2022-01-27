@@ -9,6 +9,12 @@ Titan Robotics' codebase for the 2022 FRC RapidReact competition.
 ```bash
 git clone https://github.com/frc5587/RapidReact.git
 ```
+3. Run the following commands from a terminal in the root project directory:
+```bash
+git submodule init
+git submodule update --remote
+```
+(Ensure you are on the `master` branch of `lib` (Java-Libs))
 
 ### CI/CD
 
