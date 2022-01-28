@@ -16,6 +16,11 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
  */
 public final class Constants {
     public static final class DrivetrainConstants {
+        public static final int LEFT_LEADER = 10;
+        public static final int LEFT_FOLLOWER = 11;
+        public static final int RIGHT_LEADER = 15;
+        public static final int RIGHT_FOLLOWER = 16;
+
         public static final boolean LEFT_SIDE_INVERTED = false;
         public static final boolean RIGHT_SIDE_INVERTED = true;
         public static final boolean LEFT_ENCODERS_INVERTED = false;

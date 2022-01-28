@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends DrivetrainBase {
-    private static WPI_TalonFX leftLeader = new WPI_TalonFX(10);
-    private static WPI_TalonFX leftFollower = new WPI_TalonFX(15);
-    private static WPI_TalonFX rightLeader = new WPI_TalonFX(20);
-    private static WPI_TalonFX rightFollower = new WPI_TalonFX(25);
+    private static WPI_TalonFX leftLeader = new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
+    private static WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER);
+    private static WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
+    private static WPI_TalonFX rightFollower = new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
 
     private static MotorControllerGroup left = new MotorControllerGroup(leftLeader, leftFollower);
     private static MotorControllerGroup right = new MotorControllerGroup(rightLeader, rightFollower);
