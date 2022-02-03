@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import org.frc5587.lib.control.DeadbandXboxController;
 
+import frc.robot.commands.RunThrottle;
 import frc.robot.subsystems.ClimberArm;
+import frc.robot.subsystems.MoveSpark;
 
 
 /**
@@ -29,13 +31,16 @@ public class RobotContainer {
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
   // Subsystems
   private final ClimberArm climberArm = new ClimberArm();  
+  private final MoveSpark intake = new MoveSpark();
   // Commands
+  private final RunThrottle runThrottle = new RunThrottle(intake, xboxController::getLeftY);
   // Others
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    intake.setDefaultCommand(runThrottle);
     // Configure the button bindings
     configureButtonBindings();
   }
