@@ -3,26 +3,26 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MoveSpark;
+import frc.robot.subsystems.Intake;
 
 public class RunThrottle extends CommandBase{
     public DoubleSupplier throttleSupplier;
-    public MoveSpark spark;
+    public Intake intake;
 
-    public RunThrottle(MoveSpark spark, DoubleSupplier throttleSupplier) {
+    public RunThrottle(Intake intake, DoubleSupplier throttleSupplier) {
         this.throttleSupplier = throttleSupplier;
-        this.spark = spark;
+        this.intake = intake;
 
-        addRequirements(spark);
+        addRequirements(intake);
     }
 
     @Override
     public void execute() {
-        spark.moveByThrottle(throttleSupplier.getAsDouble());
+        intake.moveWithThrottle(throttleSupplier.getAsDouble());
     }
 
     @Override
     public void end(boolean interrupted) {
-        spark.stop();
+        intake.stop();
     }
 }

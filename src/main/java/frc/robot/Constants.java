@@ -44,9 +44,15 @@ public final class Constants {
         public static final double GEARING = (54/20) * (50/12);
         public static final boolean INVERT_GYRO = false;
     }
+
+    public static final class IntakeConstants {
+        public static final int MOTOR = 26;
+        public static final boolean INVERTED = true;
+    }
+
     public static final class ClimberArmConstants {
         // motor ports
-        public static final int MOTOR = 26;
+        public static final int MOTOR = 25;
 
         public static final boolean MOTOR_INVERTED = true;
         // motor limits
