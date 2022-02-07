@@ -1,13 +1,14 @@
 package frc.robot.subsystems;
 
 import org.frc5587.lib.subsystems.SimpleMotorBase;
-
 import frc.robot.Constants.IntakeConstants;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+/**
+* A SUPER simple intake using one SparkMax based on {@link SimpleMotorBase}.
+*/
 public class Intake extends SimpleMotorBase {
     private static CANSparkMax motor = new CANSparkMax(IntakeConstants.MOTOR, MotorType.kBrushless);
 
@@ -18,9 +19,7 @@ public class Intake extends SimpleMotorBase {
 
     public void configureMotors() {
         motor.restoreFactoryDefaults();
-
         motor.setInverted(IntakeConstants.INVERTED);
-
         motor.setIdleMode(IdleMode.kCoast);
     }
 }

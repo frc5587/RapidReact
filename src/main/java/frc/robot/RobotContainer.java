@@ -33,14 +33,12 @@ public class RobotContainer {
   private final ClimberArm climberArm = new ClimberArm();  
   private final Intake intake = new Intake();
   // Commands
-  private final RunThrottle runThrottle = new RunThrottle(intake, xboxController::getLeftY);
   // Others
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    intake.setDefaultCommand(runThrottle);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -54,29 +52,31 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Instantiate Y-button on XboxController
     JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
+    JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
     JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
     JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
     // Instantiate left trigger on XboxController
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
 
+    aButton.whenActive(() -> intake.moveWithThrottle(xboxController.getLeftY()), intake);
     /*
      * Climber Arm
      */
 
      /**
-      * When the Y-button is active, run the motor forwards.
+      * When the B-button is active, run the motor forwards.
       * When it is not active, stop the motor.
       */
-     yButton.and(leftTrigger.negate()).whenActive(climberArm::forwards, climberArm).whenInactive(climberArm::stop, climberArm);
+    bButton.and(leftTrigger.negate()).whenActive(climberArm::forwards, climberArm).whenInactive(climberArm::stop, climberArm);
 
      /**
-      * When the Y-button and left trigger are active, run the motor forwards.
+      * When the B-button and left trigger are active, run the motor backwards.
       * When they are not active, stop the motor.
       */
-      yButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
+      bButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
 
-      aButton.whenActive(climberArm::grip);
-      bButton.whenActive(climberArm::release);
+      yButton.whenActive(climberArm::grip);
+      xButton.whenActive(climberArm::release);
   }
 
   /**
