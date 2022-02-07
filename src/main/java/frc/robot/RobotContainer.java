@@ -14,7 +14,7 @@ import org.frc5587.lib.control.DeadbandXboxController;
 
 import frc.robot.commands.RunThrottle;
 import frc.robot.subsystems.ClimberArm;
-import frc.robot.subsystems.MoveSpark;
+import frc.robot.subsystems.Intake;
 
 
 /**
@@ -31,7 +31,7 @@ public class RobotContainer {
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
   // Subsystems
   private final ClimberArm climberArm = new ClimberArm();  
-  private final MoveSpark intake = new MoveSpark();
+  private final Intake intake = new Intake();
   // Commands
   private final RunThrottle runThrottle = new RunThrottle(intake, xboxController::getLeftY);
   // Others
