@@ -6,6 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
+import org.frc5587.lib.pid.PID;
+
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -48,6 +52,12 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final int MOTOR = 26;
         public static final boolean INVERTED = true;
+
+        public static final PID PID = new PID(0, 0, 0);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = 
+            new TrapezoidProfile.Constraints(0, 0);
+        public static final double GEARING = 10;
+        public static final int ENCODER_CPR = 42;
     }
 
     public static final class ClimberArmConstants {
