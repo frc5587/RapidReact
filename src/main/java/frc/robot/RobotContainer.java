@@ -58,7 +58,7 @@ public class RobotContainer {
     // Instantiate left trigger on XboxController
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
 
-    aButton.whenActive(() -> intake.moveWithThrottle(xboxController.getLeftY()), intake);
+    aButton.whenActive(() -> intake.moveWithThrottle(xboxController.getLeftY()), intake).whenInactive(intake::stop);
     /*
      * Climber Arm
      */

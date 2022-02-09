@@ -38,6 +38,10 @@ public class Intake extends ProfiledPIDSubsystem {
         motor.set(throttle);
     }
 
+    public void stop() {
+        motor.set(0);
+    }
+    
     public void resetEncoders() {
         encoder.setPosition(0);
     }
