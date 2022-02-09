@@ -5,10 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import org.frc5587.lib.control.DeadbandXboxController;
+
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -20,10 +24,12 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // Controllers
+  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+  // Subsystems
+  public static final Shooter shooter = new Shooter();
 
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -39,6 +45,27 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+      // Instantiate buttons on xboxController
+      JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
+      // Instantiate triggers on xboxController
+      Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+
+
+      /*
+      Shooter
+      */
+
+      /**
+      * When the X-button is active, run the motor forwards.
+      * When it is not active, stop the motor.
+      */
+      xButton.and(leftTrigger.negate()).whenActive(shooter::flyWheelBackwards, shooter).whenInactive(shooter::stop, shooter);
+
+      /**
+      * When the X-button and left trigger are active, run the motor backwards.
+      * When they are not active, stop the motor.
+      */
+      xButton.and(leftTrigger).whenActive(shooter::flyWheelBackwards, shooter).whenInactive(shooter::stop, shooter);
   }
 
   /**
@@ -48,6 +75,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }
