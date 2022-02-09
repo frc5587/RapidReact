@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import org.frc5587.lib.control.DeadbandXboxController;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Turret;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -18,6 +23,11 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private final Turret turret = new Turret();
+
+  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+
   // The robot's subsystems and commands are defined here...
 
   /**
@@ -35,6 +45,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
+    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+
+    bButton.whenActive(() -> turret.setMotorThrottle(xboxController.getLeftX())).whenInactive(() -> turret.stopTurret());
+    bButton.and(leftTrigger).whenActive(() -> turret.setMotorThrottle(-xboxController.getLeftX())).whenInactive(() -> turret.stopTurret());
   }
 
   /**
