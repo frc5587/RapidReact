@@ -19,8 +19,8 @@ public class Turret extends SubsystemBase {
     public void configureTurretSpark() {
         turretMotor.restoreFactoryDefaults();
 
-        turretMotor.setSoftLimit(SoftLimitDirection.kForward, 3);
-        turretMotor.setSoftLimit(SoftLimitDirection.kReverse, -3);
+        // turretMotor.setSoftLimit(SoftLimitDirection.kForward, 3);
+        // turretMotor.setSoftLimit(SoftLimitDirection.kReverse, -3);
 
         turretMotor.setIdleMode(IdleMode.kCoast);
     }
