@@ -4,9 +4,15 @@
 
 package frc.robot;
 
+import org.frc5587.lib.control.DeadbandXboxController;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Conveyor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -19,6 +25,9 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final Conveyor conveyor = new Conveyor();
+
+  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -35,6 +44,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+    POVButton dpadUp = new POVButton(xboxController, 90);
+
+    // "a" button spins motor at a speed of 0.2
+    aButton.whenActive(() -> conveyor.setConveyor(0.2)).whenInactive(() -> conveyor.setConveyor(0));
+    // "dpadUp" button spins motor at a speed of 1
+    dpadUp.whenActive(() -> conveyor.setConveyor(1)).whenInactive(() -> conveyor.setConveyor(0));
+
+    // "a" button and the left trigger spins motor at a speed of -0.2 (reverse)
+    aButton.and(leftTrigger).whenActive(() -> conveyor.setConveyor(-0.2)).whenInactive(() -> conveyor.setConveyor(0));
+    // "dpadUp" button and the left trigger spins motor at a speed of -1 (reverse)
+    dpadUp.and(leftTrigger).whenActive(() -> conveyor.setConveyor(-1)).whenInactive(() -> conveyor.setConveyor(0));
   }
 
   /**
