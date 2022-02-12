@@ -32,21 +32,20 @@ public class Turret extends ProfiledPIDSubsystem {
 
         turretMotor.setInverted(TurretConstants.MOTOR_INVERTED);
 
-        turretMotor.setIdleMode(IdleMode.kCoast);
+        turretMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public void setTurret(double turretSpeed) {
-        turretMotor.setIdleMode(IdleMode.kCoast);
         turretMotor.set(-turretSpeed);
     }
 
     public void stopTurret() {
         turretMotor.set(0);
-        turretMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public void setMotorThrottle(double throttle) {
         turretMotor.set(throttle);
+        System.out.println("Yes we are the moving at this speed " + throttle);
     }
 
     public void resetEncoders() {
@@ -68,6 +67,6 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        System.out.println("Come back to this");
+        System.out.println("Come back to this"); //TODO: yes come back
     }
 }

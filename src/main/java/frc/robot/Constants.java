@@ -18,7 +18,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static class TurretConstants {
-        public static final int TURRET_MOTOR = 31;
+        public static final int TURRET_MOTOR = 25;
 
         public static final boolean MOTOR_INVERTED = false;
 

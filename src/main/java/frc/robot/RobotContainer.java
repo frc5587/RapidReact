@@ -50,7 +50,7 @@ public class RobotContainer {
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
 
     bButton.whenActive(() -> turret.setMotorThrottle(xboxController.getLeftX())).whenInactive(() -> turret.stopTurret());
-    // bButton.whenActive(() -> turret.setTurret(0.2)).whenInactive(() -> turret.stopTurret());
+    aButton.whenActive(() -> turret.setTurret(0.2)).whenInactive(() -> turret.stopTurret());
     // aButton.whenActive(() -> turret.setTurret(1)).whenInactive(() -> turret.stopTurret());
 
     bButton.and(leftTrigger).whenActive(() -> turret.setMotorThrottle(-xboxController.getLeftX())).whenInactive(() -> turret.stopTurret());
