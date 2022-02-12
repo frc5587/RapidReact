@@ -18,7 +18,9 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static class ConveyorConstants {
-        public static final int CONVEYOR_MOTOR = 31;
+        public static final int CONVEYOR_MOTOR_MAIN = 31;
+        public static final int CONVEYOR_MOTOR_2 = 32;
+        public static final int CONVEYOR_MOTOR_3 = 33;
 
         public static final boolean MOTOR_INVERTED = false;
 

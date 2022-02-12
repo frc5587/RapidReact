@@ -8,14 +8,22 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.ConveyorConstants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 public class Conveyor extends ProfiledPIDSubsystem {
-    private static CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
-    private static RelativeEncoder encoder = conveyorMotor.getEncoder();
+    private static CANSparkMax conveyorMotorMain = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR_MAIN, MotorType.kBrushless);
+    private static CANSparkMax conveyorMotor2 = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR_2, MotorType.kBrushless);
+    private static CANSparkMax conveyorMotor3 = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR_3, MotorType.kBrushless);
+
+    private static RelativeEncoder encoderMain = conveyorMotorMain.getEncoder();
+    private static RelativeEncoder encoder2 = conveyorMotor2.getEncoder();
+    private static RelativeEncoder encoder3 = conveyorMotor3.getEncoder();
+
+    private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(conveyorMotorMain, conveyorMotor2, conveyorMotor3);
 
     public Conveyor() {
         super(new ProfiledPIDController(
@@ -27,30 +35,50 @@ public class Conveyor extends ProfiledPIDSubsystem {
         configureConveyorSpark();
     }
 
+
+
     public void configureConveyorSpark() {
-        conveyorMotor.restoreFactoryDefaults();
+        conveyorMotorMain.restoreFactoryDefaults();
+        conveyorMotor2.restoreFactoryDefaults();
+        conveyorMotor3.restoreFactoryDefaults();
 
-        conveyorMotor.setInverted(ConveyorConstants.MOTOR_INVERTED);
+        conveyorMotorMain.setInverted(ConveyorConstants.MOTOR_INVERTED);
+        conveyorMotor2.setInverted(ConveyorConstants.MOTOR_INVERTED);
+        conveyorMotor3.setInverted(ConveyorConstants.MOTOR_INVERTED);
 
-        conveyorMotor.setIdleMode(IdleMode.kCoast);
+        conveyorMotorMain.setIdleMode(IdleMode.kCoast);
+        conveyorMotor2.setIdleMode(IdleMode.kCoast);
+        conveyorMotor3.setIdleMode(IdleMode.kCoast);
     }
 
     public void setConveyor(double conveyorSpeed) {
-        conveyorMotor.setIdleMode(IdleMode.kCoast);
-        conveyorMotor.set(-conveyorSpeed);
+        conveyorMotorMain.setIdleMode(IdleMode.kCoast);
+        conveyorMotor2.setIdleMode(IdleMode.kCoast);
+        conveyorMotor3.setIdleMode(IdleMode.kCoast);
+
+        conveyorMotorMain.set(-conveyorSpeed);
+        conveyorMotor2.set(-conveyorSpeed);
+        conveyorMotor3.set(-conveyorSpeed);
     }
 
     public void stopConveyor() {
-        conveyorMotor.set(0);
-        conveyorMotor.setIdleMode(IdleMode.kBrake);
+        conveyorMotorMain.set(0);
+        conveyorMotor2.set(0);
+        conveyorMotor3.set(0);
+
+        conveyorMotorMain.setIdleMode(IdleMode.kBrake);
+        conveyorMotor2.setIdleMode(IdleMode.kBrake);
+        conveyorMotor3.setIdleMode(IdleMode.kBrake);
     }
 
     public void resetEncoders() {
-        encoder.setPosition(0);
+        encoderMain.setPosition(0);
+        encoder2.setPosition(0);
+        encoder3.setPosition(0);
     }
 
     protected double getPositionDegrees() {
-        return (encoder.getPosition() / Constants.ConveyorConstants.GEARING / Constants.ConveyorConstants.ENCODER_CPR);
+        return (encoderMain.getPosition() / encoder2.getPosition() / encoder3.getPosition() / Constants.ConveyorConstants.GEARING / Constants.ConveyorConstants.ENCODER_CPR);
     }
 
     protected double getPositionRadians() {
