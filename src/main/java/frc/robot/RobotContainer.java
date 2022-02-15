@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Kicker;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,6 +27,7 @@ import frc.robot.subsystems.Conveyor;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Conveyor conveyor = new Conveyor();
+  private final Kicker kicker = new Kicker();
 
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
@@ -45,18 +47,38 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
-    POVButton dpadUp = new POVButton(xboxController, 90);
+    JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
 
-    // "a" button spins motor at a speed of 0.2
+    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+
+    POVButton dpadUp = new POVButton(xboxController, 90);
+    POVButton dpadDown = new POVButton(xboxController, 180);
+
+    /**
+     * CONVEYOR
+     */
+    // "a" button spins conveyor motors at a speed of 0.2
     aButton.whenActive(() -> conveyor.setConveyor(0.2)).whenInactive(() -> conveyor.setConveyor(0));
-    // "dpadUp" button spins motor at a speed of 1
+    // "dpadUp" button spins conveyor motors at a speed of 1
     dpadUp.whenActive(() -> conveyor.setConveyor(1)).whenInactive(() -> conveyor.setConveyor(0));
 
-    // "a" button and the left trigger spins motor at a speed of -0.2 (reverse)
+    // "a" button and the left trigger spins conveyor motors at a speed of -0.2 (reverse)
     aButton.and(leftTrigger).whenActive(() -> conveyor.setConveyor(-0.2)).whenInactive(() -> conveyor.setConveyor(0));
-    // "dpadUp" button and the left trigger spins motor at a speed of -1 (reverse)
+    // "dpadUp" button and the left trigger spins conveyor motors at a speed of -1 (reverse)
     dpadUp.and(leftTrigger).whenActive(() -> conveyor.setConveyor(-1)).whenInactive(() -> conveyor.setConveyor(0));
+
+    /**
+     * KICKER
+     */
+    // "x" button spins kicker motors at a speed of 0.2
+    xButton.whenActive(() -> kicker.setKicker(0.2)).whenInactive(() -> kicker.setKicker(0));
+    // "dpadUp" button spins kicker motors at a speed of 1
+    dpadDown.whenActive(() -> kicker.setKicker(1)).whenInactive(() -> kicker.setKicker(0));
+
+    // "x" button and the left trigger spins kicker motors at a speed of -0.2 (reverse)
+    xButton.and(leftTrigger).whenActive(() -> kicker.setKicker(-0.2)).whenInactive(() -> kicker.setKicker(0));
+    // "dpadUp" button and the left trigger spins kicker motors at a speed of -1 (reverse)
+    dpadDown.and(leftTrigger).whenActive(() -> kicker.setKicker(-1)).whenInactive(() -> kicker.setKicker(0));
   }
 
   /**

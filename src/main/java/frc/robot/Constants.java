@@ -30,4 +30,17 @@ public final class Constants {
         public static final int GEARING = 10;
         public static final int ENCODER_CPR = 42;
     }
+
+    public static class KickerConstants {
+        public static final int KICKER_MOTOR_MAIN = 34;
+        public static final int KICKER_MOTOR_2 = 35;
+
+        public static final boolean MOTOR_INVERTED = false;
+
+        // PID Constants
+        public static final PID PID = new PID(0, 0, 0);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
+        public static final int GEARING = 10;
+        public static final int ENCODER_CPR = 42;
+    }
 }
