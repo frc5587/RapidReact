@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.KickerConstants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -21,7 +20,7 @@ public class Kicker extends ProfiledPIDSubsystem {
     private static RelativeEncoder kickerEncoderMain = kickerMotorMain.getEncoder();
     private static RelativeEncoder kickerEncoder2 = kickerMotor2.getEncoder();
 
-    private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(kickerMotorMain, kickerMotor2);
+    // private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(kickerMotorMain, kickerMotor2);
 
     public Kicker() {
         super(new ProfiledPIDController(

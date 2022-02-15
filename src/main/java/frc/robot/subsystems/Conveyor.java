@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.ConveyorConstants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -23,7 +22,7 @@ public class Conveyor extends ProfiledPIDSubsystem {
     private static RelativeEncoder encoder2 = conveyorMotor2.getEncoder();
     private static RelativeEncoder encoder3 = conveyorMotor3.getEncoder();
 
-    private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(conveyorMotorMain, conveyorMotor2, conveyorMotor3);
+    // private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(conveyorMotorMain, conveyorMotor2, conveyorMotor3);
 
     public Conveyor() {
         super(new ProfiledPIDController(
