@@ -35,7 +35,8 @@ public class Turret extends ProfiledPIDSubsystem {
         turretMotor.setIdleMode(IdleMode.kBrake);
     }
 
-    public void setTurret(double turretSpeed) {
+    // uses radians per second
+    public void setSpeed(double turretSpeed) {
         turretMotor.set(-turretSpeed);
     }
 
