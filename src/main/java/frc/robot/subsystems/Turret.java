@@ -39,7 +39,7 @@ public class Turret extends ProfiledPIDSubsystem {
         turretMotor.set(-turretSpeed);
     }
 
-    public void moveWithThrottle(double throttle) {
+    public void setThrottle(double throttle) {
         turretMotor.set(throttle);
     }
 
@@ -71,6 +71,6 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        moveWithThrottle(output);
+        setThrottle(output);
     }
 }
