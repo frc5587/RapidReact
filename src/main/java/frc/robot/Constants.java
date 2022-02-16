@@ -23,6 +23,7 @@ public final class Constants {
         public static final boolean MOTOR_INVERTED = false;
 
         // PID Constants
+        // TODO - Fill these in later
         public static final PID PID = new PID(0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
         public static final int GEARING = 10;
