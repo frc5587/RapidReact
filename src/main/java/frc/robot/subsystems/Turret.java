@@ -57,11 +57,11 @@ public class Turret extends ProfiledPIDSubsystem {
     }
 
     protected double getPositionDegrees() {
-        return (encoder.getPosition() / Constants.TurretConstants.GEARING / Constants.TurretConstants.ENCODER_CPR);
+        return Math.toRadians(getPositionDegrees());
     }
 
     protected double getPositionRadians() {
-        return Math.toRadians(getPositionDegrees());
+        return (encoder.getPosition() / Constants.TurretConstants.GEARING / Constants.TurretConstants.ENCODER_CPR);
     }
 
     @Override
