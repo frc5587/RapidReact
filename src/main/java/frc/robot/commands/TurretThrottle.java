@@ -18,7 +18,7 @@ public class TurretThrottle extends CommandBase{
 
     @Override
     public void execute() {
-        turret.moveWithThrottle(throttleSupplier.getAsDouble());
+        turret.setThrottle(throttleSupplier.getAsDouble());
     }
 
     @Override
