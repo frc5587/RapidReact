@@ -71,14 +71,14 @@ public class RobotContainer {
      * KICKER
      */
     // "x" button spins kicker motors at a speed of 0.2
-    xButton.whenActive(() -> kicker.setKicker(0.2)).whenInactive(() -> kicker.setKicker(0));
+    xButton.whenActive(() -> kicker.setVelocity(0.2)).whenInactive(() -> kicker.setVelocity(0));
     // "dpadUp" button spins kicker motors at a speed of 1
-    dpadDown.whenActive(() -> kicker.setKicker(1)).whenInactive(() -> kicker.setKicker(0));
+    dpadDown.whenActive(() -> kicker.setVelocity(1)).whenInactive(() -> kicker.setVelocity(0));
 
     // "x" button and the left trigger spins kicker motors at a speed of -0.2 (reverse)
-    xButton.and(leftTrigger).whenActive(() -> kicker.setKicker(-0.2)).whenInactive(() -> kicker.setKicker(0));
+    xButton.and(leftTrigger).whenActive(() -> kicker.setVelocity(-0.2)).whenInactive(() -> kicker.setVelocity(0));
     // "dpadUp" button and the left trigger spins kicker motors at a speed of -1 (reverse)
-    dpadDown.and(leftTrigger).whenActive(() -> kicker.setKicker(-1)).whenInactive(() -> kicker.setKicker(0));
+    dpadDown.and(leftTrigger).whenActive(() -> kicker.setVelocity(-1)).whenInactive(() -> kicker.setVelocity(0));
   }
 
   /**
