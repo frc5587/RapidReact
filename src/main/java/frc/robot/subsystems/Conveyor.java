@@ -15,10 +15,7 @@ import com.revrobotics.RelativeEncoder;
 
 public class Conveyor extends ProfiledPIDSubsystem {
     private static CANSparkMax conveyorMotorMain = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
-
     private static RelativeEncoder encoderMain = conveyorMotorMain.getEncoder();
-
-    // private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(conveyorMotorMain, conveyorMotor2, conveyorMotor3);
 
     public Conveyor() {
         super(new ProfiledPIDController(
@@ -41,13 +38,11 @@ public class Conveyor extends ProfiledPIDSubsystem {
     }
 
     public void setConveyor(double conveyorSpeed) {
-        conveyorMotorMain.set(-conveyorSpeed);
+        conveyorMotorMain.set(conveyorSpeed);
     }
 
     public void stopConveyor() {
         conveyorMotorMain.set(0);
-
-        conveyorMotorMain.setIdleMode(IdleMode.kBrake);
     }
 
     public void resetEncoders() {
@@ -62,6 +57,8 @@ public class Conveyor extends ProfiledPIDSubsystem {
         return Math.toRadians(getPositionDegrees());
     }
 
+    // TODO Only use meters
+
     @Override
     protected double getMeasurement() {
         return getPositionRadians();
@@ -69,6 +66,6 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        System.out.println("Test later");
+        // TODO Use voltages and implement feedforward
     }
 }

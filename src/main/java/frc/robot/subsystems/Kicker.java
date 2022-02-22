@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.KickerConstants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -37,25 +38,21 @@ public class Kicker extends ProfiledPIDSubsystem {
         kickerMotorFollower.restoreFactoryDefaults();
 
         kickerMotorLeader.setInverted(KickerConstants.LEADER_INVERTED);
+        kickerMotorFollower.setInverted(KickerConstants.FOLLOWER_INVERTED);
 
-        kickerMotorLeader.setIdleMode(IdleMode.kCoast);
-        kickerMotorFollower.setIdleMode(IdleMode.kCoast);
+        kickerMotorLeader.setIdleMode(IdleMode.kBrake);
+        kickerMotorFollower.setIdleMode(IdleMode.kBrake);
     }
 
-    public void setKicker(double kickerSpeed) {
-        kickerMotorLeader.setIdleMode(IdleMode.kCoast);
-        kickerMotorFollower.setIdleMode(IdleMode.kCoast);
-
-        kickerMotorLeader.set(-kickerSpeed);
-        kickerMotorFollower.set(-kickerSpeed);
+    public void setVelocity(double kickerSpeed) {
+        // TODO Use meters per second
+        kickerMotorLeader.set(kickerSpeed);
+        kickerMotorFollower.set(kickerSpeed);
     }
 
     public void stopKicker() {
         kickerMotorLeader.set(0);
         kickerMotorFollower.set(0);
-
-        kickerMotorLeader.setIdleMode(IdleMode.kBrake);
-        kickerMotorFollower.setIdleMode(IdleMode.kBrake);
     }
 
     public void resetEncoders() {
@@ -71,13 +68,17 @@ public class Kicker extends ProfiledPIDSubsystem {
         return Math.toRadians(getPositionDegrees());
     }
 
+    protected double getPositionMeters() {
+        return (getPositionRadians() * Units.inchesToMeters(2));
+    }
+
     @Override
     protected double getMeasurement() {
-        return getPositionRadians();
+        return getPositionMeters();
     }
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        System.out.println("Test later");
+        // TODO Use voltages and implement feedforward
     }
 }
