@@ -30,9 +30,11 @@ public class Turret extends ProfiledPIDSubsystem {
     public void configureTurretSpark() {
         turretMotor.restoreFactoryDefaults();
 
-        turretMotor.setInverted(TurretConstants.MOTOR_INVERTED);
+        turretMotor.setInverted(TurretConstants.TURRET_MOTOR_INVERTED);
 
         turretMotor.setIdleMode(IdleMode.kBrake);
+
+        resetEncoders();
     }
 
     // uses radians per second
@@ -47,11 +49,6 @@ public class Turret extends ProfiledPIDSubsystem {
     public void stopTurret() {
         turretMotor.set(0);
     }
-
-    // public void setMotorThrottle(double throttle) {
-    //     turretMotor.set(throttle);
-    //     System.out.println("Yes we are the moving at this speed " + throttle);
-    // }
 
     public void resetEncoders() {
         encoder.setPosition(0);

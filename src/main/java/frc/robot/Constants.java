@@ -18,12 +18,11 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static class TurretConstants {
-        public static final int TURRET_MOTOR = 25;
-
-        public static final boolean MOTOR_INVERTED = false;
+        public static final int TURRET_MOTOR = 45;
+        public static final boolean TURRET_MOTOR_INVERTED = false;
 
         // PID Constants
-        // TODO - Fill these in later
+        // TODO Fill these in later
         public static final PID PID = new PID(0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
         public static final int GEARING = 10;
