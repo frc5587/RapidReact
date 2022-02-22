@@ -18,13 +18,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static class ConveyorConstants {
-        public static final int CONVEYOR_MOTOR_MAIN = 31;
-        public static final int CONVEYOR_MOTOR_2 = 32;
-        public static final int CONVEYOR_MOTOR_3 = 33;
+        public static final int CONVEYOR_MOTOR = 30;
 
         public static final boolean MOTOR_INVERTED = false;
 
         // PID Constants
+        // TODO Test these PID values
         public static final PID PID = new PID(0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
         public static final int GEARING = 10;
@@ -32,12 +31,14 @@ public final class Constants {
     }
 
     public static class KickerConstants {
-        public static final int KICKER_MOTOR_MAIN = 34;
-        public static final int KICKER_MOTOR_2 = 35;
+        public static final int KICKER_MOTOR_LEADER = 35;
+        public static final int KICKER_MOTOR_FOLLOWER = 36;
 
-        public static final boolean MOTOR_INVERTED = false;
+        public static final boolean LEADER_INVERTED = false;
+        public static final boolean FOLLOWER_INVERTED = false;
 
         // PID Constants
+        // TODO Test these PID values too
         public static final PID PID = new PID(0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
         public static final int GEARING = 10;

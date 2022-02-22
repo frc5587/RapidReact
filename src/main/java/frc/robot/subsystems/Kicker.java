@@ -14,14 +14,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 public class Kicker extends ProfiledPIDSubsystem {
-    private static CANSparkMax kickerMotorMain = new CANSparkMax(KickerConstants.KICKER_MOTOR_MAIN, MotorType.kBrushless);
-    private static CANSparkMax kickerMotor2 = new CANSparkMax(KickerConstants.KICKER_MOTOR_2, MotorType.kBrushless);
+    private static CANSparkMax kickerMotorLeader = new CANSparkMax(KickerConstants.KICKER_MOTOR_LEADER, MotorType.kBrushless);
+    private static CANSparkMax kickerMotorFollower = new CANSparkMax(KickerConstants.KICKER_MOTOR_FOLLOWER, MotorType.kBrushless);
 
-    private static RelativeEncoder kickerEncoderMain = kickerMotorMain.getEncoder();
-    private static RelativeEncoder kickerEncoder2 = kickerMotor2.getEncoder();
-
-    // private static MotorControllerGroup motorControllerGroup = new MotorControllerGroup(kickerMotorMain, kickerMotor2);
-
+    private static RelativeEncoder kickerEncoderMain = kickerMotorLeader.getEncoder();
+    private static RelativeEncoder kickerEncoder2 = kickerMotorFollower.getEncoder();
+    
     public Kicker() {
         super(new ProfiledPIDController(
             Constants.KickerConstants.PID.kP,
@@ -35,30 +33,29 @@ public class Kicker extends ProfiledPIDSubsystem {
 
 
     public void configureKickerSpark() {
-        kickerMotorMain.restoreFactoryDefaults();
-        kickerMotor2.restoreFactoryDefaults();
+        kickerMotorLeader.restoreFactoryDefaults();
+        kickerMotorFollower.restoreFactoryDefaults();
 
-        kickerMotorMain.setInverted(KickerConstants.MOTOR_INVERTED);
-        kickerMotor2.setInverted(KickerConstants.MOTOR_INVERTED);
+        kickerMotorLeader.setInverted(KickerConstants.LEADER_INVERTED);
 
-        kickerMotorMain.setIdleMode(IdleMode.kCoast);
-        kickerMotor2.setIdleMode(IdleMode.kCoast);
+        kickerMotorLeader.setIdleMode(IdleMode.kCoast);
+        kickerMotorFollower.setIdleMode(IdleMode.kCoast);
     }
 
     public void setKicker(double kickerSpeed) {
-        kickerMotorMain.setIdleMode(IdleMode.kCoast);
-        kickerMotor2.setIdleMode(IdleMode.kCoast);
+        kickerMotorLeader.setIdleMode(IdleMode.kCoast);
+        kickerMotorFollower.setIdleMode(IdleMode.kCoast);
 
-        kickerMotorMain.set(-kickerSpeed);
-        kickerMotor2.set(-kickerSpeed);
+        kickerMotorLeader.set(-kickerSpeed);
+        kickerMotorFollower.set(-kickerSpeed);
     }
 
     public void stopKicker() {
-        kickerMotorMain.set(0);
-        kickerMotor2.set(0);
+        kickerMotorLeader.set(0);
+        kickerMotorFollower.set(0);
 
-        kickerMotorMain.setIdleMode(IdleMode.kBrake);
-        kickerMotor2.setIdleMode(IdleMode.kBrake);
+        kickerMotorLeader.setIdleMode(IdleMode.kBrake);
+        kickerMotorFollower.setIdleMode(IdleMode.kBrake);
     }
 
     public void resetEncoders() {
