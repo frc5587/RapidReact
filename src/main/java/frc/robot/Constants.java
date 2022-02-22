@@ -50,7 +50,7 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final int MOTOR = 26;
+        public static final int INTAKE_MOTOR = 20;
         public static final boolean INVERTED = true;
 
         public static final PID PID = new PID(0, 0, 0);

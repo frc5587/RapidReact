@@ -15,7 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 * A SUPER simple intake using one SparkMax based on {@link SimpleMotorBase}.
 */
 public class Intake extends ProfiledPIDSubsystem {
-    private static CANSparkMax motor = new CANSparkMax(IntakeConstants.MOTOR, MotorType.kBrushless);
+    private static CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
     private static RelativeEncoder encoder = motor.getEncoder();
 
     public Intake() {
