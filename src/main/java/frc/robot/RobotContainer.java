@@ -59,7 +59,7 @@ public class RobotContainer {
       * When the X-button is active, run the motor forwards.
       * When it is not active, stop the motor.
       */
-      xButton.and(leftTrigger.negate()).whenActive(shooter::flyWheelBackwards, shooter).whenInactive(shooter::stop, shooter);
+      xButton.and(leftTrigger.negate()).whenActive(shooter::flyWheelForwards, shooter).whenInactive(shooter::stop, shooter);
 
       /**
       * When the X-button and left trigger are active, run the motor backwards.

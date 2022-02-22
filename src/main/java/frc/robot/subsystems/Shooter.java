@@ -2,15 +2,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends ProfiledPIDSubsystem {
-    private final TalonFX motor = new TalonFX(Constants.ShooterConstants.SHOOTER_MOTOR);
+    private final TalonFX leaderMotor = new TalonFX(Constants.ShooterConstants.SHOOTER_LEADER_MOTOR);
+    private final TalonFX followerMotor = new TalonFX(Constants.ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
 
     public Shooter() {
         super(new ProfiledPIDController(
@@ -20,27 +23,46 @@ public class Shooter extends ProfiledPIDSubsystem {
             Constants.ShooterConstants.CONSTRAINTS
         ));
 
-        motor.setInverted(true); // TODO Check if this needs to be inverted
+        leaderMotor.setInverted(true);
+        followerMotor.setInverted(true);
     }
 
+    public void configureShooterFalcon() {
+        leaderMotor.configFactoryDefault();
+        followerMotor.configFactoryDefault();
+
+        leaderMotor.setInverted(ShooterConstants.SHOOTER_LEADER_INVERTED);
+        followerMotor.setInverted(ShooterConstants.SHOOTER_FOLLOWER_INVERTED);
+
+        leaderMotor.setNeutralMode(NeutralMode.Brake);
+        followerMotor.setNeutralMode(NeutralMode.Brake);
+
+        resetEncoders();
+    }
+
+
     public void flyWheelForwards() {
-        motor.set(ControlMode.PercentOutput, Constants.ShooterConstants.FORWARDS_VELOCITY);
+        leaderMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.FORWARDS_VELOCITY);
+        followerMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.FORWARDS_VELOCITY);
     }
 
     public void flyWheelBackwards() {
-        motor.set(ControlMode.PercentOutput, Constants.ShooterConstants.BACKWARDS_VELOCITY);
+        leaderMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.BACKWARDS_VELOCITY);
+        followerMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.BACKWARDS_VELOCITY);
     }
 
     public void stop() {
-        motor.set(ControlMode.PercentOutput, 0);
+        leaderMotor.set(ControlMode.PercentOutput, 0);
+        followerMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void resetEncoders() {
-        motor.setSelectedSensorPosition(0);
+        leaderMotor.setSelectedSensorPosition(0);
+        followerMotor.setSelectedSensorPosition(0);
     }
 
     protected double getPositionDegrees() {
-        return (motor.getSelectedSensorPosition() / Constants.ShooterConstants.GEARING / Constants.ShooterConstants.ENCODER_CPR);
+        return (leaderMotor.getSelectedSensorPosition() / followerMotor.getSelectedSensorPosition() / Constants.ShooterConstants.GEARING / Constants.ShooterConstants.ENCODER_CPR);
     }
 
     protected double getPositionRadians() {

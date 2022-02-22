@@ -18,13 +18,22 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  */
 public final class Constants {
     public static final class ShooterConstants {
-        public static final int SHOOTER_MOTOR = 30;
+        // motor ids
+        public static final int SHOOTER_LEADER_MOTOR = 40;
+        public static final int SHOOTER_FOLLOWER_MOTOR = 41;
+
+        public static final boolean SHOOTER_LEADER_INVERTED = true; // TODO check if these need to be inverted
+        public static final boolean SHOOTER_FOLLOWER_INVERTED = false; // TODO same here
+        
+        // motor speeds
         public static final int FORWARDS_VELOCITY = 1;
         public static final int BACKWARDS_VELOCITY = -1; // may not be needed, but implemented just so forwards & backwards can be different speeds
+        
         // PID Constants
+        // TODO Actually check what the PID values should be
         public static final PID PID = new PID(0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
-        public static final int GEARING = 10;
-        public static final int ENCODER_CPR = 42;
+        public static final double GEARING = 10;
+        public static final double ENCODER_CPR = 42;
     } 
 }
