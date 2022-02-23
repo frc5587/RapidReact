@@ -30,7 +30,7 @@ public class RobotContainer {
   // Controllers
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
   // Subsystems
-  private final ClimberArm climberArm = new ClimberArm();  
+  // private final ClimberArm climberArm = new ClimberArm();  
   private final Intake intake = new Intake();
   // Commands
   // Others
@@ -58,7 +58,7 @@ public class RobotContainer {
     // Instantiate left trigger on XboxController
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
 
-    aButton.whenActive(() -> intake.moveWithThrottle(xboxController.getLeftY()), intake).whenInactive(intake::stop);
+    // aButton.whenActive(() -> intake.moveWithThrottle(xboxController.getLeftY()), intake).whenInactive(intake::stop);
     /*
      * Climber Arm
      */
@@ -67,16 +67,17 @@ public class RobotContainer {
       * When the B-button is active, run the motor forwards.
       * When it is not active, stop the motor.
       */
-    bButton.and(leftTrigger.negate()).whenActive(climberArm::forwards, climberArm).whenInactive(climberArm::stop, climberArm);
+    // bButton.and(leftTrigger.negate()).whenActive(climberArm::forwards, climberArm).whenInactive(climberArm::stop, climberArm);
 
      /**
       * When the B-button and left trigger are active, run the motor backwards.
       * When they are not active, stop the motor.
-      */
-      bButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
+      // */
+      // bButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
 
-      yButton.whenActive(climberArm::grip);
-      xButton.whenActive(climberArm::release);
+      // yButton.whenActive(climberArm::grip);
+      // xButton.whenActive(climberArm::release);
+      aButton.whenActive(() -> {intake.setVelocity(3);intake.extend();}, intake).whenInactive(() -> {intake.setVelocity(0);intake.retract();}, intake);
   }
 
   /**

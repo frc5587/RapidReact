@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
 import org.frc5587.lib.pid.PID;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 /**
@@ -53,9 +54,10 @@ public final class Constants {
         public static final int INTAKE_MOTOR = 20;
         public static final boolean INVERTED = true;
 
-        public static final PID PID = new PID(0, 0, 0);
+        public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.1116, 1.9643, 0.045658);
+        public static final PID PID = new PID(0.95969, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = 
-            new TrapezoidProfile.Constraints(0, 0);
+            new TrapezoidProfile.Constraints(20, 100);
         public static final double GEARING = 10;
         public static final int ENCODER_CPR = 42;
     }
