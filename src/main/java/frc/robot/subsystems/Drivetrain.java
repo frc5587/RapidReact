@@ -16,12 +16,15 @@ public class Drivetrain extends DrivetrainBase {
     private static MotorControllerGroup left = new MotorControllerGroup(leftLeader, leftFollower);
     private static MotorControllerGroup right = new MotorControllerGroup(rightLeader, rightFollower);
 
-    public static DriveConstants driveConstants = new DriveConstants(
+    // TODO Find out why this is undefined
+    private static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_DIAMETER_METERS,
-        DrivetrainConstants.HISTORY_LIMIT,
+        DrivetrainConstants.HISTORY_LIMIT, 
         DrivetrainConstants.INVERT_GYRO,
-        DrivetrainConstants.ENCODER_EPR,
-        DrivetrainConstants.GEARING
+        DrivetrainConstants.ENCODER_EPR, 
+        DrivetrainConstants.GEARING,
+        DrivetrainConstants.LEFT_SIDE_INVERTED, 
+        DrivetrainConstants.RIGHT_SIDE_INVERTED
     );
 
     public Drivetrain() {

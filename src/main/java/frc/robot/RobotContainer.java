@@ -4,16 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import org.frc5587.lib.control.*;
+
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import org.frc5587.lib.control.DeadbandXboxController;
-
-import frc.robot.subsystems.ClimberArm;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -26,16 +22,18 @@ import frc.robot.subsystems.ClimberArm;
  */
 public class RobotContainer {
   // Controllers
-  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+  private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
+  
   // Subsystems
-  private final ClimberArm climberArm = new ClimberArm();  
-  // Commands
+  private final Drivetrain drivetrain = new Drivetrain();
+  
   // Others
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened()));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -47,31 +45,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Instantiate Y-button on XboxController
-    JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
-    JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-    JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
-    // Instantiate left trigger on XboxController
-    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+    // Instantiate controller bindings
 
-    /*
-     * Climber Arm
-     */
 
-     /**
-      * When the Y-button is active, run the motor forwards.
-      * When it is not active, stop the motor.
-      */
-     yButton.and(leftTrigger.negate()).whenActive(climberArm::forwards, climberArm).whenInactive(climberArm::stop, climberArm);
-
-     /**
-      * When the Y-button and left trigger are active, run the motor forwards.
-      * When they are not active, stop the motor.
-      */
-      yButton.and(leftTrigger).whenActive(climberArm::backwards, climberArm).whenInactive(climberArm::stop, climberArm);
-
-      aButton.whenActive(climberArm::grip);
-      bButton.whenActive(climberArm::release);
+    /**
+     * DRIVETRAIN
+    */
   }
 
   /**
