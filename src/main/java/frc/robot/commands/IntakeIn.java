@@ -17,14 +17,13 @@ public class IntakeIn extends CommandBase {
 
     @Override
     public void initialize() {
-        intake.enable();
-        intake.setVelocity(IntakeConstants.VELOCITY_FORWARD);
+        intake.setVelocity(IntakeConstants.MIN_VELOCITY_FORWARD);
         intakePistons.extend();
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.stop();
+        intake.setVelocity(0);
         intakePistons.retract();
     }
 }

@@ -17,14 +17,13 @@ public class IntakeOut extends CommandBase {
 
     @Override
     public void initialize() {
-        intake.enable();
-        intake.setVelocity(IntakeConstants.VELOCITY_REVERSE);
+        intake.setVelocity(IntakeConstants.MIN_VELOCITY_REVERSE);
         intakePistons.extend();
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.stop();
+        intake.setVelocity(0);
         intakePistons.retract();
     }   
 }

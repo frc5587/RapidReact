@@ -25,11 +25,11 @@ import edu.wpi.first.wpilibj2.command.button.*;
 public class RobotContainer {
   // Controllers
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
-  
+
   // Subsystems
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
-  
+
   // Others
 
   /**
@@ -41,9 +41,11 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -53,15 +55,16 @@ public class RobotContainer {
 
     /**
      * INTAKE
-    */
-    aButton
-      .whenHeld(new IntakeIn(intake, intakePistons));
-    aButton.and(leftTrigger).negate()
-      .whileActiveOnce(new IntakeOut(intake, intakePistons));
+     */
+    aButton.and(leftTrigger.negate())
+        .whileActiveOnce(new IntakeIn(intake, intakePistons));
+    aButton.and(leftTrigger)
+        .whileActiveOnce(new IntakeOut(intake, intakePistons));
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
+   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {

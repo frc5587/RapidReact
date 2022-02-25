@@ -7,32 +7,23 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
 Use a motor to control a wheel in order to intake & outtake balls to the robot.
 */
-public class Intake extends ProfiledPIDSubsystem {
-    private static CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
-    private static RelativeEncoder encoder = motor.getEncoder();
+public class Intake extends SubsystemBase {
+    private CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
+    private RelativeEncoder encoder = motor.getEncoder();
+    
+    private double setpoint = 0;
 
     public Intake() {
-        super(new ProfiledPIDController(
-            IntakeConstants.PID.kP,
-            IntakeConstants.PID.kI,
-            IntakeConstants.PID.kD,
-            IntakeConstants.CONSTRAINTS
-        ));
         configureMotors();
     }
 
     public void setVelocity(double velocity) {
-        setGoal(new TrapezoidProfile.State(0, velocity));
+        setpoint = velocity;
     }
 
     public void configureMotors() {
@@ -48,6 +39,7 @@ public class Intake extends ProfiledPIDSubsystem {
 
     public void stop() {
         motor.set(0);
+        setpoint = 0;
     }
     
     public void resetEncoders() {
@@ -57,16 +49,12 @@ public class Intake extends ProfiledPIDSubsystem {
     /*
     Convert velocity RPM to meters per second of the surface of the wheel
     */
-    @Override
     protected double getMeasurement() {
-        return encoder.getVelocity() / 60 * 2 * Math.PI * Units.inchesToMeters(IntakeConstants.WHEEL_RADII) / IntakeConstants.GEARING;
+        return (encoder.getVelocity() / 60) * (2 * Math.PI) * (IntakeConstants.WHEEL_RADIUS / IntakeConstants.GEARING);
     }
 
-    /*
-    Use PID output and computed Feedforward to control voltage output to the motor
-    */
     @Override
-    protected void useOutput(double output, State setpoint) {     
-        motor.setVoltage(IntakeConstants.INTAKE_FF.calculate(setpoint.velocity) - output);
+    public void periodic() {
+        motor.setVoltage(IntakeConstants.INTAKE_FF.calculate(setpoint) - IntakeConstants.PID.calculate(setpoint - getMeasurement()));
     }
 }

@@ -4,8 +4,7 @@
 
 package frc.robot;
 
-import org.frc5587.lib.pid.PID;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -23,16 +22,15 @@ public final class Constants {
         public static final int INTAKE_MOTOR = 20;
         public static final boolean INVERTED = false;
 
-        public static final double MIN_VELOCITY_FORWARD = 1;
+        public static final double MIN_VELOCITY_FORWARD = 3;
         public static final double MIN_VELOCITY_REVERSE = -5;
 
-        public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.13591, 3.9213, 0.091014);
-        public static final PID PID = new PID(1.9231, 0, 0);
+        public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.10904, 3.9107, 0.081738);
+        public static final PIDController PID = new PIDController(1.5841, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = 
-            new TrapezoidProfile.Constraints(20, 100);
+            new TrapezoidProfile.Constraints(5, 1);
         
         public static final double GEARING = 10;
-        public static final double ENCODER_CPR = 42;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
     }
 
