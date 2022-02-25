@@ -16,7 +16,7 @@ public class IntakeIn extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         intake.enable();
         intake.setVelocity(IntakeConstants.VELOCITY_FORWARD);
         intakePistons.extend();

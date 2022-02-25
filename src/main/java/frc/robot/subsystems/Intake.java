@@ -55,7 +55,7 @@ public class Intake extends ProfiledPIDSubsystem {
     }
 
     /*
-    Convert velocity RPM to meters per second
+    Convert velocity RPM to meters per second of the surface of the wheel
     */
     @Override
     protected double getMeasurement() {

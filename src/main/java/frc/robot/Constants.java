@@ -23,8 +23,8 @@ public final class Constants {
         public static final int INTAKE_MOTOR = 20;
         public static final boolean INVERTED = false;
 
-        public static final double VELOCITY_FORWARD = 5;
-        public static final double VELOCITY_REVERSE = -5;
+        public static final double MIN_VELOCITY_FORWARD = 1;
+        public static final double MIN_VELOCITY_REVERSE = -5;
 
         public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.13591, 3.9213, 0.091014);
         public static final PID PID = new PID(1.9231, 0, 0);
