@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import frc.robot.Constants.*;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeOut extends CommandBase {
     private final Intake intake;
@@ -15,9 +17,9 @@ public class IntakeOut extends CommandBase {
 
     @Override
     public void execute() {
-        intake.setVelocity(-2);
-        intakePistons.extend();
         intake.enable();
+        intake.setVelocity(IntakeConstants.VELOCITY_REVERSE);
+        intakePistons.extend();
     }
 
     @Override

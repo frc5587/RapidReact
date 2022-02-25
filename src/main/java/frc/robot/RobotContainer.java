@@ -55,9 +55,9 @@ public class RobotContainer {
      * INTAKE
     */
     aButton
-      .whileHeld(new IntakeIn(intake, intakePistons));
+      .whenHeld(new IntakeIn(intake, intakePistons));
     aButton.and(leftTrigger).negate()
-      .whileActiveContinuous(new IntakeOut(intake, intakePistons));
+      .whileActiveOnce(new IntakeOut(intake, intakePistons));
   }
 
   /**
