@@ -3,10 +3,11 @@ package frc.robot.subsystems;
 import org.frc5587.lib.subsystems.SimpleMotorBase;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants.IntakeConstants;
 import com.revrobotics.CANSparkMax;
@@ -41,10 +42,12 @@ public class Intake extends ProfiledPIDSubsystem {
     }
 
     public void setVelocity(double velocity) {
-        setGoal(velocity);
+        setGoal(new TrapezoidProfile.State(0, velocity));
     }
 
     public void configureMotors() {
+        resetEncoders();
+
         motor.restoreFactoryDefaults();
         motor.setInverted(IntakeConstants.INVERTED);
         motor.setIdleMode(IdleMode.kBrake);
@@ -62,17 +65,17 @@ public class Intake extends ProfiledPIDSubsystem {
         encoder.setPosition(0);
     }
 
-    protected double getPositionDegrees() {
-        return (encoder.getPosition() / IntakeConstants.GEARING / IntakeConstants.ENCODER_CPR);
+    protected double getPositionRotations() {
+        return (encoder.getPosition() / IntakeConstants.GEARING);
     }
 
     protected double getPositionRadians() {
-        return Math.toRadians(getPositionDegrees());
+        return getPositionRotations() * 2 * Math.PI;
     }
 
     @Override
     protected double getMeasurement() {
-        return getPositionRadians();
+        return encoder.getVelocity() / 60 * 2 * Math.PI * Units.inchesToMeters(1) / IntakeConstants.GEARING;
     }
 
     // @Override
@@ -83,9 +86,12 @@ public class Intake extends ProfiledPIDSubsystem {
     //     }
     // }
 
+    double lastOutput = 0;
     @Override
     protected void useOutput(double output, State setpoint) {
+        lastOutput = output;
+        // System.out.println(setpoint.velocity);
         // moveWithThrottle(output);        
-        motor.setVoltage(IntakeConstants.INTAKE_FF.calculate(setpoint.velocity) + output);
+        motor.setVoltage(IntakeConstants.INTAKE_FF.calculate(setpoint.velocity) - output);
     }
 }

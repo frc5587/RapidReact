@@ -77,7 +77,7 @@ public class RobotContainer {
 
       // yButton.whenActive(climberArm::grip);
       // xButton.whenActive(climberArm::release);
-      aButton.whenActive(() -> {intake.setVelocity(3);intake.extend();}, intake).whenInactive(() -> {intake.setVelocity(0);intake.retract();}, intake);
+      aButton.whenActive(() -> {intake.setVelocity(3);intake.extend(); intake.enable();}, intake).whenInactive(() -> {intake.setVelocity(0);intake.retract();}, intake);
   }
 
   /**

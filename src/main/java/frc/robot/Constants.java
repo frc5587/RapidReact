@@ -52,10 +52,10 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int INTAKE_MOTOR = 20;
-        public static final boolean INVERTED = true;
+        public static final boolean INVERTED = false;
 
-        public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.1116, 1.9643, 0.045658);
-        public static final PID PID = new PID(0.95969, 0, 0);
+        public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.13591, 3.9213, 0.091014);
+        public static final PID PID = new PID(1.9231, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = 
             new TrapezoidProfile.Constraints(20, 100);
         public static final double GEARING = 10;
