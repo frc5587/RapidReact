@@ -6,14 +6,14 @@ package frc.robot;
 
 import org.frc5587.lib.control.DeadbandXboxController;
 
+import frc.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Kicker;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -57,15 +57,16 @@ public class RobotContainer {
     /**
      * CONVEYOR
      */
+    // TODO Discuss logic flow of control 
     // "a" button spins conveyor motors at a speed of 0.2
-    aButton.whenActive(() -> conveyor.setConveyor(0.2)).whenInactive(() -> conveyor.setConveyor(0));
+    aButton.whenActive(() -> conveyor.setVelocity(0.2)).whenInactive(() -> conveyor.setVelocity(0));
     // "dpadUp" button spins conveyor motors at a speed of 1
-    dpadUp.whenActive(() -> conveyor.setConveyor(1)).whenInactive(() -> conveyor.setConveyor(0));
+    dpadUp.whenActive(() -> conveyor.setVelocity(1)).whenInactive(() -> conveyor.setVelocity(0));
 
     // "a" button and the left trigger spins conveyor motors at a speed of -0.2 (reverse)
-    aButton.and(leftTrigger).whenActive(() -> conveyor.setConveyor(-0.2)).whenInactive(() -> conveyor.setConveyor(0));
+    aButton.and(leftTrigger).whenActive(() -> conveyor.setVelocity(-0.2)).whenInactive(() -> conveyor.setVelocity(0));
     // "dpadUp" button and the left trigger spins conveyor motors at a speed of -1 (reverse)
-    dpadUp.and(leftTrigger).whenActive(() -> conveyor.setConveyor(-1)).whenInactive(() -> conveyor.setConveyor(0));
+    dpadUp.and(leftTrigger).whenActive(() -> conveyor.setVelocity(-1)).whenInactive(() -> conveyor.setVelocity(0));
 
     /**
      * KICKER
