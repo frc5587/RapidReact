@@ -4,17 +4,10 @@
 
 package frc.robot;
 
-<<<<<<< HEAD
 import org.frc5587.lib.control.DeadbandXboxController;
 
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-=======
-import org.frc5587.lib.control.*;
-
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
->>>>>>> origin/development
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,13 +27,10 @@ public class RobotContainer {
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
   // Subsystems
-<<<<<<< HEAD
   private final Conveyor conveyor = new Conveyor();
   // private final Kicker kicker = new Kicker();
-=======
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
->>>>>>> origin/development
 
   // Others
 
@@ -63,29 +53,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Instantiate controller bindings
     JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-<<<<<<< HEAD
-    // Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
-
-    /**
-     * CONVEYOR
-     */
-    aButton
-      .whenHeld(new RunConveyorUp(conveyor));
-
-    /**
-     * KICKER
-     */
-=======
-    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
 
     /**
      * INTAKE
      */
     aButton.and(leftTrigger.negate())
-        .whileActiveOnce(new IntakeIn(intake, intakePistons));
+        .whileActiveOnce(new IntakeIn(intake, intakePistons, conveyor));
     aButton.and(leftTrigger)
-        .whileActiveOnce(new IntakeOut(intake, intakePistons));
->>>>>>> origin/development
+        .whileActiveOnce(new IntakeOut(intake, intakePistons, conveyor));
   }
 
   /**
@@ -94,10 +70,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-<<<<<<< HEAD
     // An ExampleCommand will run in autonomous
-=======
->>>>>>> origin/development
     return null;
   }
 }
