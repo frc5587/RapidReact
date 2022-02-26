@@ -6,6 +6,7 @@ package frc.robot;
 
 import org.frc5587.lib.pid.PID;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
@@ -23,13 +24,12 @@ public final class Constants {
         public static final boolean MOTOR_INVERTED = false;
 
         // PID Constants
-        // TODO Characterization values for motor 30
-        public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-        // TODO PID kP value w/ characterization
-        public static final PID PID = new PID(0, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
+        public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.075544, 1.9734, 0.042008);
+        public static final PIDController PID = new PIDController(1.1055, 0, 0);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(5, 20);
         public static final int GEARING = 10;
         public static final int ENCODER_CPR = 42;
+        public static final int VELOCITY_FORWARD = 1;
     }
 
     public static class KickerConstants {

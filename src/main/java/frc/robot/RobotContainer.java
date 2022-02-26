@@ -7,13 +7,11 @@ package frc.robot;
 import org.frc5587.lib.control.DeadbandXboxController;
 
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -25,11 +23,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final Conveyor conveyor = new Conveyor();
-  private final Kicker kicker = new Kicker();
-
+  // Controllers
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+
+  // Subsystems
+  private final Conveyor conveyor = new Conveyor();
+  // private final Kicker kicker = new Kicker();
+
+  // Others
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -46,40 +47,19 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Instantiate controller bindings
     JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-    JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
-
-    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
-
-    POVButton dpadUp = new POVButton(xboxController, 90);
-    POVButton dpadDown = new POVButton(xboxController, 180);
+    // Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
 
     /**
      * CONVEYOR
      */
-    // TODO Discuss logic flow of control 
-    // "a" button spins conveyor motors at a speed of 0.2
-    aButton.whenActive(() -> conveyor.setVelocity(0.2)).whenInactive(() -> conveyor.setVelocity(0));
-    // "dpadUp" button spins conveyor motors at a speed of 1
-    dpadUp.whenActive(() -> conveyor.setVelocity(1)).whenInactive(() -> conveyor.setVelocity(0));
-
-    // "a" button and the left trigger spins conveyor motors at a speed of -0.2 (reverse)
-    aButton.and(leftTrigger).whenActive(() -> conveyor.setVelocity(-0.2)).whenInactive(() -> conveyor.setVelocity(0));
-    // "dpadUp" button and the left trigger spins conveyor motors at a speed of -1 (reverse)
-    dpadUp.and(leftTrigger).whenActive(() -> conveyor.setVelocity(-1)).whenInactive(() -> conveyor.setVelocity(0));
+    aButton
+      .whenHeld(new RunConveyorUp(conveyor));
 
     /**
      * KICKER
      */
-    // "x" button spins kicker motors at a speed of 0.2
-    xButton.whenActive(() -> kicker.setVelocity(0.2)).whenInactive(() -> kicker.setVelocity(0));
-    // "dpadUp" button spins kicker motors at a speed of 1
-    dpadDown.whenActive(() -> kicker.setVelocity(1)).whenInactive(() -> kicker.setVelocity(0));
-
-    // "x" button and the left trigger spins kicker motors at a speed of -0.2 (reverse)
-    xButton.and(leftTrigger).whenActive(() -> kicker.setVelocity(-0.2)).whenInactive(() -> kicker.setVelocity(0));
-    // "dpadUp" button and the left trigger spins kicker motors at a speed of -1 (reverse)
-    dpadDown.and(leftTrigger).whenActive(() -> kicker.setVelocity(-1)).whenInactive(() -> kicker.setVelocity(0));
   }
 
   /**

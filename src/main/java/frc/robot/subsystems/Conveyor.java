@@ -17,11 +17,12 @@ public class Conveyor extends ProfiledPIDSubsystem {
     private static CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
     private static RelativeEncoder encoder = conveyorMotor.getEncoder();
 
+    private double velocitySetpoint = 0;
     public Conveyor() {
         super(new ProfiledPIDController(
-            ConveyorConstants.PID.kP,
-            ConveyorConstants.PID.kI,
-            ConveyorConstants.PID.kD,
+            ConveyorConstants.PID.getP(),
+            ConveyorConstants.PID.getI(),
+            ConveyorConstants.PID.getD(),
             ConveyorConstants.CONSTRAINTS
         ));
         configureConveyorSpark();
@@ -29,16 +30,20 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     public void configureConveyorSpark() {
         resetEncoders();
-
         conveyorMotor.restoreFactoryDefaults();
-
         conveyorMotor.setInverted(ConveyorConstants.MOTOR_INVERTED);
-
         conveyorMotor.setIdleMode(IdleMode.kBrake);
     }
 
     public void setVelocity(double velocity) {
-        setGoal(new State(0, velocity));
+        disable();
+        velocitySetpoint = velocity;
+    }
+
+    public void setDistance(double distance) {
+        resetEncoders();
+        enable();
+        setGoal(distance);
     }
 
     public void stop() {
@@ -56,6 +61,11 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity - output));
+        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) + output);
+    }
+
+    @Override
+    public void periodic() {
+        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.PID.calculate(velocitySetpoint - getMeasurement()));
     }
 }
