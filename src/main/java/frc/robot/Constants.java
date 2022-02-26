@@ -25,9 +25,9 @@ public final class Constants {
         public static final boolean MOTOR_INVERTED = false;
 
         // PID Constants
-        public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.075544, 1.9734, 0.042008);
-        public static final PIDController PID = new PIDController(1.1055, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(5, 20);
+        public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.077365, 1.9438, 0.081956);
+        public static final PIDController PID = new PIDController(5.0211, 0, 0);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(.3, .3);
         public static final int GEARING = 10;
         public static final int VELOCITY_FORWARD = 1;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -37,17 +37,15 @@ public final class Constants {
         public static final int RIGHT_KICKER_MOTOR = 35;
         public static final int LEFT_KICKER_MOTOR = 36;
 
-        public static final boolean RIGHT_KICKER_INVERTED = false;
+        public static final boolean RIGHT_KICKER_INVERTED = true;
         public static final boolean LEFT_KICKER_INVERTED = false;
 
         // PID Constants
-        // TODO Characterization values for motors 35...36
-        public static final SimpleMotorFeedforward RIGHT_KICKER_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-        public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
-        // TODO PID kP value w/ characterization
-        public static final PID RIGHT_KICKER_PID = new PID(0, 0, 0);
-        public static final PID LEFT_KICKER_PID = new PID(0, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
+        public static final SimpleMotorFeedforward RIGHT_KICKER_FF = new SimpleMotorFeedforward(0.15312, 1.9677, 0.27331);
+        public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.067363, 1.9044, 0.14625);
+        public static final PIDController RIGHT_KICKER_PID = new PIDController(4.4195, 0, 0);
+        public static final PIDController LEFT_KICKER_PID = new PIDController(3.5583, 0, 0);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(1, 1);
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
     }

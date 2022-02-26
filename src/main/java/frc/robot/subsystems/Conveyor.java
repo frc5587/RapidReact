@@ -40,8 +40,6 @@ public class Conveyor extends ProfiledPIDSubsystem {
     }
 
     public void setDistance(double distance) {
-        resetEncoders();
-        enable();
         setGoal(distance);
     }
 
@@ -55,16 +53,28 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        return (encoder.getVelocity() / 60 * 2 * Math.PI * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING);
+        return (encoder.getPosition() * 2 * Math.PI * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING);
+    }
+
+    protected double getVelocity() {
+        return (encoder.getVelocity()/60 * 2 * Math.PI * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING);
     }
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) + output);
+        if (setpoint.velocity != 0) {
+            System.out.println("" + (ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) + output) + "  " + setpoint.velocity + "  " + getVelocity() + "  " + getMeasurement() + "  " + setpoint.position);
+        
+        }
+        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) );
     }
 
     @Override
     public void periodic() {
-        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.PID.calculate(velocitySetpoint - getMeasurement()));
+        super.periodic();
+
+        if (!isEnabled()) {
+            conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.PID.calculate(velocitySetpoint - getVelocity()));
+        }
     }
 }

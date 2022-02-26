@@ -28,9 +28,8 @@ public class RobotContainer {
 
   // Subsystems
   private final Conveyor conveyor = new Conveyor();
-  private final Kicker rightKicker = new Kicker();
-  private final Kicker leftKicker = new Kicker();
-  // private final Kicker kicker = new Kicker();
+  private final Kicker rightKicker = Kicker.createRightKicker();
+  private final Kicker leftKicker = Kicker.createLeftKicker();
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
 
@@ -55,6 +54,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Instantiate controller bindings
     JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
 
     /**
@@ -62,8 +62,17 @@ public class RobotContainer {
      */
     aButton.and(leftTrigger.negate())
         .whileActiveOnce(new IntakeIn(intake, intakePistons, conveyor));
+        // .whenInactive(new RunKickerUp(conveyor, rightKicker, leftKicker));
     aButton.and(leftTrigger)
         .whileActiveOnce(new IntakeOut(intake, intakePistons, conveyor));
+    
+    /**
+     * Kicker
+     */
+
+    xButton.and(leftTrigger.negate())
+      .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker));
+      
   }
 
   /**

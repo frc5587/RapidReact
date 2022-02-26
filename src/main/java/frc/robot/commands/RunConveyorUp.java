@@ -22,5 +22,6 @@ public class RunConveyorUp extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         conveyor.setVelocity(0);
+        
     }
 }
