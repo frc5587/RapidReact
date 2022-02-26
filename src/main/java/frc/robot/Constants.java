@@ -6,6 +6,7 @@ package frc.robot;
 
 import org.frc5587.lib.pid.PID;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 /**
@@ -17,15 +18,14 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static class TurretConstants {
+    public static final class TurretConstants {
         public static final int TURRET_MOTOR = 45;
         public static final boolean TURRET_MOTOR_INVERTED = false;
 
         // PID Constants
-        // TODO Fill these in later
-        public static final PID PID = new PID(0, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
-        public static final int GEARING = 10;
-        public static final int ENCODER_CPR = 42;
+        public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.32958,0.75622, 0.035631);
+        public static final PID PID = new PID(1.4296, 0, 0);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
+        public static final int GEARING = 90;
     }
 }

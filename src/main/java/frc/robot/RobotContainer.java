@@ -4,14 +4,16 @@
 
 package frc.robot;
 
+import org.frc5587.lib.control.DeadbandJoystick;
 import org.frc5587.lib.control.DeadbandXboxController;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Turret;
+import edu.wpi.first.wpilibj2.command.button.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -23,12 +25,13 @@ import frc.robot.subsystems.Turret;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  private final Turret turret = new Turret();
-
+  // Controllers
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
-  // The robot's subsystems and commands are defined here...
+  // Subsystems
+  private final Turret turret = new Turret();
+
+  // Other
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -45,17 +48,14 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Instantiate button bindings
     JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
-    JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+    Trigger joystick = new Trigger(() -> {return xboxController.getLeftX() != 0;});
 
-    bButton.whenActive(() -> turret.setThrottle(xboxController.getLeftX())).whenInactive(() -> turret.stopTurret());
-    aButton.whenActive(() -> turret.setSpeed(0.2)).whenInactive(() -> turret.stopTurret());
-    // aButton.whenActive(() -> turret.setTurret(1)).whenInactive(() -> turret.stopTurret());
-
-    bButton.and(leftTrigger).whenActive(() -> turret.setThrottle(-xboxController.getLeftX())).whenInactive(() -> turret.stopTurret());
-    // bButton.and(leftTrigger).whenActive(() -> turret.setTurret(-0.2)).whenInactive(() -> turret.stopTurret());
-    // aButton.and(leftTrigger).whenActive(() -> turret.setTurret(-1)).whenInactive(() -> turret.stopTurret());
+    bButton
+      .whenHeld(new SetTurret(turret));
+    joystick
+      .whileActiveOnce(new ProfileTurret(turret, xboxController::getLeftX));
   }
 
   /**

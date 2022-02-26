@@ -1,49 +1,52 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
+import frc.robot.Constants.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import frc.robot.Constants.TurretConstants;
-
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Turret extends ProfiledPIDSubsystem {
-    private static CANSparkMax turretMotor = new CANSparkMax(TurretConstants.TURRET_MOTOR, MotorType.kBrushless);
-    private static RelativeEncoder encoder = turretMotor.getEncoder();
+    private CANSparkMax turretMotor = new CANSparkMax(TurretConstants.TURRET_MOTOR, MotorType.kBrushless);
+    private RelativeEncoder encoder = turretMotor.getEncoder();
+    private double lastVelocity = 0;
+    private State lastSetpoint = new State(0, 0);
 
     public Turret() {
         super(new ProfiledPIDController(
-            Constants.TurretConstants.PID.kP,
-            Constants.TurretConstants.PID.kI,
-            Constants.TurretConstants.PID.kD,
-            Constants.TurretConstants.CONSTRAINTS
+            TurretConstants.PID.kP,
+            TurretConstants.PID.kI,
+            TurretConstants.PID.kD,
+            TurretConstants.CONSTRAINTS
         ));
         configureTurretSpark();
     }
 
     public void configureTurretSpark() {
-        turretMotor.restoreFactoryDefaults();
-
-        turretMotor.setInverted(TurretConstants.TURRET_MOTOR_INVERTED);
-
-        turretMotor.setIdleMode(IdleMode.kBrake);
-
         resetEncoders();
+        turretMotor.restoreFactoryDefaults();
+        turretMotor.setInverted(TurretConstants.TURRET_MOTOR_INVERTED);
+        turretMotor.setIdleMode(IdleMode.kBrake);
     }
 
     // uses radians per second
-    public void setSpeed(double turretSpeed) {
-        turretMotor.set(-turretSpeed);
-    }
-
     public void setThrottle(double throttle) {
         turretMotor.set(throttle);
+    }
+
+    // public void setVelocity(double velocity) {
+    //     setGoal(TrapezoidProfile.State(0, velocity));
+    // }
+
+    public void setDistance(double distance) {
+        setGoal(distance);
     }
 
     public void stopTurret() {
@@ -54,12 +57,12 @@ public class Turret extends ProfiledPIDSubsystem {
         encoder.setPosition(0);
     }
 
-    protected double getPositionDegrees() {
-        return Math.toRadians(getPositionDegrees());
+    public double getPositionRadians() {
+        return (encoder.getPosition() * (2 * Math.PI) / TurretConstants.GEARING);
     }
 
-    protected double getPositionRadians() {
-        return (encoder.getPosition() / Constants.TurretConstants.GEARING / Constants.TurretConstants.ENCODER_CPR);
+    public double getVelocity() {
+        return (encoder.getVelocity() / 60 * (2 * Math.PI) / TurretConstants.GEARING);
     }
 
     @Override
@@ -69,6 +72,26 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        setThrottle(output);
+        System.out.println("" + output + "  " + TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02));
+        turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+
+
+        SmartDashboard.putNumber("voltage", TurretConstants.TURRET_FF.calculate((setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+        SmartDashboard.putNumber("Goal Velocity", setpoint.velocity);
+        SmartDashboard.putNumber("Goal Acceleration", (setpoint.velocity - lastSetpoint.velocity)/.02);
+        SmartDashboard.putNumber("Goal Position", setpoint.position);
+
+        lastSetpoint = setpoint;
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+
+        SmartDashboard.putNumber("Position", getPositionRadians());
+        SmartDashboard.putNumber("Velocity", getVelocity());
+        SmartDashboard.putNumber("Acceleration", ((lastVelocity - getVelocity()) / 0.02));
+        
+        lastVelocity = getVelocity();
     }
 }
