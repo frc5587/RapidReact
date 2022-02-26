@@ -28,6 +28,8 @@ public class RobotContainer {
 
   // Subsystems
   private final Conveyor conveyor = new Conveyor();
+  private final Kicker rightKicker = new Kicker();
+  private final Kicker leftKicker = new Kicker();
   // private final Kicker kicker = new Kicker();
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();

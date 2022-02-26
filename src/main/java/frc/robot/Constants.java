@@ -29,25 +29,27 @@ public final class Constants {
         public static final PIDController PID = new PIDController(1.1055, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(5, 20);
         public static final int GEARING = 10;
-        public static final int ENCODER_CPR = 42;
         public static final int VELOCITY_FORWARD = 1;
+        public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
     }
 
     public static class KickerConstants {
-        public static final int KICKER_MOTOR_LEADER = 35;
-        public static final int KICKER_MOTOR_FOLLOWER = 36;
+        public static final int RIGHT_KICKER_MOTOR = 35;
+        public static final int LEFT_KICKER_MOTOR = 36;
 
-        public static final boolean LEADER_INVERTED = false;
-        public static final boolean FOLLOWER_INVERTED = false;
+        public static final boolean RIGHT_KICKER_INVERTED = false;
+        public static final boolean LEFT_KICKER_INVERTED = false;
 
         // PID Constants
-        // TODO Characterization values for motors 35 & 36
-        public static final SimpleMotorFeedforward KICKER_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
+        // TODO Characterization values for motors 35...36
+        public static final SimpleMotorFeedforward RIGHT_KICKER_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
+        public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.0, 0.0, 0.0);
         // TODO PID kP value w/ characterization
-        public static final PID PID = new PID(0, 0, 0);
+        public static final PID RIGHT_KICKER_PID = new PID(0, 0, 0);
+        public static final PID LEFT_KICKER_PID = new PID(0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
         public static final int GEARING = 10;
-        public static final int ENCODER_CPR = 42;
+        public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
     }
         
     public static class IntakeConstants {

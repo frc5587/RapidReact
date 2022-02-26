@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
-import edu.wpi.first.math.util.Units;
 
 public class Conveyor extends ProfiledPIDSubsystem {
     private static CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
@@ -56,7 +55,7 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected double getMeasurement() {
-        return (encoder.getVelocity() / 60 * 2 * Math.PI * Units.inchesToMeters(2) / ConveyorConstants.GEARING);
+        return (encoder.getVelocity() / 60 * 2 * Math.PI * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING);
     }
 
     @Override
