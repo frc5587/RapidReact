@@ -21,8 +21,8 @@ public class ArcadeDrive extends CommandBase {
 
     @Override
     public void execute() {
-        var throttle = throttleSupplier.getAsDouble();
-        var curve = curveSupplier.getAsDouble();
+        double throttle = throttleSupplier.getAsDouble();
+        double curve = curveSupplier.getAsDouble();
         drivetrain.arcadeDrive(throttle, curve);
     }
 

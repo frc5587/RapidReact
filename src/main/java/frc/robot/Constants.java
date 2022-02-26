@@ -39,7 +39,7 @@ public final class Constants {
 
         // auto
         public static final double WHEEL_DIAMETER_METERS = 0.1524; // TODO Check wheel diameter
-        public static final double HISTORY_LIMIT = 32;
+        public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
         public static final double GEARING = (54/20) * (50/12);
         public static final boolean INVERT_GYRO = false;

@@ -16,7 +16,6 @@ public class Drivetrain extends DrivetrainBase {
     private static MotorControllerGroup left = new MotorControllerGroup(leftLeader, leftFollower);
     private static MotorControllerGroup right = new MotorControllerGroup(rightLeader, rightFollower);
 
-    // TODO Find out why this is undefined
     private static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_DIAMETER_METERS,
         DrivetrainConstants.HISTORY_LIMIT, 
