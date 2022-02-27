@@ -21,7 +21,9 @@ public class IntakeOut extends CommandBase {
     public void initialize() {
         intake.setVelocity(IntakeConstants.MIN_VELOCITY_REVERSE);
         intakePistons.extend();
-        conveyor.setVelocity(-ConveyorConstants.VELOCITY_FORWARD);
+
+        conveyor.setControlMode(Conveyor.ControlMode.VELOCITY);
+        conveyor.setVelocity(ConveyorConstants.VELOCITY_REVERSE);
     }
 
     @Override

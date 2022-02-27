@@ -30,6 +30,7 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(.3, .3);
         public static final int GEARING = 10;
         public static final int VELOCITY_FORWARD = 1;
+        public static final int VELOCITY_REVERSE = -3;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
     }
 

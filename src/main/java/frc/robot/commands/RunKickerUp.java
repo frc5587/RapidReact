@@ -19,17 +19,14 @@ public class RunKickerUp extends CommandBase {
 
     @Override
     public void initialize() {
-        conveyor.enable();
         rightKicker.enable();
         leftKicker.enable();
 
-        conveyor.resetEncoders();
-        rightKicker.resetEncoders();
-        leftKicker.resetEncoders();
+        conveyor.setControlMode(Conveyor.ControlMode.POSITION);
         
-        conveyor.setDistance(Units.inchesToMeters(16));
-        rightKicker.setDistance(Units.inchesToMeters(8));
-        leftKicker.setDistance(Units.inchesToMeters(8));
+        conveyor.moveDistance(conveyor.getPosition() + Units.inchesToMeters(16));
+        rightKicker.moveDistance(rightKicker.getPosition() + Units.inchesToMeters(8));
+        leftKicker.moveDistance(leftKicker.getPosition() + Units.inchesToMeters(8));
     }
 
     // @Override

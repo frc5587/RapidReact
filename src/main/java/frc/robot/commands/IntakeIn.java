@@ -21,6 +21,8 @@ public class IntakeIn extends CommandBase {
     public void initialize() {
         intake.setVelocity(IntakeConstants.MIN_VELOCITY_FORWARD);
         intakePistons.extend();
+
+        conveyor.setControlMode(Conveyor.ControlMode.VELOCITY);
         conveyor.setVelocity(ConveyorConstants.VELOCITY_FORWARD);
     }
 

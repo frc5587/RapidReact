@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
+import java.util.ResourceBundle.Control;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -11,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.KickerConstants;
 
 import com.revrobotics.RelativeEncoder;
@@ -20,6 +23,7 @@ public class Kicker extends ProfiledPIDSubsystem {
     private RelativeEncoder kickerEncoder;
     private SimpleMotorFeedforward feedforward;
     private boolean motorInverted;
+    private State lastSetpoint = new State(0, 0);
     private int motorId;
     private PIDController PID;
 
@@ -42,7 +46,7 @@ public class Kicker extends ProfiledPIDSubsystem {
         configureKickerSpark();
     }
 
-    public void configureKickerSpark() {
+    private void configureKickerSpark() {
         resetEncoders();
 
         kickerMotor.restoreFactoryDefaults();
@@ -52,7 +56,7 @@ public class Kicker extends ProfiledPIDSubsystem {
         kickerMotor.setIdleMode(IdleMode.kBrake);
     }
 
-    public void setDistance(double distance) {
+    public void moveDistance(double distance) {
         setGoal(distance);
     }
 
@@ -64,14 +68,25 @@ public class Kicker extends ProfiledPIDSubsystem {
         kickerEncoder.setPosition(0);
     }
 
+    public double getPosition() {
+        return Units.rotationsToRadians(kickerEncoder.getPosition()) * KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING;
+    }
+
     @Override
     protected double getMeasurement() {
-        return (kickerEncoder.getPosition() * (2 * Math.PI) * KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING);
+        return getPosition();
     }
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        kickerMotor.setVoltage(feedforward.calculate(setpoint.velocity) + output);
+        double ff = feedforward.calculate(setpoint.velocity);
+        lastSetpoint = setpoint;
+
+        kickerMotor.setVoltage(ff + output);
+    }
+
+    public boolean isDone() {
+        return (lastSetpoint.velocity == 0);
     }
 
     public static Kicker createRightKicker() {
@@ -80,9 +95,5 @@ public class Kicker extends ProfiledPIDSubsystem {
 
     public static Kicker createLeftKicker() {
         return new Kicker(KickerConstants.LEFT_KICKER_MOTOR, KickerConstants.LEFT_KICKER_FF, KickerConstants.LEFT_KICKER_PID, KickerConstants.LEFT_KICKER_INVERTED);
-    }
-
-    public boolean isSpinning() {
-        return (kickerEncoder.getVelocity() > 0.01);
     }
 }
