@@ -33,6 +33,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // TODO Sendable chooser to choose drive command (ArcadeDrive or TankDrive)
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened()));
     // Configure the button bindings
     configureButtonBindings();

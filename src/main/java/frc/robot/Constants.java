@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -38,10 +40,11 @@ public final class Constants {
         );
 
         // auto
-        public static final double WHEEL_DIAMETER_METERS = 0.1524; // TODO Check wheel diameter
+        public static final double WHEEL_RADIUS = Units.inchesToMeters(3); // TODO Check wheel diameter
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
         public static final double GEARING = (54/20) * (50/12);
         public static final boolean INVERT_GYRO = false;
+        public static final double VELOCITY_DENOMINATOR = 0.1;
     }
 }

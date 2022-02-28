@@ -14,7 +14,7 @@ public class Drivetrain extends DrivetrainBase {
     private final WPI_TalonFX rightFollower;
 
     private static DriveConstants driveConstants = new DriveConstants(
-        DrivetrainConstants.WHEEL_DIAMETER_METERS,
+        DrivetrainConstants.WHEEL_RADIUS * 2,
         DrivetrainConstants.HISTORY_LIMIT, 
         DrivetrainConstants.INVERT_GYRO,
         DrivetrainConstants.ENCODER_EPR, 
@@ -73,12 +73,12 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     protected double getLeftVelocityTicksPerSecond() {
-        return leftLeader.getSelectedSensorVelocity() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
+        return (leftLeader.getSelectedSensorVelocity() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1) / DrivetrainConstants.VELOCITY_DENOMINATOR);
     }
 
     @Override
     protected double getRightVelocityTicksPerSecond() {
-        return rightLeader.getSelectedSensorVelocity() * (DrivetrainConstants.RIGHT_ENCODERS_INVERTED ? -1:1);
+        return (rightLeader.getSelectedSensorVelocity() * (DrivetrainConstants.RIGHT_ENCODERS_INVERTED ? -1:1) / DrivetrainConstants.VELOCITY_DENOMINATOR);
     }
 
     @Override
