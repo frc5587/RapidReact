@@ -30,5 +30,7 @@ public final class Constants {
         public static final PIDController PID = new PIDController(0, 0, 0);
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
         public static final double GEARING = 1;
+        public static final double ENCODER_EPR = 2048;
+        public static final double VELOCITY_DENOMINATOR = 0.1;
     } 
 }

@@ -5,12 +5,15 @@ import frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.*;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 // import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
     private final WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
     private final WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
+
+    private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
 
     private double velocitySetpoint = 0;
 
@@ -36,13 +39,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setThrottle(double throttle) {
-        leaderMotor.set(ControlMode.PercentOutput, throttle);
-        followerMotor.set(ControlMode.PercentOutput, throttle);
+        shooterMotors.set(throttle);
     }
 
     public void stop() {
-        leaderMotor.set(ControlMode.PercentOutput, 0);
-        followerMotor.set(ControlMode.PercentOutput, 0);
+        shooterMotors.set(0);
         velocitySetpoint = 0;
     }
 
@@ -52,14 +53,13 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getVelocity() {
-        return (leaderMotor.getSelectedSensorPosition() / 60 * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
+        return (leaderMotor.getSelectedSensorVelocity() / (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
     @Override
     public void periodic() {
         super.periodic();
 
-        leaderMotor.setVoltage(ShooterConstants.SHOOTER_FF.calculate(velocitySetpoint) + ShooterConstants.PID.calculate(velocitySetpoint - getVelocity()));
-        followerMotor.setVoltage(ShooterConstants.SHOOTER_FF.calculate(velocitySetpoint) + ShooterConstants.PID.calculate(velocitySetpoint - getVelocity()));
+        shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(velocitySetpoint) + ShooterConstants.PID.calculate(velocitySetpoint - getVelocity()));
     }
 }
