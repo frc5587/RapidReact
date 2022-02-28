@@ -1,30 +1,21 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import frc.robot.Constants.*;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.*;
 
-import frc.robot.Constants;
-import frc.robot.Constants.ShooterConstants;
+// import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends ProfiledPIDSubsystem {
-    private final TalonFX leaderMotor = new TalonFX(Constants.ShooterConstants.SHOOTER_LEADER_MOTOR);
-    private final TalonFX followerMotor = new TalonFX(Constants.ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
+public class Shooter extends SubsystemBase {
+    private final WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
+    private final WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
+
+    private double velocitySetpoint = 0;
 
     public Shooter() {
-        super(new ProfiledPIDController(
-            Constants.ShooterConstants.PID.kP,
-            Constants.ShooterConstants.PID.kI,
-            Constants.ShooterConstants.PID.kD,
-            Constants.ShooterConstants.CONSTRAINTS
-        ));
-
-        leaderMotor.setInverted(true);
-        followerMotor.setInverted(true);
+        configureShooterFalcon();
     }
 
     public void configureShooterFalcon() {
@@ -40,20 +31,19 @@ public class Shooter extends ProfiledPIDSubsystem {
         resetEncoders();
     }
 
-
-    public void flyWheelForwards() {
-        leaderMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.FORWARDS_VELOCITY);
-        followerMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.FORWARDS_VELOCITY);
+    public void setVelocity(double velocity) {
+        velocitySetpoint = velocity;
     }
 
-    public void flyWheelBackwards() {
-        leaderMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.BACKWARDS_VELOCITY);
-        followerMotor.set(ControlMode.PercentOutput, Constants.ShooterConstants.BACKWARDS_VELOCITY);
+    public void setThrottle(double throttle) {
+        leaderMotor.set(ControlMode.PercentOutput, throttle);
+        followerMotor.set(ControlMode.PercentOutput, throttle);
     }
 
     public void stop() {
         leaderMotor.set(ControlMode.PercentOutput, 0);
         followerMotor.set(ControlMode.PercentOutput, 0);
+        velocitySetpoint = 0;
     }
 
     public void resetEncoders() {
@@ -61,22 +51,15 @@ public class Shooter extends ProfiledPIDSubsystem {
         followerMotor.setSelectedSensorPosition(0);
     }
 
-    protected double getPositionDegrees() {
-        return (leaderMotor.getSelectedSensorPosition() / followerMotor.getSelectedSensorPosition() / Constants.ShooterConstants.GEARING / Constants.ShooterConstants.ENCODER_CPR);
-    }
-
-    protected double getPositionRadians() {
-        return Math.toRadians(getPositionDegrees());
+    public double getVelocity() {
+        return (leaderMotor.getSelectedSensorPosition() / 60 * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
     @Override
-    protected double getMeasurement() {
-        return getPositionRadians();
-    }
+    public void periodic() {
+        super.periodic();
 
-    // TODO Output argument should actually be used for PID
-    @Override
-    protected void useOutput(double output, State setpoint) {
-        flyWheelForwards();
+        leaderMotor.setVoltage(ShooterConstants.SHOOTER_FF.calculate(velocitySetpoint) + ShooterConstants.PID.calculate(velocitySetpoint - getVelocity()));
+        followerMotor.setVoltage(ShooterConstants.SHOOTER_FF.calculate(velocitySetpoint) + ShooterConstants.PID.calculate(velocitySetpoint - getVelocity()));
     }
 }

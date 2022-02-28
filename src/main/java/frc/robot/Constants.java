@@ -4,9 +4,8 @@
 
 package frc.robot;
 
-import org.frc5587.lib.pid.PID;
-
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.controller.*;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -25,15 +24,11 @@ public final class Constants {
         public static final boolean SHOOTER_LEADER_INVERTED = true; // TODO check if these need to be inverted
         public static final boolean SHOOTER_FOLLOWER_INVERTED = false; // TODO same here
         
-        // motor speeds
-        public static final int FORWARDS_VELOCITY = 1;
-        public static final int BACKWARDS_VELOCITY = -1; // may not be needed, but implemented just so forwards & backwards can be different speeds
-        
         // PID Constants
-        // TODO Actually check what the PID values should be
-        public static final PID PID = new PID(0, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
-        public static final double GEARING = 10;
-        public static final double ENCODER_CPR = 42;
+        // TODO Characterize
+        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0, 0, 0);
+        public static final PIDController PID = new PIDController(0, 0, 0);
+        public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
+        public static final double GEARING = 1;
     } 
 }
