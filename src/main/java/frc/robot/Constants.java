@@ -23,8 +23,8 @@ public final class Constants {
         public static final boolean TURRET_MOTOR_INVERTED = false;
 
         // PID Constants
-        public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.32958,0.75622, 0.035631);
-        public static final PID PID = new PID(1.4296, 0, 0);
+        public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);
+        public static final PID PID = new PID(9.65, 0, 1.0649);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final int GEARING = 90;
     }
