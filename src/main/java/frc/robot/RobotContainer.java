@@ -27,8 +27,9 @@ public class RobotContainer {
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
   // Subsystems
-  private final Intake intake = new Intake();
-  private final IntakePistons intakePistons = new IntakePistons();
+  private final OuterClimbMotors outerClimbMotors = new OuterClimbMotors();
+  private final InnerClimbMotors innerClimbMotors = new InnerClimbMotors();
+  private final ClimbPistons climbPistons = new ClimbPistons();
 
   // Others
 
@@ -50,16 +51,36 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Instantiate controller bindings
+    JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
+    JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
     JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
+
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
 
+    // TODO - CHANGE BUTTON BINDINGS
+
     /**
-     * INTAKE
+     * CLIMB PISTONS
      */
-    aButton.and(leftTrigger.negate())
-        .whileActiveOnce(new IntakeIn(intake, intakePistons));
-    aButton.and(leftTrigger)
-        .whileActiveOnce(new IntakeOut(intake, intakePistons));
+
+    xButton.and(leftTrigger).whenActive(climbPistons::extendSet1, climbPistons).whenInactive(climbPistons::retractSet1,
+        climbPistons);
+        
+    yButton.and(leftTrigger).whenActive(climbPistons::extendSet2, climbPistons).whenInactive(climbPistons::retractSet2,
+        climbPistons);
+
+    /**
+     * CLIMB MOTORS
+     */
+    // TODO - Possibly add reverse???
+
+    aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.setSpeed(2), outerClimbMotors)
+        .whenInactive(outerClimbMotors::stopClimb, outerClimbMotors);
+
+    bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.setSpeed(2), innerClimbMotors)
+        .whenInactive(innerClimbMotors::stopClimb, innerClimbMotors);
+
   }
 
   /**
