@@ -43,10 +43,10 @@ public final class Constants {
 
     public static final class ClimbPistonsConstants {
         // TODO - CHANGE VALUES
-        public static final int SET_1_FORWARD_CHANNEL = 0;
-        public static final int SET_1_REVERSE_CHANNEL = 3;
+        public static final int SET_1_FORWARD_CHANNEL = 1;
+        public static final int SET_1_REVERSE_CHANNEL = 4;
 
-        public static final int SET_2_FORWARD_CHANNEL = 1;
-        public static final int SET_2_REVERSE_CHANNEL = 2;
+        public static final int SET_2_FORWARD_CHANNEL = 2;
+        public static final int SET_2_REVERSE_CHANNEL = 5;
     }
 }

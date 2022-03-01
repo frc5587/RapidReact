@@ -48,11 +48,6 @@ public class OuterClimbMotors extends ProfiledPIDSubsystem {
         outerClimbLeftMotor.set(outerClimbSpeed);
     }
 
-    public void setThrottle(double throttle) {
-        outerClimbRightMotor.set(throttle);
-        outerClimbLeftMotor.set(throttle);
-    }
-
     public void stopClimb() {
         outerClimbRightMotor.set(0);
         outerClimbLeftMotor.set(0);

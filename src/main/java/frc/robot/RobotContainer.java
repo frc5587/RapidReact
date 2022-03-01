@@ -6,7 +6,6 @@ package frc.robot;
 
 import org.frc5587.lib.control.*;
 
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -75,10 +74,10 @@ public class RobotContainer {
      */
     // TODO - Possibly add reverse???
 
-    aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.setSpeed(2), outerClimbMotors)
+    aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.setSpeed(0.3), outerClimbMotors)
         .whenInactive(outerClimbMotors::stopClimb, outerClimbMotors);
 
-    bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.setSpeed(2), innerClimbMotors)
+    bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.setSpeed(0.3), innerClimbMotors)
         .whenInactive(innerClimbMotors::stopClimb, innerClimbMotors);
 
   }
