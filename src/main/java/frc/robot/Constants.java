@@ -23,10 +23,10 @@ public final class Constants {
         public static final int RIGHT_LEADER = 15;
         public static final int RIGHT_FOLLOWER = 16;
 
-        public static final boolean LEFT_SIDE_INVERTED = false;
-        public static final boolean RIGHT_SIDE_INVERTED = true;
-        public static final boolean LEFT_ENCODERS_INVERTED = false;
-        public static final boolean RIGHT_ENCODERS_INVERTED = true;
+        public static final boolean LEFT_SIDE_INVERTED = true;
+        public static final boolean RIGHT_SIDE_INVERTED = false;
+        public static final boolean LEFT_ENCODERS_INVERTED = true;
+        public static final boolean RIGHT_ENCODERS_INVERTED = false;
 
         // motor current limits
         public static final int SMART_CURRENT_LIMIT = 35;

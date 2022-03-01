@@ -34,7 +34,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // TODO Sendable chooser to choose drive command (ArcadeDrive or TankDrive)
-    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened()));
+    // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened()));
+    drivetrain.setDefaultCommand(new BlockMotor(drivetrain));
     // Configure the button bindings
     configureButtonBindings();
   }

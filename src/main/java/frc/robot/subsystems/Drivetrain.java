@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends DrivetrainBase {
-    private final WPI_TalonFX leftLeader;
-    private final WPI_TalonFX leftFollower;
-    private final WPI_TalonFX rightLeader;
-    private final WPI_TalonFX rightFollower;
+    private static final WPI_TalonFX leftLeader = new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
+    private static final WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER);
+    private static final WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
+    private static final WPI_TalonFX rightFollower = new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
 
     private static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_RADIUS * 2,
@@ -24,19 +24,21 @@ public class Drivetrain extends DrivetrainBase {
     );
 
     public Drivetrain() {
-        this(new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER), new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER),
-                new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER), new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER));
-    }
-
-    public Drivetrain(WPI_TalonFX leftLeader, WPI_TalonFX leftFollower, WPI_TalonFX rightLeader, WPI_TalonFX rightFollower) {
+        // this(new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER), new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER),
+        //         new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER), new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER));
         super(new MotorControllerGroup(leftLeader, leftFollower), new MotorControllerGroup(rightLeader, rightFollower), 
         driveConstants);
-
-        this.leftLeader = leftLeader;
-        this.leftFollower = leftFollower;
-        this.rightLeader = rightLeader;
-        this.rightFollower = rightFollower;
     }
+
+    // public Drivetrain(WPI_TalonFX leftLeader, WPI_TalonFX leftFollower, WPI_TalonFX rightLeader, WPI_TalonFX rightFollower) {
+    //     super(new MotorControllerGroup(leftLeader, leftFollower), new MotorControllerGroup(rightLeader, rightFollower), 
+    //     driveConstants);
+
+    //     this.leftLeader = leftLeader;
+    //     this.leftFollower = leftFollower;
+    //     this.rightLeader = rightLeader;
+    //     this.rightFollower = rightFollower;
+    // }
 
     @Override
     public void configureMotors() {
