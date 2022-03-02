@@ -11,18 +11,18 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import frc.robot.Constants.ClimbConstants;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.frc5587.lib.subsystems.FPIDSubsystem;
+
 import com.revrobotics.RelativeEncoder;
 
-public class InnerClimbMotors extends ProfiledPIDSubsystem {
-    private static CANSparkMax innerClimbRightMotor = new CANSparkMax(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR,
-            MotorType.kBrushless);
-    private static CANSparkMax innerClimbLeftMotor = new CANSparkMax(ClimbConstants.INNER_CLIMB_LEFT_MOTOR,
+public class ClimbMotor extends FPIDSubsystem {
+    private static CANSparkMax motor = new CANSparkMax(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR,
             MotorType.kBrushless);
 
-    private static RelativeEncoder innerClimbRightEncoder = innerClimbRightMotor.getEncoder();
-    private static RelativeEncoder innerClimbLeftEncoder = innerClimbLeftMotor.getEncoder();
+    private static RelativeEncoder encoder = motor.getEncoder();
 
-    public InnerClimbMotors() {
+    public ClimbMotor() {
         super(new ProfiledPIDController(
                 Constants.ClimbConstants.PID.kP,
                 Constants.ClimbConstants.PID.kI,
@@ -74,12 +74,42 @@ public class InnerClimbMotors extends ProfiledPIDSubsystem {
     }
 
     @Override
-    protected double getMeasurement() {
+    public double getMeasurement() {
         return getPositionRadians();
     }
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        System.out.println("Come back to this pls");
+        setThrottle(output);
+    }
+
+    @Override
+    public void configureMotors() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public double getEncoderPosition() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public double getEncoderVelocity() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void setEncoderPosition(double position) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public double rotationsToMeasurement(double rotations) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 }
