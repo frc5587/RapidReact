@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
+import org.frc5587.lib.controllers.FFController;
 import org.frc5587.lib.pid.PID;
 
 /**
@@ -36,8 +37,10 @@ public final class Constants {
         // PID Constants
         // TODO - Fill these in later
         public static final PID PID = new PID(0, 0, 0);
+        public static final FFController FF_CONTROLLER = new FFController(0, 0, 0, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
-        public static final int GEARING = 10;
+        public static final double[] SOFT_LIMITS = {0.0, 0.0};
+        public static final double GEARING = 10.0;
         public static final int ENCODER_CPR = 42;
     }
 

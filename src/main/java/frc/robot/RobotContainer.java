@@ -9,6 +9,7 @@ import org.frc5587.lib.control.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -26,8 +27,8 @@ public class RobotContainer {
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
   // Subsystems
-  private final OuterClimbMotors outerClimbMotors = new OuterClimbMotors();
-  private final InnerClimbMotors innerClimbMotors = new InnerClimbMotors();
+  private final ClimbMotor outerClimbMotors = new ClimbMotor();
+  private final ClimbMotor innerClimbMotors = new ClimbMotor();
   private final ClimbPistons climbPistons = new ClimbPistons();
 
   // Others
@@ -74,11 +75,17 @@ public class RobotContainer {
      */
     // TODO - Possibly add reverse???
 
-    aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.setSpeed(0.3), outerClimbMotors)
-        .whenInactive(outerClimbMotors::stopClimb, outerClimbMotors);
+    // aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.set(0.3), outerClimbMotors)
+    //     .whenInactive(outerClimbMotors::stop, outerClimbMotors);
 
-    bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.setSpeed(0.3), innerClimbMotors)
-        .whenInactive(innerClimbMotors::stopClimb, innerClimbMotors);
+    // bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.set(0.3), innerClimbMotors)
+    //     .whenInactive(innerClimbMotors::stop, innerClimbMotors);
+    
+    aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.set(xboxController.getLeftY()), outerClimbMotors)
+        .whenInactive(outerClimbMotors::stop, outerClimbMotors);
+
+    bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.set(xboxController.getLeftY()), innerClimbMotors)
+        .whenInactive(innerClimbMotors::stop, innerClimbMotors);
 
   }
 
