@@ -53,7 +53,7 @@ public final class Constants {
         // velocity and acceleration constraints
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 0.2); //TESTING NUMBERS - meters per second
         public static final double[] SOFT_LIMITS = {0.09, 0.6};
-        public static final double GEARING = 10.0;
+        public static final double GEARING = 12.0;
         public static final int ENCODER_CPR = 42;
         public static final double SPOOL_CIRCUMFERENCE = 0.25; //meters
         public static final int ZERO_OFFSET_TICKS = 0;
