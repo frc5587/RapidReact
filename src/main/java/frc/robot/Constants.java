@@ -21,14 +21,13 @@ public final class Constants {
         public static final int SHOOTER_LEADER_MOTOR = 40;
         public static final int SHOOTER_FOLLOWER_MOTOR = 41;
 
-        public static final boolean SHOOTER_LEADER_INVERTED = true; // TODO check if these need to be inverted
-        public static final boolean SHOOTER_FOLLOWER_INVERTED = false; // TODO same here
+        public static final boolean SHOOTER_LEADER_INVERTED = false;
+        public static final boolean SHOOTER_FOLLOWER_INVERTED = true;
         
         // PID Constants
-        // TODO Characterize
-        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0, 0, 0);
-        public static final PIDController PID = new PIDController(0, 0, 0);
-        public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
+        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.59294, 0.16926, 0.015482);
+        public static final PIDController PID = new PIDController(0.67019, 0, 0);
+        public static final double WHEEL_RADIUS = Units.inchesToMeters(4);
         public static final double GEARING = 1;
         public static final double ENCODER_EPR = 2048;
         public static final double VELOCITY_DENOMINATOR = 0.1;

@@ -37,6 +37,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    shooter.setDefaultCommand(new ShootBasic(shooter, xboxController::getLeftX));
     configureButtonBindings();
   }
 
@@ -48,13 +49,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
       // Instantiate button bindings
-      Trigger joystick = new Trigger(() -> {return xboxController.getLeftX() != 0;});
-
-      /*
-      Shooter
-      */
-      joystick
-        .whileActiveOnce(new ShootBasic(shooter, xboxController::getLeftX));
+      
   }
 
   /**
