@@ -37,11 +37,20 @@ public final class Constants {
         // PID Constants
         // TODO - Fill these in later
         public static final PID PID = new PID(0, 0, 0);
-        public static final FFController FF_CONTROLLER = new FFController(0, 0, 0, 0, 0);
+        public static final FFController FF_CONTROLLER = new FFController(
+            0, //kS
+            0, //kCos (unused here!! leave as 0)
+            0, //kG
+            0, //kV
+            0 //kA
+            );
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0, 0);
-        public static final double[] SOFT_LIMITS = {0.0, 0.0};
+
+        public static final double[] SOFT_LIMITS = {0.05, 0.6};
         public static final double GEARING = 10.0;
         public static final int ENCODER_CPR = 42;
+        public static final double SPOOL_CIRCUMFERENCE = 0.25; //meters
+        public static final int ZERO_OFFSET_TICKS = 0;
     }
 
     public static final class ClimbPistonsConstants {

@@ -9,7 +9,6 @@ import org.frc5587.lib.control.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -57,6 +56,7 @@ public class RobotContainer {
     JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
 
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+    Trigger rightTrigger = new Trigger(() -> xboxController.getRightTriggerAxis() > 0);
 
     // TODO - CHANGE BUTTON BINDINGS
 
@@ -87,6 +87,18 @@ public class RobotContainer {
     bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.set(xboxController.getLeftY()), innerClimbMotors)
         .whenInactive(innerClimbMotors::stop, innerClimbMotors);
 
+    //PID CONTROL!!!! DO NOT USE UNTIL CHARACTERIZED
+      // aButton.and(leftTrigger).whenActive(() -> outerClimbMotors.setGoal(0.25), outerClimbMotors)
+      //     .whenInactive(outerClimbMotors::stop, outerClimbMotors);
+  
+      // bButton.and(leftTrigger).whenActive(() -> innerClimbMotors.setGoal(0.25), innerClimbMotors)
+      //     .whenInactive(innerClimbMotors::stop, innerClimbMotors);
+
+      // aButton.and(rightTrigger).whenActive(() -> outerClimbMotors.setGoal(0.01), outerClimbMotors)
+      //     .whenInactive(outerClimbMotors::stop, outerClimbMotors);
+  
+      // bButton.and(rightTrigger).whenActive(() -> innerClimbMotors.setGoal(0.01), innerClimbMotors)
+      //     .whenInactive(innerClimbMotors::stop, innerClimbMotors);
   }
 
   /**
