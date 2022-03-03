@@ -2,33 +2,21 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimbConstants;
-
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import org.frc5587.lib.subsystems.ElevatorBase;
-
-import com.revrobotics.RelativeEncoder;
 
 public class ClimbMotor extends ElevatorBase {
     private static CANSparkMax motor = new CANSparkMax(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR,
-            MotorType.kBrushless);
+        MotorType.kBrushless);
 
     private static RelativeEncoder encoder = motor.getEncoder();
-    private static FPIDConstants constants = new FPIDConstants(
-        ClimbConstants.GEARING,
-        ClimbConstants.SPOOL_CIRCUMFERENCE,
-        ClimbConstants.SOFT_LIMITS,
-        ClimbConstants.ZERO_OFFSET_TICKS,
-        ClimbConstants.ENCODER_CPR,
-        ClimbConstants.PID,
-        ClimbConstants.FF_CONTROLLER,
-        ClimbConstants.CONSTRAINTS);
 
-    public ClimbMotor() {
+    public ClimbMotor(FPIDConstants constants) {
         super(constants, motor);
-        SmartDashboard.getBoolean("OUTPUT ON?", false);
+        SmartDashboard.putBoolean("OUTPUT ON?", false);
     }
 
     public void configureMotors() {
