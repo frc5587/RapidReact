@@ -6,6 +6,7 @@ package frc.robot;
 
 import org.frc5587.lib.control.*;
 
+import frc.robot.commands.ClimbThrottle;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -26,9 +27,10 @@ public class RobotContainer {
   private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
 
   // Subsystems
-  private final ClimbMotor outerRightClimb = new ClimbMotor(Constants.ClimbConstants.OUTER_RIGHT_CONSTANTS);
-  private final ClimbMotor innerLeftClimb = new ClimbMotor(Constants.ClimbConstants.INNER_LEFT_CONSTANTS);
+  // private final ClimbMotor outerRightClimb = new ClimbMotor(Constants.ClimbConstants.OUTER_RIGHT_CONSTANTS);
+  // private final ClimbMotor innerLeftClimb = new ClimbMotor(Constants.ClimbConstants.INNER_LEFT_CONSTANTS);
   private final ClimbPistons climbPistons = new ClimbPistons();
+  private final ClimbTest climbTest = new ClimbTest();
 
   // Others
 
@@ -56,7 +58,9 @@ public class RobotContainer {
     JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
 
     Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
-    Trigger rightTrigger = new Trigger(() -> xboxController.getRightTriggerAxis() > 0);
+    // Trigger rightTrigger = new Trigger(() -> xboxController.getRightTriggerAxis() > 0);
+
+    Trigger joystick = new Trigger(() -> {return xboxController.getLeftY() != 0;});
 
     // TODO - CHANGE BUTTON BINDINGS
 
@@ -64,11 +68,13 @@ public class RobotContainer {
      * CLIMB PISTONS
      */
 
-    xButton.and(leftTrigger).whenActive(climbPistons::extendSet1, climbPistons).whenInactive(climbPistons::retractSet1,
-        climbPistons);
+    // xButton.and(leftTrigger).whenActive(climbPistons::extendSet1, climbPistons).whenInactive(climbPistons::retractSet1,
+    //     climbPistons);
         
-    yButton.and(leftTrigger).whenActive(climbPistons::extendSet2, climbPistons).whenInactive(climbPistons::retractSet2,
-        climbPistons);
+    // yButton.and(leftTrigger).toggleWhenActive(climbPistons::extendSet2, , climbPistons).whenInactive(,
+    //     climbPistons);
+    xButton.whenActive(climbPistons::extendSet1, climbPistons);
+    yButton.whenActive(climbPistons::retractSet1, climbPistons);
 
     /**
      * CLIMB MOTORS
@@ -82,11 +88,11 @@ public class RobotContainer {
     //     .whenInactive(innerLeftClimb::stop, innerLeftClimb);
     
     // Joystick control
-    aButton.and(leftTrigger).whenActive(() -> outerRightClimb.set(xboxController.getLeftY()), outerRightClimb)
-        .whenInactive(outerRightClimb::stop, outerRightClimb);
+    // aButton.and(leftTrigger).whenActive(() -> outerRightClimb.set(xboxController.getLeftY()), outerRightClimb)
+    //     .whenInactive(outerRightClimb::stop, outerRightClimb);
 
-    bButton.and(leftTrigger).whenActive(() -> innerLeftClimb.set(xboxController.getLeftY()), innerLeftClimb)
-        .whenInactive(innerLeftClimb::stop, innerLeftClimb);
+    // bButton.and(leftTrigger).whenActive(() -> innerLeftClimb.set(xboxController.getLeftY()), innerLeftClimb)
+    //     .whenInactive(innerLeftClimb::stop, innerLeftClimb);
 
     // PID CONTROL!!!! DO NOT USE UNTIL CHARACTERIZED
       // aButton.and(leftTrigger).whenActive(() -> outerRightClimb.setGoal(0.25), outerRightClimb)
@@ -100,6 +106,9 @@ public class RobotContainer {
   
       // bButton.and(rightTrigger).whenActive(() -> innerLeftClimb.setGoal(0.01), innerLeftClimb)
       //     .whenInactive(innerLeftClimb::stop, innerLeftClimb);
+
+      joystick
+        .whileActiveOnce(new ClimbThrottle(climbTest, xboxController::getLeftY));
   }
 
   /**

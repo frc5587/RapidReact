@@ -25,12 +25,13 @@ import org.frc5587.lib.subsystems.FPIDSubsystem.FPIDConstants;
 public final class Constants {
     public static final class ClimbConstants {
 
-        public static final int OUTER_CLIMB_RIGHT_MOTOR = 60;
-        public static final int OUTER_CLIMB_LEFT_MOTOR = 61;
-        public static final int INNER_CLIMB_RIGHT_MOTOR = 65;
-        public static final int INNER_CLIMB_LEFT_MOTOR = 66;
+        public static final int OUTER_CLIMB_RIGHT_MOTOR = 50;
+        public static final int OUTER_CLIMB_LEFT_MOTOR = 51;
+        public static final int INNER_CLIMB_RIGHT_MOTOR = 55;
+        public static final int INNER_CLIMB_LEFT_MOTOR = 56;
 
-        public static final boolean MOTOR_INVERTED = false;
+        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = false;
+        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = true;
 
         public static final double MIN_VELOCITY_FORWARD = 3;
         public static final double MIN_VELOCITY_REVERSE = -5;
@@ -75,9 +76,9 @@ public final class Constants {
     public static final class ClimbPistonsConstants {
         // TODO - CHANGE VALUES
         public static final int SET_1_FORWARD_CHANNEL = 1;
-        public static final int SET_1_REVERSE_CHANNEL = 4;
+        public static final int SET_1_REVERSE_CHANNEL = 5;
 
         public static final int SET_2_FORWARD_CHANNEL = 2;
-        public static final int SET_2_REVERSE_CHANNEL = 5;
+        public static final int SET_2_REVERSE_CHANNEL = 4;
     }
 }

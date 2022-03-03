@@ -21,7 +21,7 @@ public class ClimbMotor extends ElevatorBase {
 
     public void configureMotors() {
         motor.restoreFactoryDefaults();
-        motor.setInverted(ClimbConstants.MOTOR_INVERTED);
+        motor.setInverted(ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
         motor.setIdleMode(IdleMode.kBrake);
     }
 
