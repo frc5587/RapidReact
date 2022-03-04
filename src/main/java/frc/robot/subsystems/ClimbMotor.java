@@ -30,6 +30,8 @@ public class ClimbMotor extends ElevatorBase {
         motor.setSoftLimit(SoftLimitDirection.kReverse, (float)ClimbConstants.SOFT_LIMITS[0]);
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
         motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        resetEncoders();
     }
 
     @Override
