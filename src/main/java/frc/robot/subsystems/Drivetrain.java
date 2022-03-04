@@ -14,7 +14,7 @@ public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX rightFollower = new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
 
     private static DriveConstants driveConstants = new DriveConstants(
-        DrivetrainConstants.WHEEL_RADIUS * 2,
+        DrivetrainConstants.WHEEL_DIAMETER,
         DrivetrainConstants.HISTORY_LIMIT, 
         DrivetrainConstants.INVERT_GYRO,
         DrivetrainConstants.ENCODER_EPR, 

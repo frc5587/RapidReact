@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
+import org.frc5587.lib.pid.PID;
+
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -40,10 +42,15 @@ public final class Constants {
         );
 
         // auto
-        public static final double WHEEL_RADIUS = Units.inchesToMeters(3); // TODO Check wheel diameter
+        public static final PID TURN_PID = new PID(0, 0, 0); // TODO: characterize this stuff lol
+        public static final double TURN_PID_TOLERANCE_DEG = 0.5;
+        public static final double TURN_PID_FORWARD_THROTTLE = 0;
+        public static final double TURN_PID_UPDATE_PERIOD_SEC = 0;
+
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
-        public static final double GEARING = (54/20) * (50/12);
+        public static final double GEARING = (54./20.) * (50./12.);
         public static final boolean INVERT_GYRO = false;
         public static final double VELOCITY_DENOMINATOR = 0.1;
     }
