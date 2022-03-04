@@ -34,7 +34,9 @@ public class RobotContainer {
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
-
+  private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("go to launchpad"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  
   // Others
 
   /**
