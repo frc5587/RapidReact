@@ -4,14 +4,14 @@
 
 package frc.robot;
 
-import org.frc5587.lib.control.DeadbandXboxController;
+// import org.frc5587.lib.control.DeadbandXboxController;
 
 import frc.robot.subsystems.*;
-import frc.robot.commands.*;
+// import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.*;
+// import edu.wpi.first.wpilibj2.command.button.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.*;
  */
 public class RobotContainer {
   // Controllers
-  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+  // private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
   
   // Subsystems
   public static final Shooter shooter = new Shooter();
@@ -37,7 +37,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    shooter.setDefaultCommand(new ShootBasic(shooter, xboxController::getLeftX));
     configureButtonBindings();
   }
 
@@ -50,6 +49,18 @@ public class RobotContainer {
   private void configureButtonBindings() {
       // Instantiate button bindings
       
+      // Button xButton = new Button(() -> {return xboxController.getXButton();});
+      // Trigger joystick = new Trigger(() -> {return xboxController.getLeftY() != 0;});
+
+      /*
+      Shooter
+      */
+      // joystick
+      //   .whileActiveOnce(new ShootBasic(shooter, xboxController::getLeftY));
+      // joystick
+      //   .whileActiveOnce(new ShootBasic(shooter, shooter.getSmartDashboard()));
+      // xButton
+      //   .whileHeld(new ShootBasic(shooter, shooter.getSmartDashboard()));
   }
 
   /**
