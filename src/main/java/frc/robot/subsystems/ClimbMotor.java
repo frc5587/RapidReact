@@ -25,7 +25,7 @@ public class ClimbMotor extends ElevatorBase {
         motor.setInverted(ClimbConstants.MOTOR_INVERTED);
         motor.setIdleMode(IdleMode.kBrake);
 
-        // sets the soft limits of the motors in encoder ticks
+        // sets the soft limits of the motors in meters
         motor.setSoftLimit(SoftLimitDirection.kForward, (float)ClimbConstants.SOFT_LIMITS[1]);
         motor.setSoftLimit(SoftLimitDirection.kReverse, (float)ClimbConstants.SOFT_LIMITS[0]);
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
