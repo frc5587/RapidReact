@@ -23,14 +23,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // Controllers
   private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
-  // private final DeadbandJoystick joystick2 = new DeadbandJoystick(2, 1.5);
+  // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
   
   // Subsystems
   private final Drivetrain drivetrain = new Drivetrain();
 
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
-  // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, joystick2::getY);
+  // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
 
   // Others
 
