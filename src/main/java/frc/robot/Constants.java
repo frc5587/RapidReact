@@ -6,8 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
+import org.frc5587.lib.auto.RamseteCommandWrapper.RamseteConstants;
 import org.frc5587.lib.pid.PID;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -53,5 +55,23 @@ public final class Constants {
         public static final double GEARING = (54./20.) * (50./12.);
         public static final boolean INVERT_GYRO = false;
         public static final double VELOCITY_DENOMINATOR = 0.1;
+    }
+    public static final class AutoConstants {
+        //TODO: CHARACTERIZE!!
+        public static final double KS = 0;
+        public static final double KV = 0;
+        public static final double KA = 0;
+        public static final double KP = 0;
+        public static final double KD = 0;
+        public static final double TRACK_WIDTH = 0.648; //note: this is the right number,,,, stop asking :zany_face:
+
+        public static final double MAXIMUM_VELOCITY = 1; // m/s
+        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
+
+        public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
+            TRACK_WIDTH);
+
+        public static final RamseteConstants RAMSETE_CONSTANTS = new RamseteConstants(
+            KS, KV, KA, KP, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, DRIVETRAIN_KINEMATICS);
     }
 }

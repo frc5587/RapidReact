@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.frc5587.lib.auto.AutoPath;
+import org.frc5587.lib.auto.RamseteCommandWrapper;
 import org.frc5587.lib.control.*;
 
 import frc.robot.commands.*;
@@ -31,6 +33,8 @@ public class RobotContainer {
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, joystick2::getY);
+  private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("go to launchpad"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
   // Others
 
