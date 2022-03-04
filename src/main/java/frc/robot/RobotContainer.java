@@ -12,6 +12,7 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,6 +65,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    Command shootFromLP = new SequentialCommandGroup(goToLaunchpad/*, shoot the ball */);
+    // return shootFromLP;
     return null;
   }
 }
