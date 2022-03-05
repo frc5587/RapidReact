@@ -10,8 +10,12 @@ public class ShooterSensor extends SubsystemBase {
 
     }
 
+    public boolean isCrossed() {
+        return linebreak.get() == false;
+    }
+    
     @Override
     public void periodic() {
-        System.out.println(linebreak.get());
+        System.out.println(linebreak.get() == false);
     }
 }

@@ -88,7 +88,7 @@ public class RobotContainer {
      */
     aButton.and(leftTrigger.negate())
         .whileActiveOnce(new IntakeIn(intake, intakePistons, conveyor))
-        .whenInactive(new RunKickerUp(conveyor, rightKicker, leftKicker));
+        .whenInactive(new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor));
     aButton.and(leftTrigger)
         .whileActiveOnce(new IntakeOut(intake, intakePistons, conveyor));
     
@@ -97,7 +97,10 @@ public class RobotContainer {
      */
 
     // yButton.and(leftTrigger.negate())
-    //   .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker));
+    //   .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor));
+
+    yButton.and(leftTrigger.negate())
+      .whileActiveOnce(new KickerOnly(rightKicker, leftKicker, shooterSensor));
 
     /**
      * CONVEYOR
@@ -106,8 +109,8 @@ public class RobotContainer {
     bButton.and(leftTrigger.negate()) 
       .whileActiveOnce(new RunConveyorUpVelocity(conveyor));
     
-    yButton.and(leftTrigger.negate())
-      .whileActiveOnce(new RunConveyorUpPosition(conveyor));
+    // yButton.and(leftTrigger.negate())
+    //   .whileActiveOnce(new RunConveyorUpPosition(conveyor));
   }
 
   /**

@@ -4,19 +4,17 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
-public class RunKickerUp extends CommandBase {
-    private final Conveyor conveyor;
+public class KickerOnly extends CommandBase {
     private final Kicker rightKicker;
     private final Kicker leftKicker;
     private final ShooterSensor shooterSensor;
 
 
-    public RunKickerUp(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, ShooterSensor shooterSensor) {
-        this.conveyor = conveyor;
+    public KickerOnly(Kicker rightKicker, Kicker leftKicker, ShooterSensor shooterSensor) {
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;
         this.shooterSensor = shooterSensor;
-        addRequirements(conveyor, rightKicker, leftKicker, shooterSensor);
+        addRequirements(rightKicker, leftKicker, shooterSensor);
     }
 
     @Override
@@ -24,11 +22,8 @@ public class RunKickerUp extends CommandBase {
         rightKicker.enable();
         leftKicker.enable();
 
-        conveyor.setControlMode(Conveyor.ControlMode.POSITION);
-        
-        conveyor.moveDistance(conveyor.getPosition() + Units.inchesToMeters(16));
-        rightKicker.moveDistance(rightKicker.getPosition() + Units.inchesToMeters(8));
-        leftKicker.moveDistance(leftKicker.getPosition() + Units.inchesToMeters(8));
+        // rightKicker.moveDistance(rightKicker.getPosition() + Units.inchesToMeters(8));
+        // leftKicker.moveDistance(leftKicker.getPosition() + Units.inchesToMeters(8));
     }
 
     @Override
@@ -36,10 +31,12 @@ public class RunKickerUp extends CommandBase {
         if(shooterSensor.isCrossed()) {
             rightKicker.setGoal(rightKicker.getPosition());
             leftKicker.setGoal(leftKicker.getPosition());
+            rightKicker.disable();
+            leftKicker.disable();
         } else {
             rightKicker.setGoal(rightKicker.getPosition() + 1);
             leftKicker.setGoal(leftKicker.getPosition() + 1);
+
         }
     }
 }
-
