@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
-import java.util.ResourceBundle.Control;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;

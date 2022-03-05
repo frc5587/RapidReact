@@ -28,11 +28,5 @@ public class RunKickerUp extends CommandBase {
         rightKicker.moveDistance(rightKicker.getPosition() + Units.inchesToMeters(8));
         leftKicker.moveDistance(leftKicker.getPosition() + Units.inchesToMeters(8));
     }
-
-    // @Override
-    // public boolean isFinished() {
-    //     System.out.println(!rightKicker.isSpinning() && !leftKicker.isSpinning());
-    //     return (!rightKicker.isSpinning() && !leftKicker.isSpinning());
-    // }
 }
 

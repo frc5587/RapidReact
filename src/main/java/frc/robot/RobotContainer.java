@@ -40,6 +40,7 @@ public class RobotContainer {
   private final Kicker leftKicker = Kicker.createLeftKicker();
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
+  private final ShooterSensor shooterSensor = new ShooterSensor();
 
   // Others
 
@@ -67,6 +68,7 @@ public class RobotContainer {
       
       JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
       JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
+      JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
       JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
       Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
       Trigger leftStickY = new Trigger(() -> {return xboxController.getLeftY() != 0;});
@@ -94,9 +96,18 @@ public class RobotContainer {
      * Kicker
      */
 
+    // yButton.and(leftTrigger.negate())
+    //   .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker));
+
+    /**
+     * CONVEYOR
+     */
+
+    bButton.and(leftTrigger.negate()) 
+      .whileActiveOnce(new RunConveyorUpVelocity(conveyor));
+    
     yButton.and(leftTrigger.negate())
-      .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker));
-      
+      .whileActiveOnce(new RunConveyorUpPosition(conveyor));
   }
 
   /**

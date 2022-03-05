@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import org.frc5587.lib.pid.PID;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -38,11 +36,12 @@ public final class Constants {
     } 
     public static class ConveyorConstants {
         public static final int CONVEYOR_MOTOR = 30;
-        public static final boolean MOTOR_INVERTED = true;
+        public static final boolean MOTOR_INVERTED = false;
 
         // PID Constants
-        public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.077365, 1.9438, 0.081956);
-        public static final PIDController PID = new PIDController(5.0211, 0, 0);
+        public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.078977, 1.9659, 0.057779);
+        public static final PIDController POSITION_PID = new PIDController(4.3574, 0, 0.12733);
+        public static final PIDController VELOCITY_PID = new PIDController(0.17574, 0, 0);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(.3, .3);
         public static final int GEARING = 10;
         public static final int VELOCITY_FORWARD = 1;

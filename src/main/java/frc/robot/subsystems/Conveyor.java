@@ -25,9 +25,9 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     public Conveyor() {
         super(new ProfiledPIDController(
-            ConveyorConstants.PID.getP(),
-            ConveyorConstants.PID.getI(),
-            ConveyorConstants.PID.getD(),
+            ConveyorConstants.POSITION_PID.getP(),
+            ConveyorConstants.POSITION_PID.getI(),
+            ConveyorConstants.POSITION_PID.getD(),
             ConveyorConstants.CONSTRAINTS
         ));
 
@@ -94,19 +94,19 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        if (setpoint.velocity != 0) {
-            System.out.println("" + (ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) + output) + "  " + setpoint.velocity + "  " + getVelocity() + "  " + getMeasurement() + "  " + setpoint.position);
-        
-        }
+        // if (setpoint.velocity != 0) {
+        //     System.out.println("" + (ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) + output) + "  " + setpoint.velocity + "  " + getVelocity() + "  " + getMeasurement() + "  " + setpoint.position);
+        // }
         conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) );
     }
 
     @Override
     public void periodic() {
         super.periodic();
+        System.out.println(getPosition() + "  " + getVelocity());
 
         if (controlMode == ControlMode.VELOCITY) {
-            conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.PID.calculate(velocitySetpoint - getVelocity()));
+            conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
         }
     }
 }
