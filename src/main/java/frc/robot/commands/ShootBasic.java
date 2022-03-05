@@ -19,7 +19,7 @@ public class ShootBasic extends CommandBase {
 
     @Override
     public void execute() {
-        shooter.setVelocity(throttleSupplier);
+        shooter.setVelocity(-throttleSupplier);
     }
 
     @Override

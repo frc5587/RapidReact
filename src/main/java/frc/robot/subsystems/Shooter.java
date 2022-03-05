@@ -32,8 +32,8 @@ public class Shooter extends SubsystemBase {
         leaderMotor.setInverted(ShooterConstants.SHOOTER_LEADER_INVERTED);
         followerMotor.setInverted(ShooterConstants.SHOOTER_FOLLOWER_INVERTED);
 
-        leaderMotor.setNeutralMode(NeutralMode.Brake);
-        followerMotor.setNeutralMode(NeutralMode.Brake);
+        leaderMotor.setNeutralMode(NeutralMode.Coast);
+        followerMotor.setNeutralMode(NeutralMode.Coast);
     }
 
     public void setVelocity(double velocity) {
@@ -78,7 +78,7 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("Real Velocity", getVelocity());
 
         shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        setVelocity(-(getSmartDashboard()));
+        // setVelocity(-(getSmartDashboard()));
         if(getVelocity() != 0)
             System.out.println(getVelocity() + "  " + getSmartDashboard() + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
     }
