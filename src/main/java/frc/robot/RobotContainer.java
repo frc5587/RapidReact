@@ -45,7 +45,6 @@ public class RobotContainer {
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
   private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
   private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
-  private final IntakeOut intakeOut = new IntakeOut(intake, intakePistons, conveyor);
   private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
     new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
@@ -77,12 +76,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
       // Instantiate button bindings
-      
       JoystickButton xButton = new JoystickButton(xb, DeadbandXboxController.Button.kX.value);
       JoystickButton aButton = new JoystickButton(xb, DeadbandXboxController.Button.kA.value);
       JoystickButton yButton = new JoystickButton(xb, DeadbandXboxController.Button.kY.value);
-      Trigger leftTrigger = new Trigger(() -> xb.getLeftTriggerAxis() > 0);    
-      Trigger leftStickY = new Trigger(() -> {return xb.getLeftY() != 0;});
+      Trigger leftTrigger = new Trigger(() -> xb.getLeftTriggerAxis() > 0);
 
       /*
       Shooter
