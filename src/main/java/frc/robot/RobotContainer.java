@@ -11,6 +11,7 @@ import org.frc5587.lib.control.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -32,30 +33,24 @@ public class RobotContainer {
   
   // Subsystems
   private final Drivetrain drivetrain = new Drivetrain();
-
-  // Commands
-  private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
-  // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
-  private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-
-  // private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
-  //   new AutoPath("two meters"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  
-  // Others
-  // private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
-  
-  // Subsystems
-  public static final Shooter shooter = new Shooter();
-
-  // Subsystems
+  private final Shooter shooter = new Shooter();
   private final Conveyor conveyor = new Conveyor();
   private final Kicker rightKicker = Kicker.createRightKicker();
   private final Kicker leftKicker = Kicker.createLeftKicker();
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
 
-  // Others
+  // Commands
+  private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
+  // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
+  private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
+  private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
+  private final IntakeOut intakeOut = new IntakeOut(intake, intakePistons, conveyor);
+  private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+
+  // private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
+  //   new AutoPath("two meters"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
   // Other
 
@@ -97,7 +92,7 @@ public class RobotContainer {
       // leftStickY
       //   .whileActiveOnce(new ShootBasic(shooter, shooter.getSmartDashboard()));
       xButton
-        .whileHeld(new ShootBasic(shooter, shooter.getSmartDashboard()));
+        .whileHeld(shootBasic);
 
     /**
      * INTAKE
@@ -122,8 +117,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command shootFromLP = new SequentialCommandGroup(pickUpBall.setOdometryToFirstPoseOnStart());
-    return shootFromLP;
+    Command pickUpOnStart = new SequentialCommandGroup(
+      new ParallelCommandGroup(intakeIn, pickUpBall.setOdometryToFirstPoseOnStart())
+    );
+    return pickUpOnStart;
     // return null;
   }
 }
