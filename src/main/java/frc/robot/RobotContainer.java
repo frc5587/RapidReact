@@ -39,8 +39,8 @@ public class RobotContainer {
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
-  private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("go to launchpad red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
   // private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
   //   new AutoPath("two meters"), Constants.AutoConstants.RAMSETE_CONSTANTS);
@@ -82,7 +82,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command shootFromLP = new SequentialCommandGroup(goToLaunchpad.setOdometryToFirstPoseOnStart());
+    Command shootFromLP = new SequentialCommandGroup(pickUpBall.setOdometryToFirstPoseOnStart());
     return shootFromLP;
     // return null;
   }

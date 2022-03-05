@@ -1,0 +1,10 @@
+{
+  "timeStep": 0.0,
+  "maxVelocity": 1.0,
+  "maxAcceleration": 1.0,
+  "maxJerk": 0.0,
+  "wheelBase": 0.0,
+  "robotWidth": 3.092,
+  "robotLength": 3.092,
+  "game": "POWER_UP_2018"
+}
