@@ -69,14 +69,14 @@ public class RobotContainer {
       JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
       JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
       Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
-      Trigger joystick = new Trigger(() -> {return xboxController.getLeftY() != 0;});
+      Trigger leftStickY = new Trigger(() -> {return xboxController.getLeftY() != 0;});
 
       /*
       Shooter
       */
-      // joystick
+      // leftStickY
       //   .whileActiveOnce(new ShootBasic(shooter, xboxController::getLeftY));
-      // joystick
+      // leftStickY
       //   .whileActiveOnce(new ShootBasic(shooter, shooter.getSmartDashboard()));
       xButton
         .whileHeld(new ShootBasic(shooter, shooter.getSmartDashboard()));

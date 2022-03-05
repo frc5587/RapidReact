@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Conveyor.ControlMode;
 import frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,7 +23,7 @@ public class IntakeOut extends CommandBase {
         intake.setVelocity(IntakeConstants.MIN_VELOCITY_REVERSE);
         intakePistons.extend();
 
-        conveyor.setControlMode(Conveyor.ControlMode.VELOCITY);
+        conveyor.setControlMode(ControlMode.VELOCITY);
         conveyor.setVelocity(ConveyorConstants.VELOCITY_REVERSE);
     }
 
@@ -30,6 +31,8 @@ public class IntakeOut extends CommandBase {
     public void end(boolean interrupted) {
         intake.setVelocity(0);
         intakePistons.retract();
+        
+        conveyor.setControlMode(ControlMode.OFF);
         conveyor.setVelocity(0);
     }   
 }

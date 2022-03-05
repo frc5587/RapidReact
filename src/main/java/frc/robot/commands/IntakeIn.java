@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.*;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Conveyor.ControlMode;
 
 public class IntakeIn extends CommandBase {
     private final Intake intake;
@@ -31,5 +32,7 @@ public class IntakeIn extends CommandBase {
         intake.setVelocity(0);
         intakePistons.retract();
         conveyor.setVelocity(0);
+
+        conveyor.setControlMode(ControlMode.OFF);
     }
 }
