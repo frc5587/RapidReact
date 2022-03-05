@@ -10,9 +10,13 @@ import org.frc5587.lib.control.*;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,6 +31,7 @@ public class RobotContainer {
   // Controllers
   private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
   // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
+  private final DeadbandXboxController xb = new DeadbandXboxController(1, 1.5);
   
   // Subsystems
   private final Drivetrain drivetrain = new Drivetrain();
@@ -34,8 +39,11 @@ public class RobotContainer {
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
+  // private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
+  //   new AutoPath("go to launchpad red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+
   private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("go to launchpad"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    new AutoPath("two meters"), Constants.AutoConstants.RAMSETE_CONSTANTS);
   
   // Others
 
@@ -58,6 +66,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    JoystickButton yButton = new JoystickButton(xb, DeadbandXboxController.Button.kY.value);
+    Trigger rightTrigger = new Trigger(xb::getLeftTrigger);
+
+    yButton.and(rightTrigger).whenActive(() -> {
+      drivetrain.setOdometry(
+        new Pose2d(new Translation2d(0, 2), new Rotation2d(0))
+      );
+      System.out.println("IM DOIN THE THING!!!!!");
+    });
   }
 
   /**
@@ -66,7 +83,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     Command shootFromLP = new SequentialCommandGroup(goToLaunchpad/*, shoot the ball */);
-    // return shootFromLP;
-    return null;
+    return shootFromLP;
+    // return null;
   }
 }

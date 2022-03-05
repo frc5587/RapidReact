@@ -44,7 +44,7 @@ public final class Constants {
         );
 
         // auto
-        public static final PID TURN_PID = new PID(0, 0, 0); // TODO: characterize this stuff lol
+        public static final PID TURN_PID = new PID(1.0599, 0, 0); // TODO: characterize this stuff lol
         public static final double TURN_PID_TOLERANCE_DEG = 0.5;
         public static final double TURN_PID_FORWARD_THROTTLE = 0;
         public static final double TURN_PID_UPDATE_PERIOD_SEC = 0;
@@ -58,11 +58,10 @@ public final class Constants {
     }
     public static final class AutoConstants {
         //TODO: CHARACTERIZE!!
-        public static final double KS = 0;
-        public static final double KV = 0;
-        public static final double KA = 0;
-        public static final double KP = 0;
-        public static final double KD = 0;
+        public static final double KS = 0.62739;
+        public static final double KV = 0.226;
+        public static final double KA = 0.025129;
+        public static final double KP = 1.0559;
         public static final double TRACK_WIDTH = 0.648; //note: this is the right number,,,, stop asking :zany_face:
 
         public static final double MAXIMUM_VELOCITY = 1; // m/s
