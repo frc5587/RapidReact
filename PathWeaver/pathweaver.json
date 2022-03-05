@@ -7,5 +7,5 @@
   "robotWidth": 0.9398,
   "robotLength": 0.9398,
   "gameName": "Rapid React",
-  "outputDir": "../src/main/deploy/paths/output"
+  "outputDir": "../src/main/deploy/paths"
 }
