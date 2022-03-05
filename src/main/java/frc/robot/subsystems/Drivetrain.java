@@ -97,17 +97,14 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     public void periodic() {
-        // Update the pose
-        odometry.update(getRotation2d(), getLeftPositionMeters(), getRightPositionMeters());
-
-        // Log the pose
-        poseHistory.put(Timer.getFPGATimestamp(), getPose());
-
+        super.periodic();
+        field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
         SmartDashboard.putNumber("Pose X", getPose().getX());
         SmartDashboard.putNumber("Pose Y", getPose().getY());
         SmartDashboard.putNumber("Angle", getHeading());
-        field.setRobotPose(getPose());
         SmartDashboard.putNumber("LeftEncoder", getLeftPositionTicks());
         SmartDashboard.putNumber("RightEncoder", getRightPositionTicks());
+        SmartDashboard.putNumber("LeftDistanceEncoder", getLeftPositionMeters());
+        SmartDashboard.putNumber("RightDistanceEncoder", getRightPositionMeters());
     }
 }

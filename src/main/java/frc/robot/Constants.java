@@ -30,7 +30,7 @@ public final class Constants {
         public static final boolean LEFT_SIDE_INVERTED = true;
         public static final boolean RIGHT_SIDE_INVERTED = false;
         public static final boolean LEFT_ENCODERS_INVERTED = true;
-        public static final boolean RIGHT_ENCODERS_INVERTED = false;
+        public static final boolean RIGHT_ENCODERS_INVERTED = true;
 
         // motor current limits
         public static final int SMART_CURRENT_LIMIT = 35;
@@ -42,13 +42,6 @@ public final class Constants {
             DrivetrainConstants.HARD_CURRENT_LIMIT, 
             DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY
         );
-
-        // auto
-        public static final PID TURN_PID = new PID(1.0599, 0, 0); // TODO: characterize this stuff lol
-        public static final double TURN_PID_TOLERANCE_DEG = 0.5;
-        public static final double TURN_PID_FORWARD_THROTTLE = 0;
-        public static final double TURN_PID_UPDATE_PERIOD_SEC = 0;
-
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
@@ -58,10 +51,10 @@ public final class Constants {
     }
     public static final class AutoConstants {
         //TODO: CHARACTERIZE!!
-        public static final double KS = 0.62739;
-        public static final double KV = 0.226;
-        public static final double KA = 0.025129;
-        public static final double KP = 1.0559;
+        public static final double KS = 0.66175;
+        public static final double KV = 2.4683;
+        public static final double KA = 0.29586;
+        public static final double KP = 3.2643;
         public static final double TRACK_WIDTH = 0.648; //note: this is the right number,,,, stop asking :zany_face:
 
         public static final double MAXIMUM_VELOCITY = 1; // m/s
