@@ -8,10 +8,10 @@ public class RunKickerUp extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker rightKicker;
     private final Kicker leftKicker;
-    private final ShooterSensor shooterSensor;
+    private final LinebreakSensor shooterSensor;
 
 
-    public RunKickerUp(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, ShooterSensor shooterSensor) {
+    public RunKickerUp(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor shooterSensor) {
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;

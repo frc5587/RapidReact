@@ -40,7 +40,7 @@ public class RobotContainer {
   private final Kicker leftKicker = Kicker.createLeftKicker();
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
-  private final ShooterSensor shooterSensor = new ShooterSensor();
+  private final LinebreakSensor shooterSensor = new LinebreakSensor();
 
   // Others
 
