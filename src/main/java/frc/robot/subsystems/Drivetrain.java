@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import org.frc5587.lib.subsystems.DrivetrainBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -93,6 +92,11 @@ public class Drivetrain extends DrivetrainBase {
     protected void resetEncoders() {
         leftLeader.setSelectedSensorPosition(0);
         rightLeader.setSelectedSensorPosition(0);
+    }
+
+    @Override
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        super.tankDriveVolts(-leftVolts, -rightVolts);
     }
 
     @Override
