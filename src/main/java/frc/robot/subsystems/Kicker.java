@@ -60,7 +60,7 @@ public class Kicker extends ProfiledPIDSubsystem {
     }
 
     public double getPosition() {
-        return Units.rotationsToRadians(kickerEncoder.getPosition()) * KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING;
+        return (Units.rotationsToRadians(kickerEncoder.getPosition()) * (KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING));
     }
 
     @Override

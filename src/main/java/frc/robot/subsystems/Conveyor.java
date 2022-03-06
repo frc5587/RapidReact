@@ -17,8 +17,8 @@ import edu.wpi.first.math.util.Units;
 Use a motor to control wheels in order to intake & outtake balls to the robot.
 */
 public class Conveyor extends ProfiledPIDSubsystem {
-    private static CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
-    private static RelativeEncoder encoder = conveyorMotor.getEncoder();
+    private CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
+    private RelativeEncoder encoder = conveyorMotor.getEncoder();
     private double velocitySetpoint = 0;
     private ControlMode controlMode = ControlMode.OFF;
 
