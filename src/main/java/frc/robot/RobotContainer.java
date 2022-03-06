@@ -4,18 +4,14 @@
 
 package frc.robot;
 
-// import org.frc5587.lib.control.DeadbandXboxController;
-
-import frc.robot.subsystems.*;
-// import frc.robot.commands.*;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.*;
-import org.frc5587.lib.control.DeadbandXboxController;
-
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+
+import org.frc5587.lib.control.*;
+
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -28,31 +24,33 @@ import frc.robot.commands.*;
  */
 public class RobotContainer {
   // Controllers
-  // private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+  private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
+  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
   
   // Subsystems
-  public static final Shooter shooter = new Shooter();
-  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
-
-  // Subsystems
+  private final Intake intake = new Intake();
+  private final IntakePistons intakePistons = new IntakePistons();
   private final Conveyor conveyor = new Conveyor();
   private final Kicker rightKicker = Kicker.createRightKicker();
   private final Kicker leftKicker = Kicker.createLeftKicker();
-  private final Intake intake = new Intake();
-  private final IntakePistons intakePistons = new IntakePistons();
-  private final LinebreakSensor shooterSensor = new LinebreakSensor();
+  private final LinebreakSensor linebreakSensor = new LinebreakSensor();
+  private final Shooter shooter = new Shooter();
 
-  // Others
-
-  // Other
-
+  // Commands
+  private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
+  private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
+  private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
+  private final ShootDashboard shootDashboard = new ShootDashboard(shooter, shooter.getSmartDashboard());
   
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // Driver Station configuration
+    DriverStation.silenceJoystickConnectionWarning(true);
     // Configure the button bindings
     configureButtonBindings();
+    // Configure the default commands
   }
 
   /**
@@ -64,53 +62,51 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      // Instantiate button bindings
-      
-      JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
-      JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-      JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
-      JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
-      Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);    
-      Trigger leftStickY = new Trigger(() -> {return xboxController.getLeftY() != 0;});
+    /**
+     * Instantiate controller bindings
+     */
 
-      /*
-      Shooter
-      */
-      // leftStickY
-      //   .whileActiveOnce(new ShootBasic(shooter, xboxController::getLeftY));
-      // leftStickY
-      //   .whileActiveOnce(new ShootBasic(shooter, shooter.getSmartDashboard()));
-      xButton
-        .whileHeld(new ShootBasic(shooter, shooter.getSmartDashboard()));
+    // Xbox Controller buttons
+    JoystickButton xButton = new JoystickButton(xboxController, XboxController.Button.kX.value);
+    JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
+    JoystickButton bButton = new JoystickButton(xboxController, XboxController.Button.kB.value);
+    JoystickButton yButton = new JoystickButton(xboxController, XboxController.Button.kY.value);
 
+    // Xbox Controller POV buttons
+    POVButton dpadUp = new POVButton(xboxController, 0);
+    POVButton dpadDown = new POVButton(xboxController, 180);
+
+    // Xbox Controller triggers
+    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTrigger());
+    Trigger rightTrigger = new Trigger(() -> xboxController.getLeftTrigger());
+
+    // Xbox Controller sticks
+    Trigger leftStickY = new Trigger(() -> { 
+      return xboxController.getLeftY() != 0;
+    });
+    Trigger rightStickY = new Trigger(() -> {
+      return xboxController.getLeftY() != 0;
+    });
+
+    
     /**
      * INTAKE
      */
     aButton.and(leftTrigger.negate())
-        .whileActiveOnce(new IntakeIn(intake, intakePistons, conveyor))
-        .whenInactive(new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor));
-    aButton.and(leftTrigger)
-        .whileActiveOnce(new IntakeOut(intake, intakePistons, conveyor));
-    
-    /**
-     * Kicker
-     */
+      .whileActiveOnce(index);
 
-    // yButton.and(leftTrigger.negate())
-    //   .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor));
+    dpadUp
+      .whileActiveOnce(topBallOut);
+      
+    dpadDown
+      .whileActiveOnce(bottomBallOut);
 
-    yButton.and(leftTrigger.negate())
-      .whileActiveOnce(new KickerOnly(rightKicker, leftKicker, shooterSensor));
 
     /**
-     * CONVEYOR
+     * SHOOTER
      */
-
-    bButton.and(leftTrigger.negate()) 
-      .whileActiveOnce(new RunConveyorUpVelocity(conveyor));
-    
-    // yButton.and(leftTrigger.negate())
-    //   .whileActiveOnce(new RunConveyorUpPosition(conveyor));
+    xButton
+      .whileActiveOnce(shootDashboard);
   }
 
   /**
@@ -119,7 +115,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return null;
   }
 }

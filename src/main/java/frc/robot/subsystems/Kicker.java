@@ -22,8 +22,6 @@ public class Kicker extends ProfiledPIDSubsystem {
     private SimpleMotorFeedforward feedforward;
     private boolean motorInverted;
     private State lastSetpoint = new State(0, 0);
-    private int motorId;
-    private PIDController PID;
 
     public Kicker(int motorId, SimpleMotorFeedforward feedForward, PIDController PID, boolean motorInverted) {
         super(new ProfiledPIDController(
@@ -33,9 +31,7 @@ public class Kicker extends ProfiledPIDSubsystem {
             Constants.KickerConstants.CONSTRAINTS
         ));
 
-        this.motorId = motorId;
         this.feedforward = feedForward;
-        this.PID = PID;
         this.motorInverted = motorInverted;
 
         kickerMotor = new CANSparkMax(motorId, MotorType.kBrushless);
@@ -46,11 +42,8 @@ public class Kicker extends ProfiledPIDSubsystem {
 
     private void configureKickerSpark() {
         resetEncoders();
-
         kickerMotor.restoreFactoryDefaults();
-
         kickerMotor.setInverted(motorInverted);
-
         kickerMotor.setIdleMode(IdleMode.kBrake);
     }
 

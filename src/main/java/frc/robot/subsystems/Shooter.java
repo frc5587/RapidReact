@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.*;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -40,13 +39,8 @@ public class Shooter extends SubsystemBase {
         setpoint = velocity;
     }
 
-    // public void setThrottle(double throttle) {
-    //     shooterMotors.set(throttle);
-    // }
-
     public void stop() {
-        shooterMotors.set(0);
-        setpoint = 0;
+        setVelocity(0);
     }
 
     public void resetEncoders() {
@@ -58,12 +52,7 @@ public class Shooter extends SubsystemBase {
         return (leaderMotor.getSelectedSensorVelocity() / (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
-    // public double getVelocity() {
-    //     return ((leaderMotor.getSelectedSensorVelocity() / 60) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
-    // }
-
     public double getSmartDashboard() {
-        // System.out.println(SmartDashboard.getEntry("Velocity").exists() + "   " + SmartDashboard.getEntry("Velocity").getDouble(-1) + "  " + SmartDashboard.getNumber("Velocity", 0));
         return SmartDashboard.getNumber("Velocity", 0);
     }
 

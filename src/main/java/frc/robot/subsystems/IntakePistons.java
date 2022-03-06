@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
-Extend the intake system to allow for ball intake & outtake
+Extend the intake to allow for ball intake & outtake.
  */
 public class IntakePistons extends SubsystemBase {
     public DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakePistonsConstants.FORWARD_CHANNEL, IntakePistonsConstants.REVERSE_CHANNEL);

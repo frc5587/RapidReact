@@ -2,15 +2,13 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.*;
 
-// import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShootBasic extends CommandBase {
+public class ShootDashboard extends CommandBase {
     private Shooter shooter;
     private double throttleSupplier;
 
-    public ShootBasic(Shooter shooter, double throttleSupplier) {
+    public ShootDashboard(Shooter shooter, double throttleSupplier) {
         this.shooter = shooter;
         this.throttleSupplier = throttleSupplier;
 
@@ -19,12 +17,16 @@ public class ShootBasic extends CommandBase {
 
     @Override
     public void execute() {
+        // Set the velocity of the shooter to the throttle speed set in SmartDashboard ("Velocity")
         shooter.setVelocity(-throttleSupplier);
     }
 
+    /*
+    When the command ends, stop the shooter
+    */
     @Override
     public void end(boolean interrupted) {
-        shooter.setVelocity(0);
+        shooter.stop();
         shooter.resetEncoders();
     }
 }

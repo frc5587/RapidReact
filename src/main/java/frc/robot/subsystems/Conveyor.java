@@ -13,6 +13,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
 import edu.wpi.first.math.util.Units;
 
+/**
+Use a motor to control wheels in order to intake & outtake balls to the robot.
+*/
 public class Conveyor extends ProfiledPIDSubsystem {
     private static CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
     private static RelativeEncoder encoder = conveyorMotor.getEncoder();
@@ -92,18 +95,19 @@ public class Conveyor extends ProfiledPIDSubsystem {
         return Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity()) * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING;
     }
 
+    public boolean hasBall() {
+        // TODO Check if velocity slows/voltage decreases when ball is in conveyor. Use this to return a boolean on if the conveyor has a ball.
+        return false;
+    }
+
     @Override
     protected void useOutput(double output, State setpoint) {
-        // if (setpoint.velocity != 0) {
-        //     System.out.println("" + (ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) + output) + "  " + setpoint.velocity + "  " + getVelocity() + "  " + getMeasurement() + "  " + setpoint.position);
-        // }
         conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) );
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println(getPosition() + "  " + getVelocity());
 
         if (controlMode == ControlMode.VELOCITY) {
             conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
