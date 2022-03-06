@@ -47,8 +47,20 @@ public class RobotContainer {
   private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
   private final RunKickerUp runKickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor);
   private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
-  private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
+  private final RamseteCommandWrapper pickUpBallRed1 = new RamseteCommandWrapper(drivetrain,
     new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper pickUpBallRed2 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("pick up ball red 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper pickUpBallRed3 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("pick up ball red 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper pickUpBallRed4 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("pick up ball red 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper firstBallSteal1 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first cheeky ball steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper secondBallSteal1 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("second cheeky ball steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper ballStash1 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("cheeky ball stash 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
   // Other
 
@@ -126,12 +138,19 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    Command pickUpOnStart = new SequentialCommandGroup(
-      new ParallelCommandGroup(intakeIn, pickUpBall.setOdometryToFirstPoseOnStart()),
+    //TODO: update shooting code when turret is done lol
+    Command red1 = new SequentialCommandGroup(
+      new ParallelCommandGroup(intakeIn, pickUpBallRed1.setOdometryToFirstPoseOnStart()),
       runKickerUp,
-      shootBasic
+      shootBasic, //change to targeting/limelight/shooting code!!!
+      new ParallelCommandGroup(intakeIn, firstBallSteal1),
+      runKickerUp,
+      new ParallelCommandGroup(intakeIn, secondBallSteal1),
+      runKickerUp,
+      ballStash1,
+      shootBasic //change to targeting/limelight/shooting code!!!
     );
-    return pickUpOnStart;
-    // return null;
+
+    return red1;
   }
 }
