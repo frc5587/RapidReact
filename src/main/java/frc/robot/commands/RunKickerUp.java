@@ -8,13 +8,15 @@ public class RunKickerUp extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker rightKicker;
     private final Kicker leftKicker;
+    private final LinebreakSensor shooterSensor;
 
 
-    public RunKickerUp(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker) {
+    public RunKickerUp(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor shooterSensor) {
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;
-        addRequirements(conveyor, rightKicker, leftKicker);
+        this.shooterSensor = shooterSensor;
+        addRequirements(conveyor, rightKicker, leftKicker, shooterSensor);
     }
 
     @Override
@@ -29,10 +31,15 @@ public class RunKickerUp extends CommandBase {
         leftKicker.moveDistance(leftKicker.getPosition() + Units.inchesToMeters(8));
     }
 
-    // @Override
-    // public boolean isFinished() {
-    //     System.out.println(!rightKicker.isSpinning() && !leftKicker.isSpinning());
-    //     return (!rightKicker.isSpinning() && !leftKicker.isSpinning());
-    // }
+    @Override
+    public void execute() {
+        if(shooterSensor.isCrossed()) {
+            rightKicker.setGoal(rightKicker.getPosition());
+            leftKicker.setGoal(leftKicker.getPosition());
+        } else {
+            rightKicker.setGoal(rightKicker.getPosition() + 1);
+            leftKicker.setGoal(leftKicker.getPosition() + 1);
+        }
+    }
 }
 

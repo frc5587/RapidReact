@@ -32,7 +32,7 @@ public class IntakeOut extends CommandBase {
         intake.setVelocity(0);
         intakePistons.retract();
         
-        conveyor.setControlMode(ControlMode.OFF);
         conveyor.setVelocity(0);
+        conveyor.setControlMode(ControlMode.OFF);
     }   
 }

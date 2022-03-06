@@ -39,18 +39,16 @@ public class RobotContainer {
   private final Kicker leftKicker = Kicker.createLeftKicker();
   private final Intake intake = new Intake();
   private final IntakePistons intakePistons = new IntakePistons();
+  private final LinebreakSensor shooterSensor = new LinebreakSensor();
 
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
   private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
-  private final RunKickerUp runKickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker);
+  private final RunKickerUp runKickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor);
   private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
   private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
     new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-
-  // private final RamseteCommandWrapper goToLaunchpad = new RamseteCommandWrapper(drivetrain,
-  //   new AutoPath("two meters"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
   // Other
 
@@ -77,8 +75,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
       // Instantiate button bindings
-      JoystickButton xButton = new JoystickButton(xb, DeadbandXboxController.Button.kX.value);
       JoystickButton aButton = new JoystickButton(xb, DeadbandXboxController.Button.kA.value);
+      JoystickButton bButton = new JoystickButton(xb, DeadbandXboxController.Button.kB.value);
+      JoystickButton xButton = new JoystickButton(xb, DeadbandXboxController.Button.kX.value);
       JoystickButton yButton = new JoystickButton(xb, DeadbandXboxController.Button.kY.value);
       Trigger leftTrigger = new Trigger(() -> xb.getLeftTriggerAxis() > 0);
 
@@ -105,9 +104,21 @@ public class RobotContainer {
      * Kicker
      */
 
+    // yButton.and(leftTrigger.negate())
+    //   .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor));
+
     yButton.and(leftTrigger.negate())
-      .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker));
-      
+      .whileActiveOnce(new KickerOnly(rightKicker, leftKicker, shooterSensor));
+
+    /**
+     * CONVEYOR
+     */
+
+    bButton.and(leftTrigger.negate()) 
+      .whileActiveOnce(new RunConveyorUpVelocity(conveyor));
+    
+    // yButton.and(leftTrigger.negate())
+    //   .whileActiveOnce(new RunConveyorUpPosition(conveyor));
   }
 
   /**
