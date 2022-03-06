@@ -43,9 +43,9 @@ public class RobotContainer {
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
-  private final RunKickerUp kickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker);
-  private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
   private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
+  private final RunKickerUp runKickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker);
+  private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
   private final RamseteCommandWrapper pickUpBall = new RamseteCommandWrapper(drivetrain,
     new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
@@ -97,7 +97,7 @@ public class RobotContainer {
      */
     aButton.and(leftTrigger.negate())
         .whileActiveOnce(intakeIn)
-        .whenInactive(kickerUp);
+        .whenInactive(runKickerUp);
     aButton.and(leftTrigger)
         .whileActiveOnce(new IntakeOut(intake, intakePistons, conveyor));
     
@@ -117,7 +117,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command pickUpOnStart = new SequentialCommandGroup(
       new ParallelCommandGroup(intakeIn, pickUpBall.setOdometryToFirstPoseOnStart()),
-      kickerUp,
+      runKickerUp,
       shootBasic
     );
     return pickUpOnStart;
