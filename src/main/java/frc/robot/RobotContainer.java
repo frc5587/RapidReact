@@ -160,7 +160,7 @@ public class RobotContainer {
     // xButton
     //   .whenHeld(shootDashboard);
     xButton
-      .whenHeld(shootOne);
+      .whenHeld(new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard));
   }
 
   /**
