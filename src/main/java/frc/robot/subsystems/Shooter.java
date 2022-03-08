@@ -84,6 +84,10 @@ public class Shooter extends SubsystemBase {
         return Math.abs(setpoint - getVelocity()) / setpoint < error_threshold && setpoint != 0;
     }
 
+    public double shootDistance(double distance) {
+        return (3.0711 * Math.pow(distance, 5) + -52.9784 * Math.pow(distance, 4) + 362.401 * Math.pow(distance, 3) + -1229.66 * Math.pow(distance, 2) + 2069.09 * distance + -1364.11);
+    }
+
     @Override
     public void periodic() {
         super.periodic();
