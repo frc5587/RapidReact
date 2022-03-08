@@ -10,6 +10,7 @@ import frc.robot.commands.*;
 import org.frc5587.lib.control.*;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -40,8 +41,11 @@ public class RobotContainer {
   private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
   private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
   private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
-  private final ShootDashboard shootDashboard = new ShootDashboard(shooter, shooter.getSmartDashboard());
-  
+  private final ShootDashboard shootDashboard = new ShootDashboard(shooter, rightKicker, leftKicker, shooter::getSmartDashboard);
+  private final ShootOne shootOne = new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard);
+
+  private final MoveDown moveDown = new MoveDown(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
+  private final IntakeOnly intakeOnly = new IntakeOnly(intake, intakePistons);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -95,18 +99,25 @@ public class RobotContainer {
     aButton.and(leftTrigger.negate())
       .whileActiveOnce(index);
 
+    // yButton.and(leftTrigger.negate())
+    //   .whileActiveOnce(moveDown);
+
+    bButton.and(leftTrigger.negate())
+      .whileActiveOnce(intakeOnly);
     dpadUp
-      .whileActiveOnce(topBallOut);
+      .whenHeld(new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter));
       
     dpadDown
-      .whileActiveOnce(bottomBallOut);
+      .whenHeld(bottomBallOut);
 
 
     /**
      * SHOOTER
      */
+    // xButton
+    //   .whenHeld(shootDashboard);
     xButton
-      .whileActiveOnce(shootDashboard);
+      .whenHeld(shootOne);
   }
 
   /**

@@ -10,6 +10,7 @@ public class TopBallOut extends CommandBase {
     private final Kicker rightKicker, leftKicker;
     private final LinebreakSensor linebreakSensor;
     private final Shooter shooter;
+    private boolean linebroken = false;
 
     public TopBallOut(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Shooter shooter) {
         this.conveyor = conveyor;
@@ -28,32 +29,34 @@ public class TopBallOut extends CommandBase {
     public void initialize() {
         rightKicker.enable();
         leftKicker.enable();
+
+        shooter.enable();
+        shooter.setVelocity(5);
+        if(!linebreakSensor.isCrossed()) {
+            conveyor.setControlMode(ControlMode.VELOCITY);
+            conveyor.setVelocity(1);
+        }
+
+        linebroken = false;
     }
 
     @Override
     public void execute() {
         // While the ball is still in the robot, move it slowly to pop it out of the robot.
-        while(linebreakSensor.isCrossed()) {
-            rightKicker.moveDistance(1);
-            leftKicker.moveDistance(1);
-            shooter.setVelocity(5);
-        }
-        rightKicker.setGoal(rightKicker.getPosition());
-        leftKicker.setGoal(leftKicker.getPosition());
-        shooter.stop();
-        
-        // Start moving up the new ball, and stop moving it when it reaches the linebreak sensor.
-        if(linebreakSensor.isCrossed()) {
-            rightKicker.setGoal(rightKicker.getPosition());
-            leftKicker.setGoal(leftKicker.getPosition());
+        if (!linebreakSensor.isCrossed() && !linebroken) {
+            rightKicker.moveMore(1);
+            leftKicker.moveMore(1);
         } else {
-            rightKicker.setGoal(rightKicker.getPosition() + 1);
-            leftKicker.setGoal(leftKicker.getPosition() + 1);
+            if(!linebroken) {
+                conveyor.setControlMode(ControlMode.POSITION);
+                conveyor.moveMore(0.5);
+                rightKicker.moveMore(.3);
+                leftKicker.moveMore(.3);
+            }
+            linebroken = true;
         }
-
-        // Move the conveyor forwards once into the kicker.
-        conveyor.setControlMode(ControlMode.POSITION);
-        conveyor.moveDistance(conveyor.getPosition() + 1);
+        // rightKicker.setGoal(rightKicker.getPosition());
+        // leftKicker.setGoal(leftKicker.getPosition());
     }
 
     /*
@@ -62,5 +65,13 @@ public class TopBallOut extends CommandBase {
     @Override
     public void end(boolean interruptable) {
         conveyor.setControlMode(ControlMode.OFF);
+        rightKicker.disable();
+        leftKicker.disable();
+        shooter.disable();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !linebreakSensor.isCrossed() && linebroken;
     }
 } 

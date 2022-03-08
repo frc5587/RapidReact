@@ -22,16 +22,17 @@ public class BottomBallOut extends CommandBase {
     public void initialize() {
         // Extend the intake
         intakePistons.extend();
-    }
 
-    @Override
-    public void execute() {
         // Move the conveyor backwards at a constant velocity.
         conveyor.setControlMode(ControlMode.VELOCITY);
         conveyor.setVelocity(-1);
 
         // Move the intake backwards at a constant velocity.
         intake.setVelocity(-3);
+    }
+
+    @Override
+    public void execute() {
     }
 
     /*

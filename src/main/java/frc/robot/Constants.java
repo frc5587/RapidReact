@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+
 import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -55,7 +58,7 @@ public final class Constants {
         public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.078977, 1.9659, 0.057779);
         public static final PIDController POSITION_PID = new PIDController(4.3574, 0, 0.12733);
         public static final PIDController VELOCITY_PID = new PIDController(0.17574, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(.3, .3);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Check out high
 
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -76,7 +79,7 @@ public final class Constants {
         public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.067363, 1.9044, 0.14625);
         public static final PIDController RIGHT_KICKER_PID = new PIDController(4.4195, 0, 0);
         public static final PIDController LEFT_KICKER_PID = new PIDController(3.5583, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(1, 1);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Should bethe same as conveyor
 
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -89,12 +92,13 @@ public final class Constants {
         public static final int SHOOTER_LEADER_MOTOR = 40;
         public static final int SHOOTER_FOLLOWER_MOTOR = 41;
 
-        public static final boolean SHOOTER_LEADER_INVERTED = true;
-        public static final boolean SHOOTER_FOLLOWER_INVERTED = false;
+        public static final boolean SHOOTER_LEADER_INVERTED = false;
+        public static final boolean SHOOTER_FOLLOWER_INVERTED = true;
         
         // PID Constants
-        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.69172, 0.33773, 0.02674);
-        public static final PIDController PID = new PIDController(0.95298, 0, 0);
+        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.64689, 0.33756, 0.029811);
+        public static final PIDController PID = new PIDController(.8, 0, 0);
+        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(true, 40, 40, .1);
 
         public static final double GEARING = 1;
         public static final double ENCODER_EPR = 2048;

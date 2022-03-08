@@ -63,6 +63,10 @@ public class Kicker extends ProfiledPIDSubsystem {
         return (Units.rotationsToRadians(kickerEncoder.getPosition()) * (KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING));
     }
 
+    public void moveMore(double distance) {
+        moveDistance(getPosition() + distance);
+    }
+
     @Override
     protected double getMeasurement() {
         return getPosition();

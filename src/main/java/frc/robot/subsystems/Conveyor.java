@@ -74,6 +74,10 @@ public class Conveyor extends ProfiledPIDSubsystem {
         }
     }
 
+    public void moveMore(double distance) {
+        moveDistance(getPosition() + distance);
+    }
+
     public void stop() {
         conveyorMotor.set(0);
     }
