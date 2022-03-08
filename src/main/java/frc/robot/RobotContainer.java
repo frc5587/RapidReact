@@ -10,11 +10,13 @@ import org.frc5587.lib.control.*;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,20 +35,25 @@ public class RobotContainer {
   
   // Subsystems
   private final Drivetrain drivetrain = new Drivetrain();
-  private final Shooter shooter = new Shooter();
+  private final Intake intake = new Intake();
+  private final IntakePistons intakePistons = new IntakePistons();
   private final Conveyor conveyor = new Conveyor();
   private final Kicker rightKicker = Kicker.createRightKicker();
   private final Kicker leftKicker = Kicker.createLeftKicker();
-  private final Intake intake = new Intake();
-  private final IntakePistons intakePistons = new IntakePistons();
-  private final LinebreakSensor shooterSensor = new LinebreakSensor();
+  private final LinebreakSensor linebreakSensor = new LinebreakSensor();
+  private final Shooter shooter = new Shooter();
 
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
   // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY, rightJoystick::getY);
-  private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
-  private final RunKickerUp runKickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor);
-  private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
+  private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
+  private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
+  private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
+  private final ShootDashboard shootDashboard = new ShootDashboard(shooter, rightKicker, leftKicker, shooter::getSmartDashboard);
+  private final ShootOne shootOne = new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard);
+  private final MoveDown moveDown = new MoveDown(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
+  private final IntakeOnly intakeOnly = new IntakeOnly(intake, intakePistons);
+  
   private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
     new AutoPath("first 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
   private final RamseteCommandWrapper first2 = new RamseteCommandWrapper(drivetrain,
@@ -72,9 +79,6 @@ public class RobotContainer {
   private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
     new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
-  // Other
-
-  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -83,8 +87,11 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(arcadeDrive);
     // drivetrain.setDefaultCommand(tankDrive);
     
+    // Driver Station configuration
+    DriverStation.silenceJoystickConnectionWarning(true);
     // Configure the button bindings
     configureButtonBindings();
+    // Configure the default commands
   }
 
   /**
@@ -101,46 +108,59 @@ public class RobotContainer {
       JoystickButton bButton = new JoystickButton(xb, DeadbandXboxController.Button.kB.value);
       JoystickButton xButton = new JoystickButton(xb, DeadbandXboxController.Button.kX.value);
       JoystickButton yButton = new JoystickButton(xb, DeadbandXboxController.Button.kY.value);
-      Trigger leftTrigger = new Trigger(() -> xb.getLeftTriggerAxis() > 0);
 
       /*
       Shooter
       */
       // leftStickY
-      //   .whileActiveOnce(new ShootBasic(shooter, xboxController::getLeftY));
+      //   .whileActiveOnce(new ShootBasic(shooter, xb::getLeftY));
       // leftStickY
       //   .whileActiveOnce(new ShootBasic(shooter, shooter.getSmartDashboard()));
       xButton
-        .whileHeld(shootBasic);
+        .whileHeld(shootOne);
 
+    // Xbox Controller POV buttons
+    POVButton dpadUp = new POVButton(xb, 0);
+    POVButton dpadDown = new POVButton(xb, 180);
+
+    // Xbox Controller triggers
+    Trigger leftTrigger = new Trigger(() -> xb.getLeftTrigger());
+    Trigger rightTrigger = new Trigger(() -> xb.getLeftTrigger());
+
+    // Xbox Controller sticks
+    Trigger leftStickY = new Trigger(() -> { 
+      return xb.getLeftY() != 0;
+    });
+    Trigger rightStickY = new Trigger(() -> {
+      return xb.getLeftY() != 0;
+    });
+
+    
     /**
      * INTAKE
      */
     aButton.and(leftTrigger.negate())
-        .whileActiveOnce(intakeIn)
-        .whenInactive(runKickerUp);
-    aButton.and(leftTrigger)
-        .whileActiveOnce(new IntakeOut(intake, intakePistons, conveyor));
-    
-    /**
-     * Kicker
-     */
+      .whileActiveOnce(index);
 
     // yButton.and(leftTrigger.negate())
-    //   .whileActiveOnce(new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor));
+    //   .whileActiveOnce(moveDown);
 
-    yButton.and(leftTrigger.negate())
-      .whileActiveOnce(new KickerOnly(rightKicker, leftKicker, shooterSensor));
+    bButton.and(leftTrigger.negate())
+      .whileActiveOnce(intakeOnly);
+    dpadUp
+      .whenHeld(new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter));
+      
+    dpadDown
+      .whenHeld(bottomBallOut);
+
 
     /**
-     * CONVEYOR
+     * SHOOTER
      */
-
-    bButton.and(leftTrigger.negate()) 
-      .whileActiveOnce(new RunConveyorUpVelocity(conveyor));
-    
-    // yButton.and(leftTrigger.negate())
-    //   .whileActiveOnce(new RunConveyorUpPosition(conveyor));
+    // xButton
+    //   .whenHeld(shootDashboard);
+    xButton
+      .whenHeld(shootOne);
   }
 
   /**
@@ -148,53 +168,41 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //TODO: update shooting code when turret is done lol
+    //TODO: add targeting code!!!!!
     Command pos1 = new SequentialCommandGroup(
-      new ParallelCommandGroup(intakeIn, first1.setOdometryToFirstPoseOnStart()),
-      runKickerUp,
-      shootBasic, //change to targeting/limelight/shooting code!!!
-      new ParallelCommandGroup(intakeIn, firstSteal1),
-      runKickerUp,
-      new ParallelCommandGroup(intakeIn, secondSteal),
-      runKickerUp,
+      new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
+      shootOne,
+      new ParallelCommandGroup(index, firstSteal1),
+      new ParallelCommandGroup(index, secondSteal),
       stash,
-      shootBasic //change to targeting/limelight/shooting code!!!
+      topBallOut,
+      bottomBallOut
     );
 
     Command pos2 = new SequentialCommandGroup(
-      new ParallelCommandGroup(intakeIn, first2.setOdometryToFirstPoseOnStart()),
-      runKickerUp,
-      shootBasic, //change to targeting/limelight/shooting code!!!
-      new ParallelCommandGroup(intakeIn, firstSteal2),
-      runKickerUp,
-      new ParallelCommandGroup(intakeIn, secondSteal),
-      runKickerUp,
+      new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
+      shootOne,
+      new ParallelCommandGroup(index, firstSteal2),
+      new ParallelCommandGroup(index, secondSteal),
       stash,
-      shootBasic //change to targeting/limelight/shooting code!!!
+      topBallOut,
+      bottomBallOut
     );
 
     Command pos3 = new SequentialCommandGroup(
-      new ParallelCommandGroup(intakeIn, first3.setOdometryToFirstPoseOnStart()),
-      runKickerUp,
-      shootBasic, //change to targeting/limelight/shooting code!!!
-      new ParallelCommandGroup(intakeIn, second3),
-      runKickerUp,
-      new ParallelCommandGroup(intakeIn, third3),
-      runKickerUp,
-      stash,
-      shootBasic //change to targeting/limelight/shooting code!!!
+      new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
+      new ParallelCommandGroup(index, second3),
+      shootOne,
+      new ParallelCommandGroup(index, third3),
+      shootOne
     );
 
     Command pos4 = new SequentialCommandGroup(
-      new ParallelCommandGroup(intakeIn, first4.setOdometryToFirstPoseOnStart()),
-      runKickerUp,
-      shootBasic, //change to targeting/limelight/shooting code!!!
-      new ParallelCommandGroup(intakeIn, second4),
-      runKickerUp,
-      new ParallelCommandGroup(intakeIn, third4),
-      runKickerUp,
-      stash,
-      shootBasic //change to targeting/limelight/shooting code!!!
+      new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
+      new ParallelCommandGroup(index, second4),
+      shootOne,
+      new ParallelCommandGroup(index, third4),
+      shootOne
     );
 
     return pos1;

@@ -3,14 +3,14 @@ package frc.robot.subsystems;
 import frc.robot.Constants.*;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
-Use a motor to control a wheel in order to intake & outtake balls to the robot.
+Use a motor to control a wheel that will move balls into & out of the kicker
 */
 public class Intake extends SubsystemBase {
     private CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
@@ -19,27 +19,22 @@ public class Intake extends SubsystemBase {
     private double setpoint = 0;
 
     public Intake() {
-        configureMotors();
+        configureIntakeSpark();
+    }
+
+    public void configureIntakeSpark() {
+        resetEncoders();
+        motor.restoreFactoryDefaults();
+        motor.setInverted(IntakeConstants.MOTOR_INVERTED);
+        motor.setIdleMode(IdleMode.kBrake);
     }
 
     public void setVelocity(double velocity) {
         setpoint = velocity;
     }
 
-    public void configureMotors() {
-        resetEncoders();
-        motor.restoreFactoryDefaults();
-        motor.setInverted(IntakeConstants.INVERTED);
-        motor.setIdleMode(IdleMode.kBrake);
-    }
-
-    public void moveWithThrottle(double throttle) {
-        motor.set(throttle);
-    }
-
     public void stop() {
-        motor.set(0);
-        setpoint = 0;
+        setVelocity(0);
     }
     
     public void resetEncoders() {

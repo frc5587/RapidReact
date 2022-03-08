@@ -7,15 +7,17 @@ import com.ctre.phoenix.motorcontrol.*;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
-    private final WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
-    private final WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
+    private static final double error_threshold = 0.02;
 
-    private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
+    private WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
+    private WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
 
+    private MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
+
+    private boolean enabled = false;
     private double setpoint = 0;
 
     public Shooter() {
@@ -29,6 +31,9 @@ public class Shooter extends SubsystemBase {
         leaderMotor.configFactoryDefault();
         followerMotor.configFactoryDefault();
 
+        leaderMotor.configSupplyCurrentLimit(ShooterConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
+        followerMotor.configSupplyCurrentLimit(ShooterConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
+
         leaderMotor.setInverted(ShooterConstants.SHOOTER_LEADER_INVERTED);
         followerMotor.setInverted(ShooterConstants.SHOOTER_FOLLOWER_INVERTED);
 
@@ -40,13 +45,26 @@ public class Shooter extends SubsystemBase {
         setpoint = velocity;
     }
 
-    // public void setThrottle(double throttle) {
-    //     shooterMotors.set(throttle);
-    // }
+    public void enable() {
+        enabled = true;
+    }
+
+    public void disable() {
+        enabled = false;
+        stopVoltage();
+        stop();
+    }
+
+    public boolean isEnabled() {
+        return enabled == true;
+    }
 
     public void stop() {
-        shooterMotors.set(0);
-        setpoint = 0;
+        setVelocity(0);
+    }
+
+    public void stopVoltage() {
+        shooterMotors.setVoltage(0);
     }
 
     public void resetEncoders() {
@@ -58,13 +76,12 @@ public class Shooter extends SubsystemBase {
         return (leaderMotor.getSelectedSensorVelocity() / (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
-    // public double getVelocity() {
-    //     return ((leaderMotor.getSelectedSensorVelocity() / 60) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
-    // }
-
     public double getSmartDashboard() {
-        // System.out.println(SmartDashboard.getEntry("Velocity").exists() + "   " + SmartDashboard.getEntry("Velocity").getDouble(-1) + "  " + SmartDashboard.getNumber("Velocity", 0));
         return SmartDashboard.getNumber("Velocity", 0);
+    }
+
+    public boolean atSetpoint() {
+        return Math.abs(getVelocity() - setpoint) / setpoint < error_threshold && setpoint != 0;
     }
 
     @Override
@@ -73,13 +90,16 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Setpoint", setpoint);
         SmartDashboard.putNumber("PID Output", ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        SmartDashboard.putNumber("Feed Forward", ShooterConstants.SHOOTER_FF.calculate(setpoint));
         SmartDashboard.putNumber("Voltage", ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         SmartDashboard.putNumber("Real Velocity", getVelocity());
+        SmartDashboard.putNumber("Feedforward", ShooterConstants.SHOOTER_FF.calculate(setpoint));
+        SmartDashboard.putBoolean("At threshold", atSetpoint());
 
-        shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        // setVelocity(-(getSmartDashboard()));
+        if(isEnabled()) {
+            shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
+        }
+        
         if(getVelocity() != 0)
-            System.out.println(getVelocity() + "  " + getSmartDashboard() + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
+            System.out.println(getVelocity() + "  " + getSmartDashboard() + "  "+ setpoint + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
     }
 }
