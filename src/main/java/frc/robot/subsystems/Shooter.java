@@ -81,7 +81,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean atSetpoint() {
-        return Math.abs(getVelocity() - setpoint) / setpoint < error_threshold && setpoint != 0;
+        return Math.abs(setpoint - getVelocity()) / setpoint < error_threshold && setpoint != 0;
     }
 
     @Override

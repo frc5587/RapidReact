@@ -98,7 +98,7 @@ public final class Constants {
         // PID Constants
         public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.64689, 0.33756, 0.029811);
         public static final PIDController PID = new PIDController(.8, 0, 0);
-        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(true, 40, 40, .1);
+        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(true, 60, 60, .1);
 
         public static final double GEARING = 1;
         public static final double ENCODER_EPR = 2048;
