@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Conveyor.ControlMode;;
+import frc.robot.subsystems.Conveyor.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
