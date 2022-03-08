@@ -149,7 +149,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //TODO: update shooting code when turret is done lol
-    Command red1 = new SequentialCommandGroup(
+    Command pos1 = new SequentialCommandGroup(
       new ParallelCommandGroup(intakeIn, first1.setOdometryToFirstPoseOnStart()),
       runKickerUp,
       shootBasic, //change to targeting/limelight/shooting code!!!
@@ -161,6 +161,42 @@ public class RobotContainer {
       shootBasic //change to targeting/limelight/shooting code!!!
     );
 
-    return red1;
+    Command pos2 = new SequentialCommandGroup(
+      new ParallelCommandGroup(intakeIn, first2.setOdometryToFirstPoseOnStart()),
+      runKickerUp,
+      shootBasic, //change to targeting/limelight/shooting code!!!
+      new ParallelCommandGroup(intakeIn, firstSteal2),
+      runKickerUp,
+      new ParallelCommandGroup(intakeIn, secondSteal),
+      runKickerUp,
+      stash,
+      shootBasic //change to targeting/limelight/shooting code!!!
+    );
+
+    Command pos3 = new SequentialCommandGroup(
+      new ParallelCommandGroup(intakeIn, first3.setOdometryToFirstPoseOnStart()),
+      runKickerUp,
+      shootBasic, //change to targeting/limelight/shooting code!!!
+      new ParallelCommandGroup(intakeIn, second3),
+      runKickerUp,
+      new ParallelCommandGroup(intakeIn, third3),
+      runKickerUp,
+      stash,
+      shootBasic //change to targeting/limelight/shooting code!!!
+    );
+
+    Command pos4 = new SequentialCommandGroup(
+      new ParallelCommandGroup(intakeIn, first4.setOdometryToFirstPoseOnStart()),
+      runKickerUp,
+      shootBasic, //change to targeting/limelight/shooting code!!!
+      new ParallelCommandGroup(intakeIn, second4),
+      runKickerUp,
+      new ParallelCommandGroup(intakeIn, third4),
+      runKickerUp,
+      stash,
+      shootBasic //change to targeting/limelight/shooting code!!!
+    );
+
+    return pos1;
   }
 }
