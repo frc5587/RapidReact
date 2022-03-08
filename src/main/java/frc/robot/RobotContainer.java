@@ -47,20 +47,30 @@ public class RobotContainer {
   private final IntakeIn intakeIn = new IntakeIn(intake, intakePistons, conveyor);
   private final RunKickerUp runKickerUp = new RunKickerUp(conveyor, rightKicker, leftKicker, shooterSensor);
   private final ShootBasic shootBasic = new ShootBasic(shooter, shooter.getSmartDashboard());
-  private final RamseteCommandWrapper pickUpBallRed1 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("pick up ball red 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  private final RamseteCommandWrapper pickUpBallRed2 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("pick up ball red 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  private final RamseteCommandWrapper pickUpBallRed3 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("pick up ball red 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  private final RamseteCommandWrapper pickUpBallRed4 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("pick up ball red 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  private final RamseteCommandWrapper firstBallSteal1 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("first cheeky ball steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  private final RamseteCommandWrapper secondBallSteal1 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("second cheeky ball steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-  private final RamseteCommandWrapper ballStash1 = new RamseteCommandWrapper(drivetrain,
-    new AutoPath("cheeky ball stash 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper first2 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper first3 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper first4 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper second3 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("second 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper second4 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("second 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper third3 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("third 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper third4 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("third 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper firstSteal1 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper firstSteal2 = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("first steal 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper secondSteal = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+  private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
+    new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
 
   // Other
 
@@ -140,14 +150,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //TODO: update shooting code when turret is done lol
     Command red1 = new SequentialCommandGroup(
-      new ParallelCommandGroup(intakeIn, pickUpBallRed1.setOdometryToFirstPoseOnStart()),
+      new ParallelCommandGroup(intakeIn, first1.setOdometryToFirstPoseOnStart()),
       runKickerUp,
       shootBasic, //change to targeting/limelight/shooting code!!!
-      new ParallelCommandGroup(intakeIn, firstBallSteal1),
+      new ParallelCommandGroup(intakeIn, firstSteal1),
       runKickerUp,
-      new ParallelCommandGroup(intakeIn, secondBallSteal1),
+      new ParallelCommandGroup(intakeIn, secondSteal),
       runKickerUp,
-      ballStash1,
+      stash,
       shootBasic //change to targeting/limelight/shooting code!!!
     );
 
