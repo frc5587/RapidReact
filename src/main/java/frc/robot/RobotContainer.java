@@ -51,8 +51,8 @@ public class RobotContainer {
   private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
   private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
   private final ShootDashboard shootDashboard = new ShootDashboard(shooter, rightKicker, leftKicker, shooter::getSmartDashboard);
-  private final ShootOne shootOne = new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard);
-  private final ShootVision shootVision = new ShootVision(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, limelight);
+  // private final ShootOne shootOne = new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard);
+  private final ShootVision shootOne = new ShootVision(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, limelight);
   private final MoveDown moveDown = new MoveDown(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
   private final IntakeOnly intakeOnly = new IntakeOnly(intake, intakePistons);
   
@@ -161,8 +161,10 @@ public class RobotContainer {
      */
     // xButton
     //   .whenHeld(shootDashboard);
+    // xButton
+    //   .whenHeld(shootVision);
     xButton
-      .whenHeld(shootVision);
+    .whenHeld(shootOne);
   }
 
   /**

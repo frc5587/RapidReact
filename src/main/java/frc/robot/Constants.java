@@ -153,8 +153,9 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
 
         // limelight constants
-        public static final double GOAL_HEIGHT_METERS = 2.642;
-        public static final double LENS_HEIGHT = 0.8;
-        public static final double MOUNT_ANGLE = 120;
+        public static final double GOAL_HEIGHT_METERS = 2.578;
+        public static final double LENS_HEIGHT = 0.813;
+        public static final double MOUNT_ANGLE = 30;
+        public static final double DISTANCE_OFFSET = 0.7;
     } 
 }

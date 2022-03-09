@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
-    private static final double error_threshold = 0.02;
+    private static final double error_threshold = 0.005;
 
     private WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
     private WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
@@ -19,6 +19,8 @@ public class Shooter extends SubsystemBase {
 
     private boolean enabled = false;
     private double setpoint = 0;
+
+    private double time = 0;
 
     public Shooter() {
         configureShooterFalcon();
@@ -52,13 +54,12 @@ public class Shooter extends SubsystemBase {
     public void disable() {
         enabled = false;
         stopVoltage();
-        stop();
     }
 
     public boolean isEnabled() {
         return enabled == true;
     }
-
+    
     public void stop() {
         setVelocity(0);
     }
@@ -85,7 +86,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double shootDistance(double distance) {
-        return ((0.248525 * distance) + Math.pow(0.01567, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
     }
 
     @Override

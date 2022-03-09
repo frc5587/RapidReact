@@ -6,11 +6,11 @@ import frc.robot.Constants.ShooterConstants;
 
 public class Limelight extends LimelightBase {
     public Limelight() {
-        super(ShooterConstants.MOUNT_ANGLE, ShooterConstants.LENS_HEIGHT, ShooterConstants.GOAL_HEIGHT_METERS);
+        super(ShooterConstants.MOUNT_ANGLE, ShooterConstants.LENS_HEIGHT, ShooterConstants.GOAL_HEIGHT_METERS, ShooterConstants.DISTANCE_OFFSET);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Calculated distance", calculateDistance() + 0.7);
+        SmartDashboard.putNumber("Calculated distance", calculateDistance());
     }
 }
