@@ -132,6 +132,16 @@ public final class Constants {
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
     }
+    public static final class TurretConstants {
+        public static final int TURRET_MOTOR = 45;
+        public static final boolean TURRET_MOTOR_INVERTED = false;
+
+        // PID Constants
+        public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);
+        public static final PID PID = new PID(9.65, 0, 1.0649);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
+        public static final int GEARING = 90;
+    }
     /*
     SHOOTER
     */
@@ -159,14 +169,4 @@ public final class Constants {
         public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.7;
     } 
-    public static final class TurretConstants {
-        public static final int TURRET_MOTOR = 45;
-        public static final boolean TURRET_MOTOR_INVERTED = false;
-
-        // PID Constants
-        public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);
-        public static final PID PID = new PID(9.65, 0, 1.0649);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
-        public static final int GEARING = 90;
-    }
 }
