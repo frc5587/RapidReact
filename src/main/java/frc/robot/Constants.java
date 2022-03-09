@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import org.frc5587.lib.auto.RamseteCommandWrapper.RamseteConstants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.controller.PIDController;
+import org.frc5587.lib.pid.PID;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -158,4 +159,14 @@ public final class Constants {
         public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.7;
     } 
+    public static final class TurretConstants {
+        public static final int TURRET_MOTOR = 45;
+        public static final boolean TURRET_MOTOR_INVERTED = false;
+
+        // PID Constants
+        public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);
+        public static final PID PID = new PID(9.65, 0, 1.0649);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
+        public static final int GEARING = 90;
+    }
 }
