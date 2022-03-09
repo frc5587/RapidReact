@@ -42,6 +42,7 @@ public class RobotContainer {
   private final Kicker leftKicker = Kicker.createLeftKicker();
   private final LinebreakSensor linebreakSensor = new LinebreakSensor();
   private final Shooter shooter = new Shooter();
+  private final Limelight limelight = new Limelight();
 
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
@@ -51,6 +52,7 @@ public class RobotContainer {
   private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
   private final ShootDashboard shootDashboard = new ShootDashboard(shooter, rightKicker, leftKicker, shooter::getSmartDashboard);
   private final ShootOne shootOne = new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard);
+  private final ShootVision shootVision = new ShootVision(shooter, limelight);
   private final MoveDown moveDown = new MoveDown(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
   private final IntakeOnly intakeOnly = new IntakeOnly(intake, intakePistons);
   
@@ -160,7 +162,7 @@ public class RobotContainer {
     // xButton
     //   .whenHeld(shootDashboard);
     xButton
-      .whenHeld(new ShootOne(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, shooter::getSmartDashboard));
+      .whenHeld(shootVision);
   }
 
   /**
