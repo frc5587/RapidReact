@@ -29,7 +29,7 @@ public class ShootVision extends CommandBase {
         leftKicker.enable();
 
         shooter.enable();
-        shooter.setVelocity(shooter.shootDistance(limelight.calculateDistance()));
+        shooter.setVelocity(shooter.shootDistance(limelight.calculateDistance() + 0.7));
 
         linebroken = false;
     }
