@@ -34,8 +34,6 @@ public class ShootVision extends CommandBase {
 
         shooter.enable();
         shooter.setVelocity(shooter.shootDistance(limelight.calculateDistance()));
-        System.out.println(limelight.calculateDistance() + "  " + shooter.shootDistance(limelight.calculateDistance()));
-        // shooter.setVelocity(5);
 
         linebroken = false;
     }
