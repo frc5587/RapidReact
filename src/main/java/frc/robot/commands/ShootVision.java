@@ -13,11 +13,15 @@ public class ShootVision extends CommandBase {
     private LinebreakSensor linebreakSensor;
     private boolean linebroken = false;
 
-    public ShootVision(Shooter shooter, Limelight limelight) {
+    public ShootVision(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Shooter shooter, Limelight limelight) {
+        this.conveyor = conveyor;
+        this.rightKicker = rightKicker;
+        this.leftKicker = leftKicker;
+        this.linebreakSensor = linebreakSensor;
         this.shooter = shooter;
         this.limelight = limelight;
 
-        addRequirements(shooter, limelight);
+        addRequirements(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, limelight);
     }
 
         /*

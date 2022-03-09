@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double shootDistance(double distance) {
-        return (3.0711 * Math.pow(distance, 5) + -52.9784 * Math.pow(distance, 4) + 362.401 * Math.pow(distance, 3) + -1229.66 * Math.pow(distance, 2) + 2069.09 * distance + -1364.11);
+        return ((0.248525 * distance) + Math.pow(0.01567, ((-1.00889 * distance) + 4.25483)) + 15.3616);
     }
 
     @Override
