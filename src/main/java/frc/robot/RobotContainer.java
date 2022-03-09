@@ -39,8 +39,8 @@ public class RobotContainer {
   private final Kicker leftKicker = Kicker.createLeftKicker();
   private final LinebreakSensor linebreakSensor = new LinebreakSensor();
   private final Limelight limelight = new Limelight();
-  private final Shooter shooter = new Shooter();
   private final Turret turret = new Turret();
+  private final Shooter shooter = new Shooter();
 
   // Commands
   private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getXCurveDampened());
@@ -122,12 +122,9 @@ public class RobotContainer {
       Trigger rightStickY = new Trigger(() -> {
         return xb.getLeftY() != 0;
       });
-
-      /**
-      * SHOOTER
-      */
-      xButton
-        .whileHeld(shootOne);
+      Trigger rightStickX = new Trigger(() -> {
+        return xb.getLeftX() != 0;
+      });
     
       /**
       * INTAKE
@@ -141,10 +138,20 @@ public class RobotContainer {
       dpadDown
         .whenHeld(bottomBallOut);
 
-    bButton
-      .whenHeld(new SetTurret(turret));
-    leftStickX
-      .whileActiveOnce(new ProfileTurret(turret, xb::getLeftX));
+      /**
+       * TURRET
+       */
+      bButton
+        .whenHeld(new SetTurret(turret));
+
+      leftStickX
+        .whileActiveOnce(new ProfileTurret(turret, xb::getLeftX));
+
+      /**
+      * SHOOTER
+      */
+      xButton
+        .whileHeld(shootOne);
   }
 
   /**
