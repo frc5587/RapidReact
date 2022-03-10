@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,14 @@ public class ClimbMotor extends ElevatorBase {
         motor.restoreFactoryDefaults();
         motor.setInverted(ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
         motor.setIdleMode(IdleMode.kBrake);
+
+        // sets the soft limits of the motors in meters
+        motor.setSoftLimit(SoftLimitDirection.kForward, (float)ClimbConstants.SOFT_LIMITS[1]);
+        motor.setSoftLimit(SoftLimitDirection.kReverse, (float)ClimbConstants.SOFT_LIMITS[0]);
+        motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        resetEncoders();
     }
 
     @Override
