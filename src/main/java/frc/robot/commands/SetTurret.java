@@ -16,6 +16,6 @@ public class SetTurret extends CommandBase {
     public void initialize() {
         turret.resetEncoders();
         turret.enable();
-        turret.setDistance((Math.PI / 2));
+        turret.setPosition((Math.PI / 2));
     }
 }

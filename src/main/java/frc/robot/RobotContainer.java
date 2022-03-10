@@ -49,7 +49,8 @@ public class RobotContainer {
   private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
   private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
   private final ShootVision shootOne = new ShootVision(conveyor, rightKicker, leftKicker, linebreakSensor, shooter, limelight);
-  
+  private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
+
   // Auto Paths
   private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
     new AutoPath("first 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
@@ -80,8 +81,10 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    // Set default commands
     drivetrain.setDefaultCommand(arcadeDrive);
     // drivetrain.setDefaultCommand(tankDrive);
+    turret.setDefaultCommand(lockTurret);
     // Driver Station configuration
     DriverStation.silenceJoystickConnectionWarning(true);
     // Configure the button bindings

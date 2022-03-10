@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import org.frc5587.lib.subsystems.DrivetrainBase;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +17,8 @@ public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
     private static final WPI_TalonFX rightFollower = new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
     private Field2d field = new Field2d();
+    private Rotation2d lastRotation = new Rotation2d();
+    private double angularVelocity = 0;
 
     private static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_DIAMETER,
@@ -31,6 +35,10 @@ public class Drivetrain extends DrivetrainBase {
         driveConstants);
         zeroOdometry();
         SmartDashboard.putData(field);
+    }
+
+    public double getAngularVelocity() {
+        return angularVelocity;
     }
 
     // public Drivetrain(WPI_TalonFX leftLeader, WPI_TalonFX leftFollower, WPI_TalonFX rightLeader, WPI_TalonFX rightFollower) {
@@ -102,6 +110,12 @@ public class Drivetrain extends DrivetrainBase {
     @Override
     public void periodic() {
         super.periodic();
+
+        angularVelocity = (getRotation2d().getRadians() - lastRotation.getRadians()) / .02;
+        lastRotation = getRotation2d();
+
+        System.out.println(angularVelocity);
+
         field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
         SmartDashboard.putNumber("Pose X", getPose().getX());
         SmartDashboard.putNumber("Pose Y", getPose().getY());

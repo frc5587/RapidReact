@@ -45,8 +45,20 @@ public class Turret extends ProfiledPIDSubsystem {
     //     setGoal(TrapezoidProfile.State(0, velocity));
     // }
 
-    public void setDistance(double distance) {
-        setGoal(distance);
+    public void setPosition(double position) {
+        if(position >= Math.PI/2 || position <= -Math.PI/2) {
+            System.out.println(position + " is not allowed.");
+        } else {
+            setGoal(position);
+        }
+    }
+
+    public void setVelocityAtPosition(double position, double velocity) {
+        if(position >= Math.PI/2 || position <= -Math.PI/2) {
+            System.out.println(position + " is not allowed.");
+        } else {
+            setGoal(new State(position, velocity));
+        }
     }
 
     public void stopTurret() {
@@ -72,16 +84,29 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        System.out.println("" + output + "  " + TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02));
-        turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+        if(getPositionRadians() >= Math.PI/2 || getPositionRadians() <= -Math.PI/2) {
+            if((setpoint.velocity < 0 && getPositionRadians() <= -Math.PI/2) || (setpoint.velocity > 0 && setpoint.position >= Math.PI/2)) {
+                turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+                
+                SmartDashboard.putNumber("voltage", TurretConstants.TURRET_FF.calculate((setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+                SmartDashboard.putNumber("Goal Velocity", setpoint.velocity);
+                SmartDashboard.putNumber("Goal Acceleration", (setpoint.velocity - lastSetpoint.velocity)/.02);
+                SmartDashboard.putNumber("Goal Position", setpoint.position);
+                
+                lastSetpoint = setpoint;
+            } else {
+                stopTurret();
+            }
+        } else {
+            turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+            lastSetpoint = setpoint;
+        }
 
+        // System.out.println("" + output + "  " + TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02));
+    }
 
-        SmartDashboard.putNumber("voltage", TurretConstants.TURRET_FF.calculate((setpoint.velocity - lastSetpoint.velocity)/.02) + output);
-        SmartDashboard.putNumber("Goal Velocity", setpoint.velocity);
-        SmartDashboard.putNumber("Goal Acceleration", (setpoint.velocity - lastSetpoint.velocity)/.02);
-        SmartDashboard.putNumber("Goal Position", setpoint.position);
-
-        lastSetpoint = setpoint;
+    public boolean isFinished() {
+        return lastSetpoint.velocity == 0;
     }
 
     @Override
