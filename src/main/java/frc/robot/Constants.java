@@ -47,8 +47,11 @@ public final class Constants {
         // public static final PIDController INNER_RIGHT_PID = new PIDController(0, 0, 0);
         // public static final ElevatorFeedforward INNER_RIGHT_FF = new ElevatorFeedforward(0, 0, 0, 0);
 
-        public static final PIDController ELEVATOR_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward ELEVATOR_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        public static final PIDController UNLOADED_ELEVATOR_PID = new PIDController(0.73455, 0, 0);
+        public static final ElevatorFeedforward UNLOADED_ELEVATOR_FF = new ElevatorFeedforward(0.1956, -0.1091, 11.122, 0.53986);
+
+        public static final PIDController LOADED_ELEVATOR_PID = new PIDController(0, 0, 0);
+        public static final ElevatorFeedforward LOADED_ELEVATOR_FF = new ElevatorFeedforward(0, 0, 0, 0);
 
         // velocity and acceleration constraints
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1);

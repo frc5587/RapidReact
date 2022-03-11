@@ -89,18 +89,18 @@ public class Climb extends ProfiledPIDSubsystem {
     }
 
     public static Climb createInnerRightArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.UNLOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterRightArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createInnerLeftArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_LEFT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterLeftArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 }
