@@ -123,6 +123,9 @@ public class RobotContainer {
         Trigger leftTrigger = new Trigger(xb::getLeftTrigger);
         Trigger rightTrigger = new Trigger(xb::getLeftTrigger);
 
+        // Xbox Controller bumpers
+        Trigger leftBumper = new JoystickButton(xb, DeadbandXboxController.Button.kLeftBumper.value);
+
         // Xbox Controller sticks
         Trigger leftStickY = new Trigger(() -> {
             return xb.getLeftY() != 0;
@@ -153,7 +156,7 @@ public class RobotContainer {
                 .whileActiveOnce(topBallOut);
 
         aButton.whenActive(spinUpShooter);
-        leftbump
+        leftBumper.whenActive(fireWhenReady);
 
 
         /**
