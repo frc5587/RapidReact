@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.*;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.commands.*;
 
 import org.frc5587.lib.control.*;
@@ -36,7 +37,6 @@ public class RobotContainer {
 
   // Commands
 
-
   // Others
 
   /**
@@ -56,55 +56,68 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      // Instantiate button bindings
+    // Instantiate button bindings
 
-      JoystickButton aButton = new JoystickButton(xb, DeadbandXboxController.Button.kA.value);
-      JoystickButton bButton = new JoystickButton(xb, DeadbandXboxController.Button.kB.value);
-      JoystickButton xButton = new JoystickButton(xb, DeadbandXboxController.Button.kX.value);
-      JoystickButton yButton = new JoystickButton(xb, DeadbandXboxController.Button.kY.value);
+    JoystickButton aButton = new JoystickButton(xb, DeadbandXboxController.Button.kA.value);
+    JoystickButton bButton = new JoystickButton(xb, DeadbandXboxController.Button.kB.value);
+    JoystickButton xButton = new JoystickButton(xb, DeadbandXboxController.Button.kX.value);
+    JoystickButton yButton = new JoystickButton(xb, DeadbandXboxController.Button.kY.value);
 
-      // Xbox Controller POV buttons
-      POVButton dpadUp = new POVButton(xb, 0);
-      POVButton dpadDown = new POVButton(xb, 180);
+    // Xbox Controller POV buttons
+    POVButton dpadUp = new POVButton(xb, 0);
+    POVButton dpadDown = new POVButton(xb, 90);
+    POVButton dpadLeft = new POVButton(xb, 180);
+    POVButton dpadRight = new POVButton(xb, 270);
 
-      // Xbox Controller triggers
-      Trigger leftTrigger = new Trigger(() -> xb.getLeftTrigger());
-      Trigger rightTrigger = new Trigger(() -> xb.getLeftTrigger());
+    // Xbox Controller triggers
+    Trigger leftTrigger = new Trigger(() -> xb.getLeftTrigger());
+    Trigger rightTrigger = new Trigger(() -> xb.getLeftTrigger());
 
-      // Xbox Controller sticks
-      Trigger leftStickY = new Trigger(() -> { 
-        return xb.getLeftY() != 0;
-      });
-      Trigger leftStickX = new Trigger(() -> { 
-        return xb.getLeftX() != 0;
-      });
-      Trigger rightStickY = new Trigger(() -> {
-        return xb.getLeftY() != 0;
-      });
-      Trigger rightStickX = new Trigger(() -> {
-        return xb.getLeftX() != 0;
-      });
+    // Xbox Controller sticks
+    Trigger leftStickY = new Trigger(() -> {
+      return xb.getLeftY() != 0;
+    });
+    Trigger leftStickX = new Trigger(() -> {
+      return xb.getLeftX() != 0;
+    });
+    Trigger rightStickY = new Trigger(() -> {
+      return xb.getLeftY() != 0;
+    });
+    Trigger rightStickX = new Trigger(() -> {
+      return xb.getLeftX() != 0;
+    });
 
-      leftStickX.and(rightTrigger)
+    aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
+    bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
+    xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
+
+    leftStickX.and(rightTrigger)
         .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftX));
-      
-      rightStickX.and(rightTrigger)
+
+    rightStickX.and(rightTrigger)
         .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightX));
 
-      dpadUp.and(rightTrigger)
+    dpadDown.and(rightTrigger)
         .whileActiveOnce(new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            new ClimbToPosition(outerLeftClimb, outerRightClimb, -0.254),
-            new WaitCommand(1),
-            new ToggleClimbPistons(climbPistons)
-          ),
-          new ParallelCommandGroup(
-            new ClimbToPosition(innerLeftClimb, innerRightClimb, -0.254)
-            // TODO MODIFY CONTROL LOGIC
-          )
+            new ParallelCommandGroup(
+                new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT),
+                new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT)
+                // ,new ToggleClimbPistons(climbPistons)
+                )));
 
-        ));
-    
+    dpadLeft.and(rightTrigger)
+        .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT));
+
+    dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
+      new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT),
+      new WaitCommand(0.5),
+      new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT)));
+
+    // dpadRight.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
+    //   new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT),
+    //   new WaitCommand(0.5),
+    //   new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT)));
+
   }
 
   /**
