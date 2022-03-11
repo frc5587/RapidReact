@@ -24,7 +24,7 @@ public class Index extends CommandBase {
         this.linebreakSensor = linebreakSensor;
         this.drivetrain = drivetrain;
 
-        addRequirements(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
+        addRequirements(intake, intakePistons, conveyor, rightKicker, leftKicker);
     }
 
     /*

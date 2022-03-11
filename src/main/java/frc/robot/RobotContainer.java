@@ -56,6 +56,8 @@ public class RobotContainer {
             limelight);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
+    private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
+    private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
 
     // Auto Paths
     private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
@@ -149,6 +151,9 @@ public class RobotContainer {
 
         yButton.and(leftTrigger)
                 .whileActiveOnce(topBallOut);
+
+        aButton.whenActive(spinUpShooter);
+        leftbump
 
 
         /**

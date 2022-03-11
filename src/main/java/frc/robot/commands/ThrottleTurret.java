@@ -13,13 +13,20 @@ public class ThrottleTurret extends CommandBase {
     public ThrottleTurret(Turret turret, DoubleSupplier positionSupplier) {
         this.positionSupplier = positionSupplier;
         this.turret = turret;
+
+        addRequirements(turret);
+    }
+
+    @Override
+    public void initialize() {
+        turret.enable();
     }
 
     @Override
     public void execute() {
         double movePercent = positionSupplier.getAsDouble();
         double position = TurretConstants.LIMIT * movePercent;
-        
+
         turret.setPosition(position);
     }
 }

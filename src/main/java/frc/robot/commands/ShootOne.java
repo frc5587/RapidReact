@@ -23,7 +23,7 @@ public class ShootOne extends CommandBase {
         this.shooter = shooter;
         this.velocitySupplier = velocitySupplier;
 
-        addRequirements(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
+        addRequirements(conveyor, rightKicker, leftKicker, shooter);
     }
 
     /*

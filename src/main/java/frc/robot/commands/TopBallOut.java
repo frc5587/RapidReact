@@ -20,7 +20,7 @@ public class TopBallOut extends CommandBase {
         this.linebreakSensor = linebreakSensor;
         this.shooter = shooter;
 
-        addRequirements(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
+        addRequirements(conveyor, rightKicker, leftKicker, shooter);
     }
 
     /*

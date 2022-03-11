@@ -5,23 +5,19 @@ import frc.robot.subsystems.Conveyor.ControlMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShootVision extends CommandBase {
-    private Shooter shooter;
-    private Limelight limelight;
-    private Conveyor conveyor;
-    private Kicker leftKicker, rightKicker;
-    private LinebreakSensor linebreakSensor;
+public class FireWhenReady extends CommandBase {
+    private final Conveyor conveyor;
+    private final Kicker leftKicker, rightKicker;
+    private final Shooter shooter;
     private boolean linebroken = false;
 
-    public ShootVision(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Shooter shooter, Limelight limelight) {
+    public FireWhenReady(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, Shooter shooter) {
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;
-        this.linebreakSensor = linebreakSensor;
         this.shooter = shooter;
-        this.limelight = limelight;
 
-        addRequirements(conveyor, rightKicker, leftKicker, shooter);
+        addRequirements(conveyor, rightKicker, leftKicker);
     }
 
         /*
@@ -31,11 +27,6 @@ public class ShootVision extends CommandBase {
     public void initialize() {
         rightKicker.enable();
         leftKicker.enable();
-
-        shooter.enable();
-        shooter.setVelocity(shooter.shootDistance(limelight.calculateDistance()));
-
-        linebroken = false;
     }
 
     @Override
@@ -57,6 +48,5 @@ public class ShootVision extends CommandBase {
         conveyor.setControlMode(ControlMode.OFF);
         rightKicker.disable();
         leftKicker.disable();
-        shooter.disable();
     }
 }
