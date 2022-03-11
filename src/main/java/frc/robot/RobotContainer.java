@@ -92,9 +92,17 @@ public class RobotContainer {
         .whileActiveOnce(new InnerClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightX));
 
       dpadUp.and(rightTrigger)
-        .whileActiveOnce(new ParallelCommandGroup(
-          new OuterClimbPosition(outerLeftClimb, outerRightClimb, -0.254)
-// TODO FINISH CONTROL LOGIC
+        .whileActiveOnce(new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            new OuterClimbPosition(outerLeftClimb, outerRightClimb, -0.254),
+            new WaitCommand(1),
+            new ToggleClimbPistons(climbPistons)
+          ),
+          new ParallelCommandGroup(
+            new InnerClimbPosition(innerLeftClimb, innerRightClimb, -0.254)
+            // TODO MODIFY CONTROL LOGIC
+          )
+
         ));
     
   }
