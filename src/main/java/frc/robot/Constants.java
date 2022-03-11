@@ -7,10 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-
-import org.frc5587.lib.controllers.FFController;
-import org.frc5587.lib.pid.PID;
-import org.frc5587.lib.subsystems.FPIDSubsystem.FPIDConstants;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -37,27 +34,29 @@ public final class Constants {
         public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = false;
         public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = false;
 
-        public static final double MIN_VELOCITY_FORWARD = 3;
-        public static final double MIN_VELOCITY_REVERSE = -5;
+        // public static final double MIN_VELOCITY_FORWARD = 3;
+        // public static final double MIN_VELOCITY_REVERSE = -5;
 
         // PID Constants
-        public static final PIDController OUTER_LEFT_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward OUTER_LEFT_FF = new ElevatorFeedforward(0, 0, 0, 0);
-        public static final PIDController OUTER_RIGHT_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward OUTER_RIGHT_FF = new ElevatorFeedforward(0, 0, 0, 0);
-        public static final PIDController INNER_LEFT_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward INNER_LEFT_FF = new ElevatorFeedforward(0, 0, 0, 0);
-        public static final PIDController INNER_RIGHT_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward INNER_RIGHT_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        // public static final PIDController OUTER_LEFT_PID = new PIDController(0, 0, 0);
+        // public static final ElevatorFeedforward OUTER_LEFT_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        // public static final PIDController OUTER_RIGHT_PID = new PIDController(0, 0, 0);
+        // public static final ElevatorFeedforward OUTER_RIGHT_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        // public static final PIDController INNER_LEFT_PID = new PIDController(0, 0, 0);
+        // public static final ElevatorFeedforward INNER_LEFT_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        // public static final PIDController INNER_RIGHT_PID = new PIDController(0, 0, 0);
+        // public static final ElevatorFeedforward INNER_RIGHT_FF = new ElevatorFeedforward(0, 0, 0, 0);
+
+        public static final PIDController ELEVATOR_PID = new PIDController(0, 0, 0);
+        public static final ElevatorFeedforward ELEVATOR_FF = new ElevatorFeedforward(0, 0, 0, 0);
 
         // velocity and acceleration constraints
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 0.2);
-        public static final double[] SOFT_LIMITS = {0.09, 0.6};
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1);
+        // public static final double[] SOFT_LIMITS = {0.09, 0.6};
         public static final double GEARING = 12.0;
-        public static final int ENCODER_CPR = 42;
-        public static final double SPOOL_CIRCUMFERENCE = 0.25; //meters
-        public static final int ZERO_OFFSET_TICKS = 0;
-        public static final double SPOOL_RADIUS = 2;
+        public static final double SPOOL_RADIUS = 0.02;
+        public static final double LOWER_LIMIT = 0;
+        public static final double UPPER_lIMIT = Units.inchesToMeters(24.25);
 
         /*
         * Constants objects for climber arms. These must be declared here as they need to be

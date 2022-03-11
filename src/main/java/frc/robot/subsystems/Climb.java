@@ -63,12 +63,25 @@ public class Climb extends ProfiledPIDSubsystem {
         return getPosition();
     }
 
-    public void setThrottle(double throttle) {
-        climbMotor.set(throttle);
+    public void setPosition(double position) {
+        if (position < ClimbConstants.LOWER_LIMIT || position > ClimbConstants.UPPER_lIMIT) {
+            System.out.println(position + " is out of bounds for climb");
+        } else {
+            setGoal(position);
+        }
+    }
+
+    public void positionThrottle(double throttle) {
+        setPosition(getPosition() + ClimbConstants.CONSTRAINTS.maxVelocity * 2 * 0.02 * throttle);
     }
 
     @Override
     protected void useOutput(double output, State setpoint) {
+        if (getPosition() < ClimbConstants.LOWER_LIMIT || getPosition() > ClimbConstants.UPPER_lIMIT) {
+            if ((setpoint.velocity < 0 && getPosition() < ClimbConstants.LOWER_LIMIT) || (setpoint.velocity > 0 && getPosition() > ClimbConstants.UPPER_lIMIT)) {
+                return; // do nothing,
+            }
+        }
         double ff = feedforward.calculate(setpoint.velocity);
         lastSetpoint = setpoint;
 
@@ -76,18 +89,18 @@ public class Climb extends ProfiledPIDSubsystem {
     }
 
     public static Climb createInnerRightArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.INNER_RIGHT_FF, ClimbConstants.INNER_RIGHT_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterRightArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.OUTER_RIGHT_FF, ClimbConstants.OUTER_RIGHT_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createInnerLeftArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_LEFT_MOTOR, ClimbConstants.INNER_LEFT_FF, ClimbConstants.INNER_LEFT_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_LEFT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterLeftArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.OUTER_LEFT_FF, ClimbConstants.OUTER_LEFT_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.ELEVATOR_FF, ClimbConstants.ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 }

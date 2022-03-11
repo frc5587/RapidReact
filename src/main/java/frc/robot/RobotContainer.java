@@ -86,20 +86,20 @@ public class RobotContainer {
       });
 
       leftStickX.and(rightTrigger)
-        .whileActiveOnce(new OuterClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftX));
+        .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftX));
       
       rightStickX.and(rightTrigger)
-        .whileActiveOnce(new InnerClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightX));
+        .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightX));
 
       dpadUp.and(rightTrigger)
         .whileActiveOnce(new SequentialCommandGroup(
           new ParallelCommandGroup(
-            new OuterClimbPosition(outerLeftClimb, outerRightClimb, -0.254),
+            new ClimbToPosition(outerLeftClimb, outerRightClimb, -0.254),
             new WaitCommand(1),
             new ToggleClimbPistons(climbPistons)
           ),
           new ParallelCommandGroup(
-            new InnerClimbPosition(innerLeftClimb, innerRightClimb, -0.254)
+            new ClimbToPosition(innerLeftClimb, innerRightClimb, -0.254)
             // TODO MODIFY CONTROL LOGIC
           )
 
