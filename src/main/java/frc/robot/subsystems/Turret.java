@@ -18,6 +18,8 @@ public class Turret extends ProfiledPIDSubsystem {
     private RelativeEncoder encoder = turretMotor.getEncoder();
     private double lastVelocity = 0;
     private State lastSetpoint = new State(0, 0);
+    private double upperLimit = TurretConstants.LIMIT;
+    private double lowerLimit = -TurretConstants.LIMIT;
 
     public Turret() {
         super(new ProfiledPIDController(
@@ -46,7 +48,7 @@ public class Turret extends ProfiledPIDSubsystem {
     // }
 
     public void setPosition(double position) {
-        if(position >= Math.PI/2 || position <= -Math.PI/2) {
+        if(position >= upperLimit || position <= lowerLimit) {
             System.out.println(position + " is not allowed.");
         } else {
             setGoal(position);
@@ -54,7 +56,7 @@ public class Turret extends ProfiledPIDSubsystem {
     }
 
     public void setVelocityAtPosition(double position, double velocity) {
-        if(position >= Math.PI/2 || position <= -Math.PI/2) {
+        if(position >= upperLimit || position <= lowerLimit) {
             System.out.println(position + " is not allowed.");
         } else {
             setGoal(new State(position, velocity));
@@ -84,8 +86,8 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        if(getPositionRadians() >= Math.PI/2 || getPositionRadians() <= -Math.PI/2) {
-            if((setpoint.velocity < 0 && getPositionRadians() <= -Math.PI/2) || (setpoint.velocity > 0 && setpoint.position >= Math.PI/2)) {
+        if(getPositionRadians() >= upperLimit || getPositionRadians() <= lowerLimit) {
+            if((setpoint.velocity < 0 && getPositionRadians() <= lowerLimit) || (setpoint.velocity > 0 && setpoint.position >= upperLimit)) {
                 turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
                 
                 SmartDashboard.putNumber("voltage", TurretConstants.TURRET_FF.calculate((setpoint.velocity - lastSetpoint.velocity)/.02) + output);

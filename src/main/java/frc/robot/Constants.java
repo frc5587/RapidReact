@@ -92,6 +92,8 @@ public final class Constants {
         
         public static final double GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
+
+        public static final double MIN_VELOCITY = 2;
     }
     /*
     CONVEYOR
@@ -106,7 +108,7 @@ public final class Constants {
         public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.078977, 1.9659, 0.057779);
         public static final PIDController POSITION_PID = new PIDController(4.3574, 0, 0.12733);
         public static final PIDController VELOCITY_PID = new PIDController(0.17574, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Check out high
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20); // TODO Check out high
 
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -127,7 +129,7 @@ public final class Constants {
         public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.067363, 1.9044, 0.14625);
         public static final PIDController RIGHT_KICKER_PID = new PIDController(4.4195, 0, 0);
         public static final PIDController LEFT_KICKER_PID = new PIDController(3.5583, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Should bethe same as conveyor
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20); // TODO Should bethe same as conveyor
 
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -141,6 +143,8 @@ public final class Constants {
         public static final PID PID = new PID(9.65, 0, 1.0649);
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final int GEARING = 90;
+
+        public static final double LIMIT = Units.degreesToRadians(60);
     }
     /*
     SHOOTER

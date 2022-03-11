@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Conveyor.ControlMode;
 
@@ -11,15 +12,17 @@ public class Index extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker rightKicker, leftKicker;
     private final LinebreakSensor linebreakSensor;
+    private final Drivetrain drivetrain;
     private boolean crossed = false;
 
-    public Index(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor) {
+    public Index(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain) {
         this.intake = intake;
         this.intakePistons = intakePistons;
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;
         this.linebreakSensor = linebreakSensor;
+        this.drivetrain = drivetrain;
 
         addRequirements(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor);
     }
@@ -39,8 +42,6 @@ public class Index extends CommandBase {
         if(!linebreakSensor.isCrossed()) {
             conveyor.setVelocity(3);
         }
-        // Set the intake velocity
-        intake.setVelocity(3);
 
         crossed = false;
     }
@@ -51,8 +52,8 @@ public class Index extends CommandBase {
         if(linebreakSensor.isCrossed()) {
             conveyor.setVelocity(0);
             if(crossed == false) {
-                rightKicker.setGoal(rightKicker.getPosition());
-                leftKicker.setGoal(leftKicker.getPosition());
+                rightKicker.setGoal(rightKicker.getPosition() - 0.1);
+                leftKicker.setGoal(leftKicker.getPosition() - 0.1);
             }
             crossed = true;
             // rightKicker.disable();
@@ -62,20 +63,8 @@ public class Index extends CommandBase {
             leftKicker.setGoal(leftKicker.getPosition() + 0.1);
         }
 
-        // TODO Implement hasBall method into conveyor
-        /*
-        Check if the conveyor has a ball. If it does, move the ball 1 meter into the kicker. 
-            Remember that the kicker will still be running if there isn't a ball already. If there isn't, the kicker will move the ball up until its at the linebreak point.
-        If the conveyor doesn't have a ball, simply run the conveyor at 0.5 velocity until it does.
-        */
-        // if(conveyor.hasBall()) {
-        //     conveyor.setVelocity(0);
-        //     conveyor.setControlMode(ControlMode.POSITION);
-        //     conveyor.moveDistance(conveyor.getPosition() + 1);
-        // } else {
-        //     conveyor.setControlMode(ControlMode.VELOCITY);
-        //     conveyor.setVelocity(0.5);
-        // }
+        // Run intake at 2x speed of robot with a min velocity
+        intake.setVelocity(IntakeConstants.MIN_VELOCITY + (Math.abs(drivetrain.getLeftVelocityMetersPerSecond()) + Math.abs(drivetrain.getRightVelocityMetersPerSecond())));
     }
 
     /*
@@ -88,6 +77,6 @@ public class Index extends CommandBase {
         intake.stop();
 
         conveyor.setControlMode(ControlMode.POSITION);
-        conveyor.moveMore(0.2);
+        conveyor.moveMore(0.4);
     }
 }

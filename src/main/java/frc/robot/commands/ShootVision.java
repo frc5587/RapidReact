@@ -45,40 +45,8 @@ public class ShootVision extends CommandBase {
             leftKicker.moveMore(1);
 
             conveyor.setControlMode(ControlMode.VELOCITY);
-            conveyor.setVelocity(2);
-            // if (!linebreakSensor.isCrossed()) {
-            //     rightKicker.moveMore(1);
-            //     leftKicker.moveMore(1);
-
-            //     conveyor.setControlMode(ControlMode.VELOCITY);
-            //     conveyor.setVelocity(2);
-            // } else {
-            //     if (!linebroken) {
-            //         conveyor.setControlMode(ControlMode.POSITION);
-            //         conveyor.moveMore(0.5);
-            //         rightKicker.moveMore(.4);
-            //         leftKicker.moveMore(.4);
-            //     }
-
-            //     linebroken = true;
-
-            // }
+            conveyor.setVelocity(1);
         }
-        // While the ball is still in the robot, move it slowly to pop it out of the robot.
-        // if (!linebreakSensor.isCrossed() && !linebroken) {
-        //     rightKicker.moveMore(1);
-        //     leftKicker.moveMore(1);
-        // } else {
-        //     if(!linebroken) {
-        //         conveyor.setControlMode(ControlMode.POSITION);
-        //         conveyor.moveMore(0.5);
-        //         rightKicker.moveMore(.3);
-        //         leftKicker.moveMore(.3);
-        //     }
-        //     linebroken = true;
-        // }
-        // rightKicker.setGoal(rightKicker.getPosition());
-        // leftKicker.setGoal(leftKicker.getPosition());
     }
 
     /*

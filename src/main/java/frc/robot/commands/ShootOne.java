@@ -14,7 +14,7 @@ public class ShootOne extends CommandBase {
     private final Shooter shooter;
     private final DoubleSupplier velocitySupplier;
     private boolean linebroken = false;
-
+    @Deprecated()
     public ShootOne(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Shooter shooter, DoubleSupplier velocitySupplier) {
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;

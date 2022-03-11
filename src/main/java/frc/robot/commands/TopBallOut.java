@@ -11,6 +11,7 @@ public class TopBallOut extends CommandBase {
     private final LinebreakSensor linebreakSensor;
     private final Shooter shooter;
     private boolean linebroken = false;
+    private boolean wasCrossedInBeginning = false;
 
     public TopBallOut(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Shooter shooter) {
         this.conveyor = conveyor;
@@ -35,6 +36,10 @@ public class TopBallOut extends CommandBase {
         if(!linebreakSensor.isCrossed()) {
             conveyor.setControlMode(ControlMode.VELOCITY);
             conveyor.setVelocity(1);
+        } else {
+            rightKicker.moveMore(-.2);
+            leftKicker.moveMore(-.2);
+            wasCrossedInBeginning = true;
         }
 
         linebroken = false;
@@ -42,6 +47,14 @@ public class TopBallOut extends CommandBase {
 
     @Override
     public void execute() {
+        if (wasCrossedInBeginning && (rightKicker.isDone() || leftKicker.isDone())) {
+            wasCrossedInBeginning = false;
+        } else if (wasCrossedInBeginning && !linebreakSensor.isCrossed()) {
+            wasCrossedInBeginning = false;
+        } else if (wasCrossedInBeginning ) {
+            return;
+        }
+
         // While the ball is still in the robot, move it slowly to pop it out of the robot.
         if (!linebreakSensor.isCrossed() && !linebroken) {
             rightKicker.moveMore(1);
