@@ -91,11 +91,11 @@ public class RobotContainer {
     bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
     xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
 
-    leftStickX.and(rightTrigger)
-        .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftX));
+    leftStickY.and(rightTrigger)
+        .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
 
     rightStickX.and(rightTrigger)
-        .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightX));
+        .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
 
     dpadDown.and(rightTrigger)
         .whileActiveOnce(new SequentialCommandGroup(
