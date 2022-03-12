@@ -12,7 +12,10 @@ import org.frc5587.lib.control.*;
 
 import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
+import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -96,6 +99,15 @@ public class RobotContainer {
             new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
             new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    // define auto command groups here so they can be referenced anywhere
+    private Command pos1;
+    private Command pos2;
+    private Command pos3;
+    private Command pos4;
+
+    // Other
+    SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -107,6 +119,8 @@ public class RobotContainer {
         turret.setDefaultCommand(throttleTurret);
         // Driver Station configuration
         // DriverStation.silenceJoystickConnectionWarning(true);
+        // Add autonomous commands
+        buildAutos();
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -209,17 +223,12 @@ public class RobotContainer {
       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     * 
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        Command pos1 = new ParallelCommandGroup(
+    public void buildAutos() {
+        this.pos1 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, firstSteal1),
                         new ParallelCommandGroup(index, secondSteal),
                         stash,
@@ -228,11 +237,11 @@ public class RobotContainer {
                 )
         );
 
-        Command pos2 = new ParallelCommandGroup(
+        this.pos2 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, firstSteal2),
                         new ParallelCommandGroup(index, secondSteal),
                         stash,
@@ -241,31 +250,45 @@ public class RobotContainer {
                 )
         );
 
-        Command pos3 = new ParallelCommandGroup(
+        this.pos3 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, second3),
                         new ParallelCommandGroup(index, third3),
                         finalshoot3,
-                        shootVision
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision)
                 )
         );
 
-        Command pos4 = new ParallelCommandGroup(
+        this.pos4 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
                         firstshoot4,
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, second4),
                         new ParallelCommandGroup(index, third4),
                         finalshoot4,
-                        shootVision
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision)
                 )
         );
 
-        return pos1;
+        autoChooser.addOption("Position 1", pos1);
+        autoChooser.addOption("Position 2", pos2);
+        autoChooser.addOption("Position 3", pos3);
+        autoChooser.addOption("Position 4", pos4);
+        autoChooser.setDefaultOption("Field Position 1", pos1);
+        SmartDashboard.putData(autoChooser);
+    }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     * 
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+        // return pos1;
     }
 }
