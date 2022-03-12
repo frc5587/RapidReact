@@ -203,6 +203,10 @@ public class RobotContainer {
     leftStickY.and(rightTrigger)
         .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
 
+        // Uncomment for manual climb throttle
+    // rightStickY.and(rightTrigger.negate())
+    //   .whileActiveOnce(new ManualClimbThrottle(innerRightClimb, innerLeftClimb, xb::getRightY));
+
     rightStickX.and(rightTrigger)
         .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
 
