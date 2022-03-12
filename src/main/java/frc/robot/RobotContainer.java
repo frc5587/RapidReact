@@ -11,7 +11,6 @@ import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -76,6 +75,12 @@ public class RobotContainer {
             new AutoPath("third 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper third4 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("third 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    private final RamseteCommandWrapper firstshoot4 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("firstshoot 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    private final RamseteCommandWrapper finalshoot3 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("finalshoot 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    private final RamseteCommandWrapper finalshoot4 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("finalshoot 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper firstSteal1 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("first steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper firstSteal2 = new RamseteCommandWrapper(drivetrain,
@@ -174,38 +179,56 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // TODO: add targeting code!!!!!
-        Command pos1 = new SequentialCommandGroup(
-                new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
-                shootVision,
-                new ParallelCommandGroup(index, firstSteal1),
-                new ParallelCommandGroup(index, secondSteal),
-                stash,
-                topBallOut,
-                bottomBallOut);
+        Command pos1 = new ParallelCommandGroup(
+                lockTurret,
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
+                        shootVision,
+                        new ParallelCommandGroup(index, firstSteal1),
+                        new ParallelCommandGroup(index, secondSteal),
+                        stash,
+                        topBallOut,
+                        bottomBallOut
+                )
+        );
 
-        Command pos2 = new SequentialCommandGroup(
-                new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
-                shootVision,
-                new ParallelCommandGroup(index, firstSteal2),
-                new ParallelCommandGroup(index, secondSteal),
-                stash,
-                topBallOut,
-                bottomBallOut);
+        Command pos2 = new ParallelCommandGroup(
+                lockTurret,
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
+                        shootVision,
+                        new ParallelCommandGroup(index, firstSteal2),
+                        new ParallelCommandGroup(index, secondSteal),
+                        stash,
+                        topBallOut,
+                        bottomBallOut
+                )
+        );
 
-        Command pos3 = new SequentialCommandGroup(
-                new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
-                new ParallelCommandGroup(index, second3),
-                shootVision,
-                new ParallelCommandGroup(index, third3),
-                shootVision);
+        Command pos3 = new ParallelCommandGroup(
+                lockTurret,
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
+                        shootVision,
+                        new ParallelCommandGroup(index, second3),
+                        new ParallelCommandGroup(index, third3),
+                        finalshoot3,
+                        shootVision
+                )
+        );
 
-        Command pos4 = new SequentialCommandGroup(
-                new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
-                new ParallelCommandGroup(index, second4),
-                shootVision,
-                new ParallelCommandGroup(index, third4),
-                shootVision);
+        Command pos4 = new ParallelCommandGroup(
+                lockTurret,
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
+                        firstshoot4,
+                        shootVision,
+                        new ParallelCommandGroup(index, second4),
+                        new ParallelCommandGroup(index, third4),
+                        finalshoot4,
+                        shootVision
+                )
+        );
 
         return pos1;
     }
