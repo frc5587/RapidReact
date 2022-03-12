@@ -52,12 +52,11 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
     }
     public static final class AutoConstants {
-        //TODO: CHARACTERIZE WITH BUMPERS AND ARMS!!
-        public static final double KS = 0.66175;
-        public static final double KV = 2.4683;
-        public static final double KA = 0.29586;
+        public static final double KS = 0.68416;
+        public static final double KV = 2.4928;
+        public static final double KA = 0.3566;
         public static final double KP = 3.2643;
-        public static final double TRACK_WIDTH = 0.648;
+        public static final double TRACK_WIDTH = 6.8856;
 
         public static final double MAXIMUM_VELOCITY = 3; // m/s
         public static final double MAXIMUM_ACCELERATION = 3; // m/s^2
