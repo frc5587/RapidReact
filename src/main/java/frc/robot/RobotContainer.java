@@ -180,17 +180,12 @@ public class RobotContainer {
         //         .whileHeld(shootVision);
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     * 
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
+    public void buildAutos() {
         Command pos1 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, firstSteal1),
                         new ParallelCommandGroup(index, secondSteal),
                         stash,
@@ -203,7 +198,7 @@ public class RobotContainer {
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, firstSteal2),
                         new ParallelCommandGroup(index, secondSteal),
                         stash,
@@ -216,11 +211,11 @@ public class RobotContainer {
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, second3),
                         new ParallelCommandGroup(index, third3),
                         finalshoot3,
-                        shootVision
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision)
                 )
         );
 
@@ -229,11 +224,11 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
                         firstshoot4,
-                        shootVision,
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
                         new ParallelCommandGroup(index, second4),
                         new ParallelCommandGroup(index, third4),
                         finalshoot4,
-                        shootVision
+                        new ParallelRaceGroup(new WaitCommand(6), shootVision)
                 )
         );
 
@@ -243,7 +238,13 @@ public class RobotContainer {
         autoChooser.addOption("Position 4", pos4);
         autoChooser.setDefaultOption("Field Position 1", pos1);
         SmartDashboard.putData(autoChooser);
-
+    }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     * 
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
         return autoChooser.getSelected();
         // return pos1;
     }
