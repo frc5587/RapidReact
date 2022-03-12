@@ -49,6 +49,10 @@ public class Turret extends ProfiledPIDSubsystem {
 
     public void setPosition(double position) {
         if(position >= upperLimit || position <= lowerLimit) {
+            System.out.println((Math.abs(getPositionRadians())) +  "  " + (Math.abs(position)));
+            if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
+                setGoal(position);
+            }
             System.out.println(position + " is not allowed.");
         } else {
             setGoal(position);
@@ -86,23 +90,23 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        if(getPositionRadians() >= upperLimit || getPositionRadians() <= lowerLimit) {
-            if((setpoint.velocity < 0 && getPositionRadians() <= lowerLimit) || (setpoint.velocity > 0 && setpoint.position >= upperLimit)) {
-                turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+        // if(getPositionRadians() >= upperLimit || getPositionRadians() <= lowerLimit) {
+        //     if((setpoint.velocity < 0 && getPositionRadians() <= lowerLimit) || (setpoint.velocity > 0 && setpoint.position >= upperLimit)) {
+        //         turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
                 
-                SmartDashboard.putNumber("voltage", TurretConstants.TURRET_FF.calculate((setpoint.velocity - lastSetpoint.velocity)/.02) + output);
-                SmartDashboard.putNumber("Goal Velocity", setpoint.velocity);
-                SmartDashboard.putNumber("Goal Acceleration", (setpoint.velocity - lastSetpoint.velocity)/.02);
-                SmartDashboard.putNumber("Goal Position", setpoint.position);
+        //         SmartDashboard.putNumber("voltage", TurretConstants.TURRET_FF.calculate((setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+        //         SmartDashboard.putNumber("Goal Velocity", setpoint.velocity);
+        //         SmartDashboard.putNumber("Goal Acceleration", (setpoint.velocity - lastSetpoint.velocity)/.02);
+        //         SmartDashboard.putNumber("Goal Position", setpoint.position);
                 
-                lastSetpoint = setpoint;
-            } else {
-                stopTurret();
-            }
-        } else {
+        //         lastSetpoint = setpoint;
+        //     } else {
+        //         // stopTurret();
+        //     }
+        // } else {
             turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
             lastSetpoint = setpoint;
-        }
+        // }
 
         // System.out.println("" + output + "  " + TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02));
     }

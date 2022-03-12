@@ -52,6 +52,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void disable() {
+        stop();
         enabled = false;
         stopVoltage();
     }
@@ -104,7 +105,7 @@ public class Shooter extends SubsystemBase {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
         
-        if(getVelocity() != 0)
-            System.out.println(getVelocity() + "  " + getSmartDashboard() + "  "+ setpoint + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
+        // if(getVelocity() != 0)
+            // System.out.println(getVelocity() + "  " + getSmartDashboard() + "  "+ setpoint + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
     }
 }

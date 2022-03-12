@@ -144,7 +144,7 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final int GEARING = 90;
 
-        public static final double LIMIT = Units.degreesToRadians(60);
+        public static final double LIMIT = Units.degreesToRadians(30);
     }
     /*
     SHOOTER
