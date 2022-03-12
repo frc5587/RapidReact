@@ -46,10 +46,10 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
-    private final Climb outerLeftClimb = Climb.createInnerRightArm();
+    private final Climb outerLeftClimb = Climb.createOuterLeftArm();
     private final Climb outerRightClimb = Climb.createOuterRightArm();
     private final Climb innerLeftClimb = Climb.createInnerLeftArm();
-    private final Climb innerRightClimb = Climb.createOuterLeftArm();
+    private final Climb innerRightClimb = Climb.createInnerRightArm();
     private final ClimbPistons climbPistons = new ClimbPistons();
 
     // Commands
@@ -120,7 +120,7 @@ public class RobotContainer {
         // Driver Station configuration
         // DriverStation.silenceJoystickConnectionWarning(true);
         // Add autonomous commands
-        buildAutos();
+        // buildAutos();
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -148,7 +148,7 @@ public class RobotContainer {
 
         // Xbox Controller triggers
         Trigger leftTrigger = new Trigger(xb::getLeftTrigger);
-        Trigger rightTrigger = new Trigger(xb::getLeftTrigger);
+        Trigger rightTrigger = new Trigger(xb::getRightTrigger);
 
         // Xbox Controller bumpers
         Trigger leftBumper = new JoystickButton(xb, DeadbandXboxController.Button.kLeftBumper.value);
@@ -161,10 +161,10 @@ public class RobotContainer {
             return xb.getLeftX() != 0;
         });
         Trigger rightStickY = new Trigger(() -> {
-            return xb.getLeftY() != 0;
+            return xb.getRightY() != 0;
         });
         Trigger rightStickX = new Trigger(() -> {
-            return xb.getLeftX() != 0;
+            return xb.getRightX() != 0;
         });
 
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
@@ -188,6 +188,9 @@ public class RobotContainer {
         leftBumper.whileActiveOnce(fireWhenReady);
 
 
+        // dpadUp
+        //         .whileActiveOnce(new TestKicker(rightKicker, leftKicker));
+
         /**
          * SHOOTER
          */
@@ -196,36 +199,38 @@ public class RobotContainer {
 
         // Climb
         
-    aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
-    bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
-    xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
+//     aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
+//     bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
+//     xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
 
-    leftStickY.and(rightTrigger)
-        .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
+//     leftStickY.and(rightTrigger)
+//         .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
 
-    rightStickX.and(rightTrigger)
-        .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
+//     rightStickX.and(rightTrigger)
+//         .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
 
-    dpadDown.and(rightTrigger)
-        .whileActiveOnce(new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
-                new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
-                // ,new ToggleClimbPistons(climbPistons)
-                )));
+//     dpadDown.and(rightTrigger)
+//         .whileActiveOnce(new SequentialCommandGroup(
+//             new ParallelCommandGroup(
+//                 new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
+//                 new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
+//                 // ,new ToggleClimbPistons(climbPistons)
+//                 )));
 
-    dpadLeft.and(rightTrigger)
-        .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
+//     dpadLeft.and(rightTrigger)
+//         .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
 
-    dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
-      new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
-      new WaitCommand(0.5),
-      new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
+//     dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
+//       new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
+//       new WaitCommand(0.5),
+//       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
+
+        rightTrigger.and(rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
     }
 
     public void buildAutos() {
         this.pos1 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
                         new ParallelRaceGroup(new WaitCommand(6), shootVision),
@@ -238,7 +243,7 @@ public class RobotContainer {
         );
 
         this.pos2 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
                         new ParallelRaceGroup(new WaitCommand(6), shootVision),
@@ -251,7 +256,7 @@ public class RobotContainer {
         );
 
         this.pos3 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
                         new ParallelRaceGroup(new WaitCommand(6), shootVision),
@@ -263,7 +268,7 @@ public class RobotContainer {
         );
 
         this.pos4 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
                         firstshoot4,
@@ -288,7 +293,10 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        // buildAutos();
+        // return autoChooser.getSelected();
+        return new ParallelCommandGroup(new SequentialCommandGroup(new ParallelRaceGroup(first1.setOdometryToFirstPoseOnStart(), new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
+        drivetrain)), new ParallelCommandGroup(new SpinUpShooter(shooter, limelight), new FireWhenReady(conveyor, leftKicker, rightKicker, shooter))), new LockTurret(turret, limelight, drivetrain));
         // return pos1;
     }
 }

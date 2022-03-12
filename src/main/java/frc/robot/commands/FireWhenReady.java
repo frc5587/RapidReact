@@ -26,15 +26,19 @@ public class FireWhenReady extends CommandBase {
     public void initialize() {
         rightKicker.enable();
         leftKicker.enable();
+        // conveyor.enable();
+        conveyor.setControlMode(ControlMode.VELOCITY);
+        conveyor.setVelocity(0);
     }
 
     @Override
     public void execute() {
         if (shooter.atSetpoint()) {
+            System.out.println(rightKicker.getPosition() + "  " + leftKicker.getPosition());
+
             rightKicker.moveMore(1);
             leftKicker.moveMore(1);
 
-            conveyor.setControlMode(ControlMode.VELOCITY);
             conveyor.setVelocity(1);
         }
     }
@@ -45,7 +49,6 @@ public class FireWhenReady extends CommandBase {
     @Override
     public void end(boolean interruptable) {
         conveyor.setControlMode(ControlMode.OFF);
-        shooter.disable();
         rightKicker.disable();
         leftKicker.disable();
     }

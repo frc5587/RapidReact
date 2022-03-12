@@ -49,7 +49,7 @@ public class Turret extends ProfiledPIDSubsystem {
 
     public void setPosition(double position) {
         if(position >= upperLimit || position <= lowerLimit) {
-            System.out.println((Math.abs(getPositionRadians())) +  "  " + (Math.abs(position)));
+            // System.out.println((Math.abs(getPositionRadians())) +  "  " + (Math.abs(position)));
             if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
                 setGoal(position);
             }

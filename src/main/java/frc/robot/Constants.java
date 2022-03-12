@@ -60,10 +60,10 @@ public final class Constants {
         public static final double KV = 2.4928;
         public static final double KA = 0.3566;
         public static final double KP = 3.2643;
-        public static final double TRACK_WIDTH = 6.8856;
+        public static final double TRACK_WIDTH = 0.419;
 
-        public static final double MAXIMUM_VELOCITY = 3; // m/s
-        public static final double MAXIMUM_ACCELERATION = 3; // m/s^2
+        public static final double MAXIMUM_VELOCITY = 1; // m/s
+        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
             TRACK_WIDTH);
@@ -105,10 +105,10 @@ public final class Constants {
         public static final int INNER_CLIMB_RIGHT_MOTOR = 55;
         public static final int INNER_CLIMB_LEFT_MOTOR = 56;
 
-        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = false;
-        public static final boolean OUTER_CLIMB_LEFT_MOTOR_INVERTED = true;
-        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true;
-        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = false;
+        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = true;
+        public static final boolean OUTER_CLIMB_LEFT_MOTOR_INVERTED = false;
+        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true; // false
+        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = true; // true
 
         // public static final double MIN_VELOCITY_FORWARD = 3;
         // public static final double MIN_VELOCITY_REVERSE = -5;
@@ -184,7 +184,7 @@ public final class Constants {
         public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.067363, 1.9044, 0.14625);
         public static final PIDController RIGHT_KICKER_PID = new PIDController(4.4195, 0, 0);
         public static final PIDController LEFT_KICKER_PID = new PIDController(3.5583, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20); // TODO Should bethe same as conveyor
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Should bethe same as conveyor
 
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -231,7 +231,7 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
 
         // limelight constants
-        public static final double GOAL_HEIGHT_METERS = 2.578;
+        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(103);//2.578;
         public static final double LENS_HEIGHT = 0.813;
         public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.7;

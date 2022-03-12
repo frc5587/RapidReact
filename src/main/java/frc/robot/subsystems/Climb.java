@@ -73,17 +73,22 @@ public class Climb extends ProfiledPIDSubsystem {
         }
     }
 
+    public void throttle(double throttle) {
+        disable();
+        climbMotor.set(throttle);
+    }
+
     public void positionThrottle(double throttle) {
         setPosition(getPosition() + ClimbConstants.CONSTRAINTS.maxVelocity * 2 * 0.02 * throttle, false);
     }
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        if (getPosition() < ClimbConstants.LOWER_LIMIT || getPosition() > ClimbConstants.UPPER_lIMIT) {
-            if ((setpoint.velocity < 0 && getPosition() < ClimbConstants.LOWER_LIMIT) || (setpoint.velocity > 0 && getPosition() > ClimbConstants.UPPER_lIMIT)) {
-                return; // do nothing,
-            }
-        }
+        // if (getPosition() < ClimbConstants.LOWER_LIMIT || getPosition() > ClimbConstants.UPPER_lIMIT) {
+        //     if ((setpoint.velocity < 0 && getPosition() < ClimbConstants.LOWER_LIMIT) || (setpoint.velocity > 0 && getPosition() > ClimbConstants.UPPER_lIMIT)) {
+        //         return; // do nothing,
+        //     }
+        // }
         double ff = 0;
         if (isLoaded) {
             ff = ClimbConstants.LOADED_ELEVATOR_FF.calculate(setpoint.velocity);
@@ -96,11 +101,11 @@ public class Climb extends ProfiledPIDSubsystem {
     }
 
     public static Climb createInnerRightArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_RIGHT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterRightArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR_INVERTED);
     }
 
     public static Climb createInnerLeftArm() {
@@ -108,6 +113,6 @@ public class Climb extends ProfiledPIDSubsystem {
     }
 
     public static Climb createOuterLeftArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.OUTER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 }

@@ -29,7 +29,7 @@ public class ThrottleTurret extends CommandBase {
         double movePercent = xb.getLeftX();
         double position = TurretConstants.LIMIT * movePercent;
         // System.out.println(positionSupplier.getAsDouble());
-        System.out.println(xb.getLeftX() + "   " + position);
+        // System.out.println(xb.getLeftX() + "   " + position);
 
         turret.setPosition(position);
     }
