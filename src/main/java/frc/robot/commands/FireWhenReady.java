@@ -46,6 +46,7 @@ public class FireWhenReady extends CommandBase {
     @Override
     public void end(boolean interruptable) {
         conveyor.setControlMode(ControlMode.OFF);
+        shooter.disable();
         rightKicker.disable();
         leftKicker.disable();
     }

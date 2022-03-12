@@ -114,7 +114,7 @@ public class Drivetrain extends DrivetrainBase {
         angularVelocity = (getRotation2d().getRadians() - lastRotation.getRadians()) / .02;
         lastRotation = getRotation2d();
 
-        System.out.println(angularVelocity);
+        // System.out.println(angularVelocity);
 
         field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
         SmartDashboard.putNumber("Pose X", getPose().getX());

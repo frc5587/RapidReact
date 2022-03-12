@@ -25,13 +25,13 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
-        System.out.println("Execute LockTurret");
+        // System.out.println("Execute LockTurret");
         if(limelight.hasTarget()) {
             double error = limelight.getHorizontalAngle();
             // System.out.println(turret.getPositionRadians() - error + "  " + turret.getPositionRadians() + "  " + limelight.getHorizontalAngle());
              
-            if (Math.abs(error) > 0.02) {
-                turret.setVelocityAtPosition(turret.getPositionRadians() - error, drivetrain.getAngularVelocity());
+            if (Math.abs(error) > 0.03) {
+                turret.setPosition(turret.getPositionRadians() - error);
             }
         }
     }

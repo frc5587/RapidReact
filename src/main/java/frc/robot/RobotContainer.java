@@ -29,7 +29,7 @@ public class RobotContainer {
     private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
     // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
     // // for TankDrive
-    private final DeadbandXboxController xb = new DeadbandXboxController(1, 1.5);
+    private final DeadbandXboxController xb = new DeadbandXboxController(1, .1);
 
     // Subsystems
     private final Drivetrain drivetrain = new Drivetrain();
@@ -55,7 +55,7 @@ public class RobotContainer {
     private final ShootVision shootVision = new ShootVision(conveyor, rightKicker, leftKicker, linebreakSensor, shooter,
             limelight);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
-    private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
+    private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
 
@@ -142,8 +142,10 @@ public class RobotContainer {
 
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
-        limelightTrigger.whenActive(lockTurret);
+        limelightTrigger.whileActiveOnce(lockTurret);
 
+        // leftStickX.whileActiveOnce(throttleTurret).negate().whileActiveOnce(lockTurret);
+// 
         /**
          * INTAKE
          */
@@ -155,15 +157,15 @@ public class RobotContainer {
         yButton.and(leftTrigger)
                 .whileActiveOnce(topBallOut);
 
-        aButton.whenActive(spinUpShooter);
-        leftBumper.whenActive(fireWhenReady);
+        aButton.whileActiveOnce(spinUpShooter);
+        leftBumper.whileActiveOnce(fireWhenReady);
 
 
         /**
          * SHOOTER
          */
-        xButton
-                .whileHeld(shootVision);
+        // xButton
+        //         .whileHeld(shootVision);
     }
 
     /**
