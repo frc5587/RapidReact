@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import org.frc5587.lib.control.DeadbandXboxController;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;

@@ -9,7 +9,6 @@ public class FireWhenReady extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker leftKicker, rightKicker;
     private final Shooter shooter;
-    private boolean linebroken = false;
 
     public FireWhenReady(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, Shooter shooter) {
         this.conveyor = conveyor;

@@ -8,7 +8,6 @@ public class LockTurret extends CommandBase {
     private Turret turret;
     private Limelight limelight;
     private Drivetrain drivetrain;
-    private boolean hasTarget = false;
 
     public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain) {
         this.turret = turret;

@@ -54,24 +54,24 @@ public class Drivetrain extends DrivetrainBase {
     @Override
     public void configureMotors() {
         leftLeader.configFactoryDefault();
-        leftFollower.configFactoryDefault();
         rightLeader.configFactoryDefault();
+        leftFollower.configFactoryDefault();
         rightFollower.configFactoryDefault();
 
         leftLeader.setNeutralMode(NeutralMode.Brake);
-        leftFollower.setNeutralMode(NeutralMode.Brake);
         rightLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
         rightFollower.setNeutralMode(NeutralMode.Brake);
 
         leftLeader.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
-        leftFollower.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
         rightLeader.setInverted(DrivetrainConstants.RIGHT_SIDE_INVERTED);
+        leftFollower.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
         rightFollower.setInverted(DrivetrainConstants.RIGHT_SIDE_INVERTED);
 
-        leftLeader.configStatorCurrentLimit(DrivetrainConstants.STATOR_CURRENT_LIMIT_CONFIGURATION);
-        rightLeader.configStatorCurrentLimit(DrivetrainConstants.STATOR_CURRENT_LIMIT_CONFIGURATION);
-        leftFollower.configStatorCurrentLimit(DrivetrainConstants.STATOR_CURRENT_LIMIT_CONFIGURATION);
-        rightFollower.configStatorCurrentLimit(DrivetrainConstants.STATOR_CURRENT_LIMIT_CONFIGURATION);
+        leftLeader.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
+        rightLeader.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
+        leftFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
+        rightFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
 
         resetEncoders();
     }

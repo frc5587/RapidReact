@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
-import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
 
+import org.frc5587.lib.auto.*;
+import org.frc5587.lib.control.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
@@ -28,7 +30,7 @@ public class RobotContainer {
     private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
     // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
     // // for TankDrive
-    private final DeadbandXboxController xb = new DeadbandXboxController(1, .1);
+    private final DeadbandXboxController xb = new DeadbandXboxController(1);
 
     // Subsystems
     private final Drivetrain drivetrain = new Drivetrain();
@@ -41,6 +43,11 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
+    private final Climb outerLeftClimb = Climb.createInnerRightArm();
+    private final Climb outerRightClimb = Climb.createOuterRightArm();
+    private final Climb innerLeftClimb = Climb.createInnerLeftArm();
+    private final Climb innerRightClimb = Climb.createOuterLeftArm();
+    private final ClimbPistons climbPistons = new ClimbPistons();
 
     // Commands
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
@@ -123,6 +130,7 @@ public class RobotContainer {
         // Xbox Controller POV buttons
         POVButton dpadUp = new POVButton(xb, 0);
         POVButton dpadDown = new POVButton(xb, 180);
+        POVButton dpadLeft = new POVButton(xb, 90);
 
         // Xbox Controller triggers
         Trigger leftTrigger = new Trigger(xb::getLeftTrigger);
@@ -132,18 +140,18 @@ public class RobotContainer {
         Trigger leftBumper = new JoystickButton(xb, DeadbandXboxController.Button.kLeftBumper.value);
 
         // Xbox Controller sticks
-        // Trigger leftStickY = new Trigger(() -> {
-        //     return xb.getLeftY() != 0;
-        // });
-        // Trigger leftStickX = new Trigger(() -> {
-        //     return xb.getLeftX() != 0;
-        // });
-        // Trigger rightStickY = new Trigger(() -> {
-        //     return xb.getLeftY() != 0;
-        // });
-        // Trigger rightStickX = new Trigger(() -> {
-        //     return xb.getLeftX() != 0;
-        // });
+        Trigger leftStickY = new Trigger(() -> {
+            return xb.getLeftY() != 0;
+        });
+        Trigger leftStickX = new Trigger(() -> {
+            return xb.getLeftX() != 0;
+        });
+        Trigger rightStickY = new Trigger(() -> {
+            return xb.getLeftY() != 0;
+        });
+        Trigger rightStickX = new Trigger(() -> {
+            return xb.getLeftX() != 0;
+        });
 
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
@@ -171,6 +179,34 @@ public class RobotContainer {
          */
         // xButton
         //         .whileHeld(shootVision);
+
+        // Climb
+        
+    aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
+    bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
+    xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
+
+    leftStickY.and(rightTrigger)
+        .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
+
+    rightStickX.and(rightTrigger)
+        .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
+
+    dpadDown.and(rightTrigger)
+        .whileActiveOnce(new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
+                new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
+                // ,new ToggleClimbPistons(climbPistons)
+                )));
+
+    dpadLeft.and(rightTrigger)
+        .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
+
+    dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
+      new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
+      new WaitCommand(0.5),
+      new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
     }
 
     /**
