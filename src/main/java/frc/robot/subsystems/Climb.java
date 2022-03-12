@@ -19,6 +19,7 @@ public class Climb extends ProfiledPIDSubsystem {
     private ElevatorFeedforward feedforward;
     private boolean motorInverted;
     private State lastSetpoint = new State(0, 0);
+    private boolean isLoaded;
 
     public Climb(int motorId, ElevatorFeedforward feedforward, PIDController PID, boolean motorInverted) {
         super(new ProfiledPIDController(
@@ -63,16 +64,17 @@ public class Climb extends ProfiledPIDSubsystem {
         return getPosition();
     }
 
-    public void setPosition(double position) {
+    public void setPosition(double position, boolean isLoaded) {
         if (position < ClimbConstants.LOWER_LIMIT || position > ClimbConstants.UPPER_lIMIT) {
             System.out.println(position + " is out of bounds for climb");
         } else {
+            this.isLoaded = isLoaded;
             setGoal(position);
         }
     }
 
     public void positionThrottle(double throttle) {
-        setPosition(getPosition() + ClimbConstants.CONSTRAINTS.maxVelocity * 2 * 0.02 * throttle);
+        setPosition(getPosition() + ClimbConstants.CONSTRAINTS.maxVelocity * 2 * 0.02 * throttle, false);
     }
 
     @Override
@@ -82,25 +84,30 @@ public class Climb extends ProfiledPIDSubsystem {
                 return; // do nothing,
             }
         }
-        double ff = feedforward.calculate(setpoint.velocity);
+        double ff = 0;
+        if (isLoaded) {
+            ff = ClimbConstants.LOADED_ELEVATOR_FF.calculate(setpoint.velocity);
+        } else {
+            ff = ClimbConstants.UNLOADED_ELEVATOR_FF.calculate(setpoint.velocity);
+        }
         lastSetpoint = setpoint;
 
         climbMotor.setVoltage(ff + output);
     }
 
     public static Climb createInnerRightArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.UNLOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterRightArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_RIGHT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createInnerLeftArm() {
-        return new Climb(ClimbConstants.INNER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.INNER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 
     public static Climb createOuterLeftArm() {
-        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.LOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
+        return new Climb(ClimbConstants.OUTER_CLIMB_LEFT_MOTOR, ClimbConstants.LOADED_ELEVATOR_FF, ClimbConstants.UNLOADED_ELEVATOR_PID, ClimbConstants.INNER_CLIMB_LEFT_MOTOR_INVERTED);
     }
 }

@@ -71,7 +71,7 @@ public class RobotContainer {
 
     // Xbox Controller triggers
     Trigger leftTrigger = new Trigger(() -> xb.getLeftTrigger());
-    Trigger rightTrigger = new Trigger(() -> xb.getLeftTrigger());
+    Trigger rightTrigger = new Trigger(() -> xb.getRightTrigger());
 
     // Xbox Controller sticks
     Trigger leftStickY = new Trigger(() -> {
@@ -100,18 +100,18 @@ public class RobotContainer {
     dpadDown.and(rightTrigger)
         .whileActiveOnce(new SequentialCommandGroup(
             new ParallelCommandGroup(
-                new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT),
-                new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT)
+                new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
+                new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
                 // ,new ToggleClimbPistons(climbPistons)
                 )));
 
     dpadLeft.and(rightTrigger)
-        .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT));
+        .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
 
     dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
-      new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT),
+      new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
       new WaitCommand(0.5),
-      new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT)));
+      new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
 
     // dpadRight.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
     //   new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT),

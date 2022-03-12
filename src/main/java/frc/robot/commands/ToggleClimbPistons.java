@@ -15,6 +15,7 @@ public class ToggleClimbPistons extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("asdfasdf");
         if(climbPistons.pistonSet1.get() == Value.kReverse) {
             climbPistons.pistonSet1.set(Value.kForward);
             climbPistons.pistonSet2.set(Value.kReverse);

@@ -29,9 +29,9 @@ public final class Constants {
         public static final int INNER_CLIMB_RIGHT_MOTOR = 55;
         public static final int INNER_CLIMB_LEFT_MOTOR = 56;
 
-        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = true;
+        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = false;
         public static final boolean OUTER_CLIMB_LEFT_MOTOR_INVERTED = true;
-        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = false;
+        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true;
         public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = false;
 
         // public static final double MIN_VELOCITY_FORWARD = 3;
@@ -50,8 +50,8 @@ public final class Constants {
         public static final PIDController UNLOADED_ELEVATOR_PID = new PIDController(0.73455, 0, 0);
         public static final ElevatorFeedforward UNLOADED_ELEVATOR_FF = new ElevatorFeedforward(0.1956, -0.1091, 11.122, 0.53986);
 
-        public static final PIDController LOADED_ELEVATOR_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward LOADED_ELEVATOR_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        public static final PIDController LOADED_ELEVATOR_PID = new PIDController(79.132, 0, 0);
+        public static final ElevatorFeedforward LOADED_ELEVATOR_FF = new ElevatorFeedforward(0.47132*2, 12.091*2, 0.95364*2, 0.821*2);
 
         // velocity and acceleration constraints
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1);
