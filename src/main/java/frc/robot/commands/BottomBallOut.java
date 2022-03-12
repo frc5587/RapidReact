@@ -31,10 +31,6 @@ public class BottomBallOut extends CommandBase {
         intake.setVelocity(-3);
     }
 
-    @Override
-    public void execute() {
-    }
-
     /*
     When the command ends, stop the conveyor & intake, then retract the intake.
     */

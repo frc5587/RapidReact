@@ -139,18 +139,18 @@ public class RobotContainer {
         Trigger leftBumper = new JoystickButton(xb, DeadbandXboxController.Button.kLeftBumper.value);
 
         // Xbox Controller sticks
-        Trigger leftStickY = new Trigger(() -> {
-            return xb.getLeftY() != 0;
-        });
-        Trigger leftStickX = new Trigger(() -> {
-            return xb.getLeftX() != 0;
-        });
-        Trigger rightStickY = new Trigger(() -> {
-            return xb.getLeftY() != 0;
-        });
-        Trigger rightStickX = new Trigger(() -> {
-            return xb.getLeftX() != 0;
-        });
+        // Trigger leftStickY = new Trigger(() -> {
+        //     return xb.getLeftY() != 0;
+        // });
+        // Trigger leftStickX = new Trigger(() -> {
+        //     return xb.getLeftX() != 0;
+        // });
+        // Trigger rightStickY = new Trigger(() -> {
+        //     return xb.getLeftY() != 0;
+        // });
+        // Trigger rightStickX = new Trigger(() -> {
+        //     return xb.getLeftX() != 0;
+        // });
 
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
