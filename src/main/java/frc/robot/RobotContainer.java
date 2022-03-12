@@ -10,7 +10,10 @@ import frc.robot.subsystems.*;
 import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
 
+import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -89,6 +92,10 @@ public class RobotContainer {
             new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
             new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+
+    // Other
+    SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -230,6 +237,14 @@ public class RobotContainer {
                 )
         );
 
-        return pos1;
+        autoChooser.addOption("Position 1", pos1);
+        autoChooser.addOption("Position 2", pos2);
+        autoChooser.addOption("Position 3", pos3);
+        autoChooser.addOption("Position 4", pos4);
+        autoChooser.setDefaultOption("Field Position 1", pos1);
+        SmartDashboard.putData(autoChooser);
+
+        return autoChooser.getSelected();
+        // return pos1;
     }
 }
