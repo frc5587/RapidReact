@@ -92,6 +92,11 @@ public class RobotContainer {
             new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
             new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    // define auto command groups here so they can be referenced anywhere
+    private Command pos1;
+    private Command pos2;
+    private Command pos3;
+    private Command pos4;
 
     // Other
     SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -107,6 +112,8 @@ public class RobotContainer {
         turret.setDefaultCommand(throttleTurret);
         // Driver Station configuration
         // DriverStation.silenceJoystickConnectionWarning(true);
+        // Add autonomous commands
+        buildAutos();
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -181,7 +188,7 @@ public class RobotContainer {
     }
 
     public void buildAutos() {
-        Command pos1 = new ParallelCommandGroup(
+        this.pos1 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
@@ -194,7 +201,7 @@ public class RobotContainer {
                 )
         );
 
-        Command pos2 = new ParallelCommandGroup(
+        this.pos2 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
@@ -207,7 +214,7 @@ public class RobotContainer {
                 )
         );
 
-        Command pos3 = new ParallelCommandGroup(
+        this.pos3 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
@@ -219,7 +226,7 @@ public class RobotContainer {
                 )
         );
 
-        Command pos4 = new ParallelCommandGroup(
+        this.pos4 = new ParallelCommandGroup(
                 lockTurret,
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
