@@ -115,8 +115,6 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(arcadeDrive);
         // drivetrain.setDefaultCommand(tankDrive);
         turret.setDefaultCommand(throttleTurret);
-        // Driver Station configuration
-        // DriverStation.silenceJoystickConnectionWarning(true);
         // Add autonomous commands
         buildAutos();
         // Configure the button bindings
