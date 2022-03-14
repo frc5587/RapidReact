@@ -60,10 +60,10 @@ public final class Constants {
         public static final double KV = 2.4928;
         public static final double KA = 0.3566;
         public static final double KP = 3.2643;
-        public static final double TRACK_WIDTH = 6.8856;
+        public static final double TRACK_WIDTH = 0.419;
 
-        public static final double MAXIMUM_VELOCITY = 3; // m/s
-        public static final double MAXIMUM_ACCELERATION = 3; // m/s^2
+        public static final double MAXIMUM_VELOCITY = 1; // m/s
+        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
             TRACK_WIDTH);
@@ -86,6 +86,9 @@ public final class Constants {
         // motor ids
         public static final int INTAKE_MOTOR = 20;
 
+        public static final int STALL_CURRENT_LIMIT = 35;
+        public static final int FREE_CURRENT_LIMIT = 30;
+        public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // seconds
         public static final boolean MOTOR_INVERTED = false;
 
         public static final SimpleMotorFeedforward INTAKE_FF = new SimpleMotorFeedforward(0.10904, 3.9107, 0.081738);
@@ -105,10 +108,12 @@ public final class Constants {
         public static final int INNER_CLIMB_RIGHT_MOTOR = 55;
         public static final int INNER_CLIMB_LEFT_MOTOR = 56;
 
-        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = false;
-        public static final boolean OUTER_CLIMB_LEFT_MOTOR_INVERTED = true;
-        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true;
-        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = false;
+        public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = true;
+        public static final boolean OUTER_CLIMB_LEFT_MOTOR_INVERTED = false;
+        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true; // false
+        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = true; // true
+        public static final int STALL_CURRENT_LIMIT = 40;
+        public static final int FREE_CURRENT_LIMIT = 35;
 
         // public static final double MIN_VELOCITY_FORWARD = 3;
         // public static final double MIN_VELOCITY_REVERSE = -5;
@@ -158,6 +163,8 @@ public final class Constants {
         public static final int CONVEYOR_MOTOR = 30;
 
         public static final boolean MOTOR_INVERTED = false;
+        public static final int STALL_CURRENT_LIMIT = 35;
+        public static final int FREE_CURRENT_LIMIT = 30;
 
         // PID Constants
         public static final SimpleMotorFeedforward CONVEYOR_FF = new SimpleMotorFeedforward(0.078977, 1.9659, 0.057779);
@@ -176,6 +183,9 @@ public final class Constants {
         public static final int RIGHT_KICKER_MOTOR = 35;
         public static final int LEFT_KICKER_MOTOR = 36;
 
+        public static final int STALL_CURRENT_LIMIT = 35;
+        public static final int FREE_CURRENT_LIMIT = 30;
+
         public static final boolean RIGHT_KICKER_INVERTED = true;
         public static final boolean LEFT_KICKER_INVERTED = false;
 
@@ -184,7 +194,7 @@ public final class Constants {
         public static final SimpleMotorFeedforward LEFT_KICKER_FF = new SimpleMotorFeedforward(0.067363, 1.9044, 0.14625);
         public static final PIDController RIGHT_KICKER_PID = new PIDController(4.4195, 0, 0);
         public static final PIDController LEFT_KICKER_PID = new PIDController(3.5583, 0, 0);
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20); // TODO Should bethe same as conveyor
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Should bethe same as conveyor
 
         public static final int GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
@@ -192,6 +202,8 @@ public final class Constants {
     public static final class TurretConstants {
         public static final int TURRET_MOTOR = 45;
         public static final boolean TURRET_MOTOR_INVERTED = false;
+        public static final int STALL_CURRENT_LIMIT = 35;
+        public static final int FREE_CURRENT_LIMIT = 30;
 
         // PID Constants
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);
@@ -219,11 +231,19 @@ public final class Constants {
 
         public static final boolean SHOOTER_LEADER_INVERTED = false;
         public static final boolean SHOOTER_FOLLOWER_INVERTED = true;
-        
+        public static final int SMART_CURRENT_LIMIT = 35;
+        public static final int HARD_CURRENT_LIMIT = 40;
+        public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // seconds
+        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(
+            true, 
+            DrivetrainConstants.SMART_CURRENT_LIMIT, 
+            DrivetrainConstants.HARD_CURRENT_LIMIT, 
+            DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY
+        );
+
         // PID Constants
         public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.64689, 0.33756, 0.029811);
         public static final PIDController PID = new PIDController(.8, 0, 0);
-        public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(true, 60, 60, .1);
 
         public static final double GEARING = 1;
         public static final double ENCODER_EPR = 2048;
@@ -231,7 +251,7 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
 
         // limelight constants
-        public static final double GOAL_HEIGHT_METERS = 2.578;
+        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(103);//2.578;
         public static final double LENS_HEIGHT = 0.813;
         public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.7;

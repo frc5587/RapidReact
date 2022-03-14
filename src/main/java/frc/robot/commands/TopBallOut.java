@@ -32,7 +32,7 @@ public class TopBallOut extends CommandBase {
         leftKicker.enable();
 
         shooter.enable();
-        shooter.setVelocity(5);
+        shooter.setVelocity(10);
         if(!linebreakSensor.isCrossed()) {
             conveyor.setControlMode(ControlMode.VELOCITY);
             conveyor.setVelocity(1);

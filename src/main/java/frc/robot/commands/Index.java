@@ -38,6 +38,7 @@ public class Index extends CommandBase {
         // Enable Kicker PositionPID
         rightKicker.enable();
         leftKicker.enable();
+        // System.out.println(rightKicker + "  " + leftKicker);
         conveyor.setControlMode(ControlMode.VELOCITY);
         if(!linebreakSensor.isCrossed()) {
             conveyor.setVelocity(3);
@@ -52,8 +53,8 @@ public class Index extends CommandBase {
         if(linebreakSensor.isCrossed()) {
             conveyor.setVelocity(0);
             if(crossed == false) {
-                rightKicker.setGoal(rightKicker.getPosition() - 0.1);
-                leftKicker.setGoal(leftKicker.getPosition() - 0.1);
+                rightKicker.setGoal(rightKicker.getPosition() - 0.075);
+                leftKicker.setGoal(leftKicker.getPosition() - 0.075);
             }
             crossed = true;
             // rightKicker.disable();
@@ -64,7 +65,7 @@ public class Index extends CommandBase {
         }
 
         // Run intake at 2x speed of robot with a min velocity
-        intake.setVelocity(IntakeConstants.MIN_VELOCITY + (Math.abs(drivetrain.getLeftVelocityMetersPerSecond()) + Math.abs(drivetrain.getRightVelocityMetersPerSecond())));
+        intake.setVelocity(IntakeConstants.MIN_VELOCITY + (Math.abs(drivetrain.getLeftVelocityMetersPerSecond()) + Math.abs(drivetrain.getRightVelocityMetersPerSecond())) * 1.5);
     }
 
     /*

@@ -42,6 +42,8 @@ public class Conveyor extends ProfiledPIDSubsystem {
         conveyorMotor.restoreFactoryDefaults();
         conveyorMotor.setInverted(ConveyorConstants.MOTOR_INVERTED);
         conveyorMotor.setIdleMode(IdleMode.kBrake);
+
+        conveyorMotor.setSmartCurrentLimit(ConveyorConstants.STALL_CURRENT_LIMIT, ConveyorConstants.FREE_CURRENT_LIMIT);
     }    
 
     public void setControlMode(ControlMode controlMode) {
@@ -114,6 +116,7 @@ public class Conveyor extends ProfiledPIDSubsystem {
         super.periodic();
 
         if (controlMode == ControlMode.VELOCITY) {
+            System.out.println(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
             conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
         }
     }

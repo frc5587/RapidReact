@@ -4,13 +4,12 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ClimbConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
+import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
 
-import org.frc5587.lib.auto.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,10 +43,10 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
-    private final Climb outerLeftClimb = Climb.createInnerRightArm();
+    private final Climb outerLeftClimb = Climb.createOuterLeftArm();
     private final Climb outerRightClimb = Climb.createOuterRightArm();
     private final Climb innerLeftClimb = Climb.createInnerLeftArm();
-    private final Climb innerRightClimb = Climb.createOuterLeftArm();
+    private final Climb innerRightClimb = Climb.createInnerRightArm();
     private final ClimbPistons climbPistons = new ClimbPistons();
 
     // Commands
@@ -59,8 +58,6 @@ public class RobotContainer {
             drivetrain);
     private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
-    private final ShootVision shootVision = new ShootVision(conveyor, rightKicker, leftKicker, linebreakSensor, shooter,
-            limelight);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
@@ -95,7 +92,11 @@ public class RobotContainer {
             new AutoPath("first steal 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper secondSteal = new RamseteCommandWrapper(drivetrain,
             new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    private final RamseteCommandWrapper secondSteal2 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
+    private final RamseteCommandWrapper stash2 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
     // define auto command groups here so they can be referenced anywhere
     private Command pos1;
@@ -116,8 +117,6 @@ public class RobotContainer {
         // drivetrain.setDefaultCommand(tankDrive);
         JoystickButton bButton = new JoystickButton(xb, DeadbandXboxController.Button.kB.value);
         turret.setDefaultCommand(throttleTurret);
-        // Driver Station configuration
-        // DriverStation.silenceJoystickConnectionWarning(true);
         // Add autonomous commands
         buildAutos();
         // Configure the button bindings
@@ -133,7 +132,6 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
         limelightTrigger.whileActiveOnce(lockTurret);
@@ -155,6 +153,9 @@ public class RobotContainer {
         xb.leftBumper.whileActiveOnce(fireWhenReady);
 
 
+        // dpadUp
+        //         .whileActiveOnce(new TestKicker(rightKicker, leftKicker));
+
         /**
          * SHOOTER
          */
@@ -163,90 +164,145 @@ public class RobotContainer {
 
         // Climb
         
-    xb.aButton.and(xb.rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
-    xb.bButton.and(xb.rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
-    xb.xButton.and(xb.rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
+//     aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
+//     bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
+//     xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
 
-    xb.leftStickY.and(xb.rightTrigger)
-        .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
+//     leftStickY.and(rightTrigger)
+//         .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
 
-    xb.rightStickX.and(xb.rightTrigger)
-        .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
+//     rightStickX.and(rightTrigger)
+//         .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
 
-    xb.dPadDown.and(xb.rightTrigger)
-        .whileActiveOnce(new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
-                new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
-                // ,new ToggleClimbPistons(climbPistons)
-                )));
+//     dpadDown.and(rightTrigger)
+//         .whileActiveOnce(new SequentialCommandGroup(
+//             new ParallelCommandGroup(
+//                 new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
+//                 new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
+//                 // ,new ToggleClimbPistons(climbPistons)
+//                 )));
 
-    xb.dPadLeft.and(xb.rightTrigger)
-        .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
+//     dpadLeft.and(rightTrigger)
+//         .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
 
-    xb.dPadUp.and(xb.rightTrigger).whileActiveOnce(new SequentialCommandGroup(
-      new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
-      new WaitCommand(0.5),
-      new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
+//     dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
+//       new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
+//       new WaitCommand(0.5),
+//       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
+
+        xb.rightTrigger.and(xb.rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
     }
 
-    public void buildAutos() {
+    private void buildAutos() {
         this.pos1 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
-                        new ParallelCommandGroup(index, first1.setOdometryToFirstPoseOnStart()),
-                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
-                        new ParallelCommandGroup(index, firstSteal1),
-                        new ParallelCommandGroup(index, secondSteal),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain), 
+                                first1
+                        ),
+                        new SpinUpShooter(shooter, limelight),
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain), 
+                                firstSteal1
+                        ),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain),
+                                secondSteal
+                        ),
                         stash,
-                        topBallOut,
-                        bottomBallOut
+                        new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
+                        new BottomBallOut(intake, intakePistons, conveyor)
                 )
         );
 
         this.pos2 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
-                        new ParallelCommandGroup(index, first2.setOdometryToFirstPoseOnStart()),
-                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
-                        new ParallelCommandGroup(index, firstSteal2),
-                        new ParallelCommandGroup(index, secondSteal),
-                        stash,
-                        topBallOut,
-                        bottomBallOut
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain), 
+                                first2
+                        ),
+                        new SpinUpShooter(shooter, limelight),
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain), 
+                                firstSteal2
+                        ),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain),
+                                secondSteal2
+                        ),
+                        stash2,
+                        new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
+                        new BottomBallOut(intake, intakePistons, conveyor)
                 )
         );
 
         this.pos3 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
-                        new ParallelCommandGroup(index, first3.setOdometryToFirstPoseOnStart()),
-                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
-                        new ParallelCommandGroup(index, second3),
-                        new ParallelCommandGroup(index, third3),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain), 
+                                first3
+                        ),                        new SpinUpShooter(shooter, limelight),
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain),
+                                second3
+                        ),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain),
+                                third3
+                        ),
                         finalshoot3,
-                        new ParallelRaceGroup(new WaitCommand(6), shootVision)
+                        new SpinUpShooter(shooter, limelight),
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
                 )
         );
 
         this.pos4 = new ParallelCommandGroup(
-                lockTurret,
+                new LockTurret(turret, limelight, drivetrain),
                 new SequentialCommandGroup(
-                        new ParallelCommandGroup(index, first4.setOdometryToFirstPoseOnStart()),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain),
+                                first4
+                        ),
                         firstshoot4,
-                        new ParallelRaceGroup(new WaitCommand(6), shootVision),
-                        new ParallelCommandGroup(index, second4),
-                        new ParallelCommandGroup(index, third4),
+                        new SpinUpShooter(shooter, limelight),
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain),
+                                second4
+                        ),
+                        new ParallelCommandGroup(
+                                new Index(intake, intakePistons, conveyor, rightKicker, 
+                                        leftKicker, linebreakSensor, drivetrain), 
+                                third4
+                        ),
                         finalshoot4,
-                        new ParallelRaceGroup(new WaitCommand(6), shootVision)
+                        new SpinUpShooter(shooter, limelight),
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
                 )
         );
 
-        autoChooser.addOption("Position 1", pos1);
-        autoChooser.addOption("Position 2", pos2);
-        autoChooser.addOption("Position 3", pos3);
-        autoChooser.addOption("Position 4", pos4);
-        autoChooser.setDefaultOption("Field Position 1", pos1);
+        autoChooser.addOption("1st Position", pos1);
+        autoChooser.addOption("2nd Position", pos2);
+        autoChooser.addOption("3rd Position", pos3);
+        autoChooser.addOption("4th Position", pos4);
+        autoChooser.setDefaultOption("1st Position", pos1);
         SmartDashboard.putData(autoChooser);
     }
     /**
@@ -255,7 +311,20 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+        // buildAutos();
         return autoChooser.getSelected();
+        // return new ParallelCommandGroup(
+        //         new SequentialCommandGroup(
+        //                 new ParallelRaceGroup(
+        //                         first1.setOdometryToFirstPoseOnStart(), 
+        //                         new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor, drivetrain)
+        //                 ), 
+        //                 new ParallelCommandGroup(
+        //                         new SpinUpShooter(shooter, limelight),
+        //                         new FireWhenReady(conveyor, leftKicker, rightKicker, shooter)
+        //                 )
+        //         ), 
+        // new LockTurret(turret, limelight, drivetrain));
         // return pos1;
     }
 }

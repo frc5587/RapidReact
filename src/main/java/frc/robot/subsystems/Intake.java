@@ -27,6 +27,7 @@ public class Intake extends SubsystemBase {
         motor.restoreFactoryDefaults();
         motor.setInverted(IntakeConstants.MOTOR_INVERTED);
         motor.setIdleMode(IdleMode.kBrake);
+        motor.setSmartCurrentLimit(IntakeConstants.STALL_CURRENT_LIMIT, IntakeConstants.FREE_CURRENT_LIMIT);
     }
 
     public void setVelocity(double velocity) {
