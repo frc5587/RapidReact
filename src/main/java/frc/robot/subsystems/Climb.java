@@ -54,6 +54,14 @@ public class Climb extends ProfiledPIDSubsystem {
     public double getPosition() {
         return (Units.rotationsToRadians(climbEncoder.getPosition()) * (ClimbConstants.SPOOL_RADIUS / ClimbConstants.GEARING));
     }
+    /**
+     * Only for use with manual arm control.<p> Do not use with other commands
+     * @param throttle
+     * @deprecated
+     */
+    public void setThrottle(double throttle) {
+        climbMotor.set(throttle);
+    }
 
     public void resetEncoders() {
         climbEncoder.setPosition(0);
