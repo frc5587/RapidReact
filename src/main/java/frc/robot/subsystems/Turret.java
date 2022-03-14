@@ -36,6 +36,7 @@ public class Turret extends ProfiledPIDSubsystem {
         turretMotor.restoreFactoryDefaults();
         turretMotor.setInverted(TurretConstants.TURRET_MOTOR_INVERTED);
         turretMotor.setIdleMode(IdleMode.kBrake);
+        turretMotor.setSmartCurrentLimit(TurretConstants.STALL_CURRENT_LIMIT, TurretConstants.FREE_CURRENT_LIMIT);
     }
 
     // uses radians per second

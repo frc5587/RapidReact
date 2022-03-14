@@ -294,9 +294,19 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // buildAutos();
-        // return autoChooser.getSelected();
-        return new ParallelCommandGroup(new SequentialCommandGroup(new ParallelRaceGroup(first1.setOdometryToFirstPoseOnStart(), new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
-        drivetrain)), new ParallelCommandGroup(new SpinUpShooter(shooter, limelight), new FireWhenReady(conveyor, leftKicker, rightKicker, shooter))), new LockTurret(turret, limelight, drivetrain));
+        return autoChooser.getSelected();
+        // return new ParallelCommandGroup(
+        //         new SequentialCommandGroup(
+        //                 new ParallelRaceGroup(
+        //                         first1.setOdometryToFirstPoseOnStart(), 
+        //                         new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor, drivetrain)
+        //                 ), 
+        //                 new ParallelCommandGroup(
+        //                         new SpinUpShooter(shooter, limelight),
+        //                         new FireWhenReady(conveyor, leftKicker, rightKicker, shooter)
+        //                 )
+        //         ), 
+        // new LockTurret(turret, limelight, drivetrain));
         // return pos1;
     }
 }

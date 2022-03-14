@@ -45,6 +45,7 @@ public class Kicker extends ProfiledPIDSubsystem {
         kickerMotor.restoreFactoryDefaults();
         kickerMotor.setInverted(motorInverted);
         kickerMotor.setIdleMode(IdleMode.kBrake);
+        kickerMotor.setSmartCurrentLimit(KickerConstants.STALL_CURRENT_LIMIT, KickerConstants.FREE_CURRENT_LIMIT);
     }
 
     public void moveDistance(double distance) {

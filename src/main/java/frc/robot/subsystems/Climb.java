@@ -43,6 +43,7 @@ public class Climb extends ProfiledPIDSubsystem {
         climbMotor.restoreFactoryDefaults();
         climbMotor.setInverted(motorInverted);
         climbMotor.setIdleMode(IdleMode.kBrake);
+        climbMotor.setSmartCurrentLimit(ClimbConstants.STALL_CURRENT_LIMIT, ClimbConstants.FREE_CURRENT_LIMIT);
 
         // // sets the soft limits of the motors in meters
         // climbMotor.setSoftLimit(SoftLimitDirection.kForward, (float)ClimbConstants.SOFT_LIMITS[1]);
