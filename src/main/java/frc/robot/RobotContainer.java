@@ -47,6 +47,7 @@ public class RobotContainer {
     private final Climb innerLeftClimb = Climb.createInnerLeftArm();
     private final Climb innerRightClimb = Climb.createInnerRightArm();
     private final ClimbPistons climbPistons = new ClimbPistons();
+    private final ColorSensor colorSensor = new ColorSensor();
 
     // Commands
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
