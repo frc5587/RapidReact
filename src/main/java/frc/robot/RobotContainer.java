@@ -26,7 +26,7 @@ public class RobotContainer {
     // Controllers
     private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
     // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
-    // // for TankDrive
+    // for TankDrive ^
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
 
     // Subsystems
@@ -40,11 +40,6 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
-    private final Climb outerLeftClimb = Climb.createOuterLeftArm();
-    private final Climb outerRightClimb = Climb.createOuterRightArm();
-    private final Climb innerLeftClimb = Climb.createInnerLeftArm();
-    private final Climb innerRightClimb = Climb.createInnerRightArm();
-    private final ClimbPistons climbPistons = new ClimbPistons();
 
     // Commands
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
@@ -87,63 +82,18 @@ public class RobotContainer {
     private void configureButtonBindings() {
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
+        // TURRET
         limelightTrigger.whileActiveOnce(lockTurret);
 
-        // leftStickX.whileActiveOnce(throttleTurret).negate().whileActiveOnce(lockTurret);
-// 
-        /**
-         * INTAKE
-         */
-        xb.bButton.and(xb.leftTrigger.negate())
-                .whileActiveOnce(index);
-        xb.bButton.and(xb.leftTrigger)
-                .whileActiveOnce(bottomBallOut);
+        // INTAKE
+        xb.bButton.and(xb.leftTrigger.negate()).whileActiveOnce(index);
+        xb.bButton.and(xb.leftTrigger).whileActiveOnce(bottomBallOut);
 
-        xb.yButton.and(xb.leftTrigger)
-                .whileActiveOnce(topBallOut);
+        xb.yButton.and(xb.leftTrigger).whileActiveOnce(topBallOut);
 
+        // SHOOTER
         xb.aButton.whileActiveOnce(spinUpShooter);
         xb.leftBumper.whileActiveOnce(fireWhenReady);
-
-
-        // dpadUp
-        //         .whileActiveOnce(new TestKicker(rightKicker, leftKicker));
-
-        /**
-         * SHOOTER
-         */
-        // xButton
-        //         .whileHeld(shootVision);
-
-        // Climb
-        
-//     aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
-//     bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
-//     xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
-
-//     leftStickY.and(rightTrigger)
-//         .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
-
-//     rightStickX.and(rightTrigger)
-//         .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
-
-//     dpadDown.and(rightTrigger)
-//         .whileActiveOnce(new SequentialCommandGroup(
-//             new ParallelCommandGroup(
-//                 new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
-//                 new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
-//                 // ,new ToggleClimbPistons(climbPistons)
-//                 )));
-
-//     dpadLeft.and(rightTrigger)
-//         .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
-
-//     dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
-//       new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
-//       new WaitCommand(0.5),
-//       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
-
-        xb.rightTrigger.and(xb.rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
     }
 
     /**
@@ -152,20 +102,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // buildAutos();
         return autopaths.getSelectedCommand();
-        // return new ParallelCommandGroup(
-        //         new SequentialCommandGroup(
-        //                 new ParallelRaceGroup(
-        //                         first1.setOdometryToFirstPoseOnStart(), 
-        //                         new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor, drivetrain)
-        //                 ), 
-        //                 new ParallelCommandGroup(
-        //                         new SpinUpShooter(shooter, limelight),
-        //                         new FireWhenReady(conveyor, leftKicker, rightKicker, shooter)
-        //                 )
-        //         ), 
-        // new LockTurret(turret, limelight, drivetrain));
-        // return pos1;
     }
 }
