@@ -7,12 +7,9 @@ package frc.robot;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
-import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.*;
 
@@ -64,49 +61,8 @@ public class RobotContainer {
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
 
     // Auto Paths
-    private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper first2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper first3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper first4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper second3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("second 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper second4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("second 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper third3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("third 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper third4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("third 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper firstshoot4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("firstshoot 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper finalshoot3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("finalshoot 3"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper finalshoot4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("finalshoot 4"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper firstSteal1 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first steal 1"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper firstSteal2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first steal 2"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper secondSteal = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper secondSteal2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("second steal"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper stash = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    private final RamseteCommandWrapper stash2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("stash"), Constants.AutoConstants.RAMSETE_CONSTANTS);
-    // define auto command groups here so they can be referenced anywhere
-    private Command pos1;
-    private Command pos2;
-    private Command pos3;
-    private Command pos4;
-
-    // Other
-    SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-
+    private AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
+        drivetrain, limelight, turret, shooter);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -115,10 +71,7 @@ public class RobotContainer {
         // Set default commands
         drivetrain.setDefaultCommand(arcadeDrive);
         // drivetrain.setDefaultCommand(tankDrive);
-        JoystickButton bButton = new JoystickButton(xb, DeadbandXboxController.Button.kB.value);
         turret.setDefaultCommand(throttleTurret);
-        // Add autonomous commands
-        buildAutos();
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -193,118 +146,6 @@ public class RobotContainer {
         xb.rightTrigger.and(xb.rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
     }
 
-    private void buildAutos() {
-        this.pos1 = new ParallelCommandGroup(
-                new LockTurret(turret, limelight, drivetrain),
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
-                                first1
-                        ),
-                        new SpinUpShooter(shooter, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
-                                firstSteal1
-                        ),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
-                                secondSteal
-                        ),
-                        stash,
-                        new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
-                        new BottomBallOut(intake, intakePistons, conveyor)
-                )
-        );
-
-        this.pos2 = new ParallelCommandGroup(
-                new LockTurret(turret, limelight, drivetrain),
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
-                                first2
-                        ),
-                        new SpinUpShooter(shooter, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
-                                firstSteal2
-                        ),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
-                                secondSteal2
-                        ),
-                        stash2,
-                        new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
-                        new BottomBallOut(intake, intakePistons, conveyor)
-                )
-        );
-
-        this.pos3 = new ParallelCommandGroup(
-                new LockTurret(turret, limelight, drivetrain),
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
-                                first3
-                        ),                        new SpinUpShooter(shooter, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
-                                second3
-                        ),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
-                                third3
-                        ),
-                        finalshoot3,
-                        new SpinUpShooter(shooter, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
-                )
-        );
-
-        this.pos4 = new ParallelCommandGroup(
-                new LockTurret(turret, limelight, drivetrain),
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
-                                first4
-                        ),
-                        firstshoot4,
-                        new SpinUpShooter(shooter, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
-                                second4
-                        ),
-                        new ParallelCommandGroup(
-                                new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
-                                third4
-                        ),
-                        finalshoot4,
-                        new SpinUpShooter(shooter, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
-                )
-        );
-
-        autoChooser.addOption("1st Position", pos1);
-        autoChooser.addOption("2nd Position", pos2);
-        autoChooser.addOption("3rd Position", pos3);
-        autoChooser.addOption("4th Position", pos4);
-        autoChooser.setDefaultOption("1st Position", pos1);
-        SmartDashboard.putData(autoChooser);
-    }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      * 
@@ -312,7 +153,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // buildAutos();
-        return autoChooser.getSelected();
+        return autopaths.getSelectedCommand();
         // return new ParallelCommandGroup(
         //         new SequentialCommandGroup(
         //                 new ParallelRaceGroup(
