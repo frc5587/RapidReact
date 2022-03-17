@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 
+import frc.robot.subsystems.*;
 import frc.robot.Constants.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.*;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -86,8 +88,22 @@ public class Shooter extends SubsystemBase {
         return Math.abs(setpoint - getVelocity()) / setpoint < error_threshold && setpoint != 0;
     }
 
-    public double shootDistance(double distance) {
+    public double shootDistanceStationary(double distance) {
         return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+    }
+
+    /**
+     * Calculate the flywheel velocity to spin up to, while factoring in drivetrain velocity.
+     * <p>
+     * @see {@link https://www.desmos.com/calculator/yad5bwclbs}
+     * @param drivetrain
+     * @param turret
+     * @param limelight
+     * @param distance - distance to shoot
+     * @return double velocity of the flywheel
+     */
+    public double shootDistanceMoving(Drivetrain drivetrain, Turret turret, Limelight limelight, double distance) {
+        return (((drivetrain.getLinearVelocity() * Math.cos(turret.getPositionRadians() - limelight.getHorizontalAngle())) / (0.7 * Math.cos(Units.degreesToRadians(ShooterConstants.SHOOTER_ANGLE))) * 2) + shootDistanceStationary(distance));
     }
 
     @Override

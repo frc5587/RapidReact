@@ -6,9 +6,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import org.frc5587.lib.subsystems.DrivetrainBase;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends DrivetrainBase {
@@ -37,8 +40,16 @@ public class Drivetrain extends DrivetrainBase {
         SmartDashboard.putData(field);
     }
 
+    private ChassisSpeeds getChassisSpeeds() {
+        return AutoConstants.DRIVETRAIN_KINEMATICS.toChassisSpeeds(new DifferentialDriveWheelSpeeds());
+    }
+
     public double getAngularVelocity() {
         return angularVelocity;
+    }
+
+    public double getLinearVelocity() {
+        return getChassisSpeeds().vxMetersPerSecond;
     }
 
     // public Drivetrain(WPI_TalonFX leftLeader, WPI_TalonFX leftFollower, WPI_TalonFX rightLeader, WPI_TalonFX rightFollower) {
@@ -115,7 +126,6 @@ public class Drivetrain extends DrivetrainBase {
         super.periodic();
 
         angularVelocity = (getRotation2d().getRadians() - lastRotation.getRadians()) / .02;
-        lastRotation = getRotation2d();
 
         // System.out.println(angularVelocity);
 

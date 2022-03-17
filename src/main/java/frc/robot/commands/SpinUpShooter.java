@@ -1,18 +1,19 @@
 package frc.robot.commands;
 
-import java.io.Console;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.*;
 
 public class SpinUpShooter extends CommandBase {
     private final Shooter shooter;
+    private final Drivetrain drivetrain;
+    private final Turret turret;
     private final Limelight limelight;
 
-    public SpinUpShooter(Shooter shooter, Limelight limelight) {
+    public SpinUpShooter(Shooter shooter, Drivetrain drivetrain, Turret turret, Limelight limelight) {
         this.shooter = shooter;
+        this.drivetrain = drivetrain;
+        this.turret = turret;
         this.limelight = limelight;
 
         addRequirements(shooter);
@@ -26,8 +27,8 @@ public class SpinUpShooter extends CommandBase {
     @Override
     public void execute() {
         if (limelight.hasTarget()) {
-            shooter.setVelocity(shooter.shootDistance(limelight.calculateDistance()));
-            System.out.println(shooter.shootDistance(limelight.calculateDistance()));
+            shooter.setVelocity(shooter.shootDistanceMoving(drivetrain, turret, limelight, limelight.calculateDistance()));
+            System.out.println(shooter.shootDistanceMoving(drivetrain, turret, limelight, limelight.calculateDistance()));
         } else {
             shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);
         }

@@ -59,7 +59,7 @@ public class RobotContainer {
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb);
-    private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
+    private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
 
     // Auto Paths
@@ -154,12 +154,6 @@ public class RobotContainer {
         // dpadUp
         //         .whileActiveOnce(new TestKicker(rightKicker, leftKicker));
 
-        /**
-         * SHOOTER
-         */
-        // xButton
-        //         .whileHeld(shootVision);
-
         // Climb
         
 //     aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
@@ -200,7 +194,7 @@ public class RobotContainer {
                                         leftKicker, linebreakSensor, drivetrain), 
                                 first1
                         ),
-                        new SpinUpShooter(shooter, limelight),
+                        new SpinUpShooter(shooter, drivetrain, turret, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
@@ -226,7 +220,7 @@ public class RobotContainer {
                                         leftKicker, linebreakSensor, drivetrain), 
                                 first2
                         ),
-                        new SpinUpShooter(shooter, limelight),
+                        new SpinUpShooter(shooter, drivetrain, turret, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
@@ -251,7 +245,7 @@ public class RobotContainer {
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
                                         leftKicker, linebreakSensor, drivetrain), 
                                 first3
-                        ),                        new SpinUpShooter(shooter, limelight),
+                        ),                        new SpinUpShooter(shooter, drivetrain, turret, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
@@ -264,7 +258,7 @@ public class RobotContainer {
                                 third3
                         ),
                         finalshoot3,
-                        new SpinUpShooter(shooter, limelight),
+                        new SpinUpShooter(shooter, drivetrain, turret, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
                 )
         );
@@ -278,7 +272,7 @@ public class RobotContainer {
                                 first4
                         ),
                         firstshoot4,
-                        new SpinUpShooter(shooter, limelight),
+                        new SpinUpShooter(shooter, drivetrain, turret, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
@@ -291,7 +285,7 @@ public class RobotContainer {
                                 third4
                         ),
                         finalshoot4,
-                        new SpinUpShooter(shooter, limelight),
+                        new SpinUpShooter(shooter, drivetrain, turret, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
                 )
         );

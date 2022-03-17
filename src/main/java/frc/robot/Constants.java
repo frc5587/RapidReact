@@ -234,6 +234,7 @@ public final class Constants {
         public static final int SMART_CURRENT_LIMIT = 35;
         public static final int HARD_CURRENT_LIMIT = 40;
         public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // seconds
+        public static final double SHOOTER_ANGLE = 70;
         public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(
             true, 
             DrivetrainConstants.SMART_CURRENT_LIMIT, 
