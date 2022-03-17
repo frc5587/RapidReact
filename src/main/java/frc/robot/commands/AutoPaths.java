@@ -34,16 +34,23 @@ public class AutoPaths {
 
     SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
+    /**
+     * Creates autonomous paths for 4 field positions using {@link RamseteCommandWrapper}
+     * and {@link AutoPath}, then links them to a {@link SendableChooser}.
+     * 
+     * Positions can be seen here:
+     * <img src="./doc-files/autoposdiagram.png" width=100% />
+     */
     public AutoPaths(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker,     Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain, Limelight limelight, Turret turret, Shooter shooter) {
         // Auto Paths
         first1 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
         first2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 2"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("first 2"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
         first3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
         first4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
         second3 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("second 3"), AutoConstants.RAMSETE_CONSTANTS);
         second4 = new RamseteCommandWrapper(drivetrain,
@@ -155,7 +162,7 @@ public class AutoPaths {
                 finalshoot4,
                 new SpinUpShooter(shooter, limelight),
                 new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
-
+        
         autoChooser.addOption("1st Position", pos1);
         autoChooser.addOption("2nd Position", pos2);
         autoChooser.addOption("3rd Position", pos3);

@@ -53,7 +53,7 @@ public class RobotContainer {
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
 
     // Auto Paths
-    private AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
+    private final AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
         drivetrain, limelight, turret, shooter);
 
     /**
