@@ -60,7 +60,7 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, xb::getRightX, xb::getLeftX);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, xb::getRightY, xb::getLeftY);
 
     // Auto Paths
     private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
