@@ -55,7 +55,7 @@ public class RobotContainer {
     // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY,
     // rightJoystick::getY);
     private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
-            drivetrain);
+            colorSensor, drivetrain);
     private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
@@ -198,19 +198,19 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain), 
                                 first1
                         ),
                         new SpinUpShooter(shooter, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain), 
                                 firstSteal1
                         ),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain),
                                 secondSteal
                         ),
                         stash,
@@ -224,19 +224,19 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain), 
                                 first2
                         ),
                         new SpinUpShooter(shooter, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain), 
                                 firstSteal2
                         ),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain),
                                 secondSteal2
                         ),
                         stash2,
@@ -250,18 +250,18 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain), 
                                 first3
                         ),                        new SpinUpShooter(shooter, limelight),
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain),
                                 second3
                         ),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain),
                                 third3
                         ),
                         finalshoot3,
@@ -275,7 +275,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain),
                                 first4
                         ),
                         firstshoot4,
@@ -283,12 +283,12 @@ public class RobotContainer {
                         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain),
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain),
                                 second4
                         ),
                         new ParallelCommandGroup(
                                 new Index(intake, intakePistons, conveyor, rightKicker, 
-                                        leftKicker, linebreakSensor, drivetrain), 
+                                        leftKicker, linebreakSensor, colorSensor, drivetrain), 
                                 third4
                         ),
                         finalshoot4,

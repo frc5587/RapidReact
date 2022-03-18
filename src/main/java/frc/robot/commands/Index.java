@@ -12,16 +12,18 @@ public class Index extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker rightKicker, leftKicker;
     private final LinebreakSensor linebreakSensor;
+    private final ColorSensor colorSensor;
     private final Drivetrain drivetrain;
     private boolean crossed = false;
 
-    public Index(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain) {
+    public Index(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, LinebreakSensor linebreakSensor, ColorSensor colorSensor, Drivetrain drivetrain) {
         this.intake = intake;
         this.intakePistons = intakePistons;
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;
         this.linebreakSensor = linebreakSensor;
+        this.colorSensor = colorSensor;
         this.drivetrain = drivetrain;
 
         addRequirements(intake, intakePistons, conveyor, rightKicker, leftKicker);
@@ -51,6 +53,10 @@ public class Index extends CommandBase {
     public void execute() {
         // Check if there is a ball already in the kicker. If there isn't run the kicker until there is.
         if(linebreakSensor.isCrossed()) {
+            if (colorSensor.hasWrongBall()) {
+                // TODO Do this in TopBall out
+                // TODO Rewrite kicker to use states
+            }
             conveyor.setVelocity(0);
             if(crossed == false) {
                 rightKicker.setGoal(rightKicker.getPosition() - 0.075);
