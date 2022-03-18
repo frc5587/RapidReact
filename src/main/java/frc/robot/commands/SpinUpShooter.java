@@ -27,7 +27,6 @@ public class SpinUpShooter extends CommandBase {
     public void execute() {
         if (limelight.hasTarget()) {
             shooter.setVelocity(shooter.shootDistance(limelight.calculateDistance()));
-            System.out.println(shooter.shootDistance(limelight.calculateDistance()));
         } else {
             shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);
         }

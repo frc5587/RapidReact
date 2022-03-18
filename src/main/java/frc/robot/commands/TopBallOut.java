@@ -51,7 +51,9 @@ public class TopBallOut extends CommandBase {
             wasCrossedInBeginning = false;
         } else if (wasCrossedInBeginning && !linebreakSensor.isCrossed()) {
             wasCrossedInBeginning = false;
-        } else if (wasCrossedInBeginning ) {
+        }
+        
+        if (wasCrossedInBeginning) {
             return;
         }
 

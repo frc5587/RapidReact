@@ -20,8 +20,8 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        var leftThrottle = leftThrottleSupplier.getAsDouble();
-        var rightThrottle = rightThrottleSupplier.getAsDouble();
+        double leftThrottle = leftThrottleSupplier.getAsDouble();
+        double rightThrottle = rightThrottleSupplier.getAsDouble();
         drivetrain.tankDriveVolts(leftThrottle, rightThrottle);
     }
 
