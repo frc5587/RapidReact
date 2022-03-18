@@ -193,6 +193,6 @@ public final class Constants {
         public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.7;
 
-        public static final double DEFAULT_SPIN_UP_VELOCITY = 15;
+        public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
     } 
 }

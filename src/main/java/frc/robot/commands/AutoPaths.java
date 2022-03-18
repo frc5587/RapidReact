@@ -44,13 +44,13 @@ public class AutoPaths {
     public AutoPaths(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker,     Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain, Limelight limelight, Turret turret, Shooter shooter) {
         // Auto Paths
         first1 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
+            new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         first2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 2"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
+            new AutoPath("first 2"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         first3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
+            new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         first4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).zeroOdometryOnStart();
+            new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         second3 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("second 3"), AutoConstants.RAMSETE_CONSTANTS);
         second4 = new RamseteCommandWrapper(drivetrain,
