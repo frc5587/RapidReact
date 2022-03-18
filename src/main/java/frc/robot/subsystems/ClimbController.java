@@ -36,28 +36,28 @@ public class ClimbController extends SubsystemBase {
         ClimbConstants.HOOK_LOADED_PID.getI(),
         ClimbConstants.HOOK_LOADED_PID.getD(),
         ClimbConstants.CONSTRAINTS
-    ), hookMotors);
+    ), this, hookMotors);
 
     private ClimbHook climbHookUnloaded = new ClimbHook(new ProfiledPIDController(
         ClimbConstants.HOOK_UNLOADED_PID.getP(),
         ClimbConstants.HOOK_UNLOADED_PID.getI(),
         ClimbConstants.HOOK_UNLOADED_PID.getD(),
         ClimbConstants.CONSTRAINTS
-    ), hookMotors);
+    ), this, hookMotors);
 
     private ClimbStick climbStickLoaded = new ClimbStick(new ProfiledPIDController(
         ClimbConstants.STICK_LOADED_PID.getP(),
         ClimbConstants.STICK_LOADED_PID.getI(),
         ClimbConstants.STICK_LOADED_PID.getD(),
         ClimbConstants.CONSTRAINTS
-    ), stickMotors);
+    ), this, stickMotors);
 
     private ClimbStick climbStickUnloaded = new ClimbStick(new ProfiledPIDController(
         ClimbConstants.STICK_UNLOADED_PID.getP(),
         ClimbConstants.STICK_UNLOADED_PID.getI(),
         ClimbConstants.STICK_UNLOADED_PID.getD(),
         ClimbConstants.CONSTRAINTS
-    ), stickMotors);
+    ), this, stickMotors);
 
     public ClimbController() {
         configureClimbMotors();

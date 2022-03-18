@@ -7,14 +7,15 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbHook extends ProfiledPIDSubsystem {
-    private ClimbController climbController;
-    private MotorControllerGroup hookMotors;
+    private final ClimbController climbController;
+    private final MotorControllerGroup hookMotors;
 
-    public ClimbHook(ProfiledPIDController PID, MotorControllerGroup hookMotors) {
+    public ClimbHook(ProfiledPIDController PID, ClimbController climbController, MotorControllerGroup hookMotors) {
         super(PID);
+        this.climbController = climbController;
         this.hookMotors = hookMotors;
     }
-    
+
     @Override
     protected void useOutput(double output, State setpoint) {
         if(climbController.loaded) {

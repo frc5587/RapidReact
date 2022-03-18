@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbStick extends ProfiledPIDSubsystem {
-    private ClimbController climbController;
-    private MotorControllerGroup stickMotors;
+    private final ClimbController climbController;
+    private final MotorControllerGroup stickMotors;
 
-    public ClimbStick(ProfiledPIDController PID, MotorControllerGroup stickMotors) {
+    public ClimbStick(ProfiledPIDController PID, ClimbController climbController, MotorControllerGroup stickMotors) {
         super(PID);
+        this.climbController = climbController;
         this.stickMotors = stickMotors;
     }
 
