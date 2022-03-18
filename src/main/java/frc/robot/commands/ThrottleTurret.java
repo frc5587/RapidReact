@@ -30,4 +30,9 @@ public class ThrottleTurret extends CommandBase {
             turret.setThrottle(throttleSupplier.getAsDouble());
         }
     }    
+
+    @Override
+    public void end(boolean interrupted) {
+        turret.enable();
+    }
 }
