@@ -14,18 +14,18 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ClimbController extends SubsystemBase {
-    private CANSparkMax rightHookClimb = new CANSparkMax(ClimbConstants.RIGHT_HOOK_ARM_MOTOR, MotorType.kBrushless);
-    private CANSparkMax leftHookClimb = new CANSparkMax(ClimbConstants.LEFT_HOOK_ARM_MOTOR, MotorType.kBrushless);
-    private CANSparkMax rightStickClimb = new CANSparkMax(ClimbConstants.RIGHT_STICK_ARM_MOTOR, MotorType.kBrushless);
-    private CANSparkMax leftStickClimb = new CANSparkMax(ClimbConstants.LEFT_STICK_ARM_MOTOR, MotorType.kBrushless);
+    private final CANSparkMax rightHookClimb = new CANSparkMax(ClimbConstants.RIGHT_HOOK_ARM_MOTOR, MotorType.kBrushless);
+    private final CANSparkMax leftHookClimb = new CANSparkMax(ClimbConstants.LEFT_HOOK_ARM_MOTOR, MotorType.kBrushless);
+    private final CANSparkMax rightStickClimb = new CANSparkMax(ClimbConstants.RIGHT_STICK_ARM_MOTOR, MotorType.kBrushless);
+    private final CANSparkMax leftStickClimb = new CANSparkMax(ClimbConstants.LEFT_STICK_ARM_MOTOR, MotorType.kBrushless);
 
-    private RelativeEncoder rightHookEncoder = rightHookClimb.getEncoder();
-    private RelativeEncoder leftHookEncoder = leftHookClimb.getEncoder();
-    private RelativeEncoder rightStickEncoder = rightStickClimb.getEncoder();
-    private RelativeEncoder leftStickEncoder = leftStickClimb.getEncoder();
+    private final RelativeEncoder rightHookEncoder = rightHookClimb.getEncoder();
+    private final RelativeEncoder leftHookEncoder = leftHookClimb.getEncoder();
+    private final RelativeEncoder rightStickEncoder = rightStickClimb.getEncoder();
+    private final RelativeEncoder leftStickEncoder = leftStickClimb.getEncoder();
 
-    private MotorControllerGroup hookMotors = new MotorControllerGroup(rightHookClimb, leftHookClimb);
-    private MotorControllerGroup stickMotors = new MotorControllerGroup(rightStickClimb, leftStickClimb);
+    private final MotorControllerGroup hookMotors = new MotorControllerGroup(rightHookClimb, leftHookClimb);
+    private final MotorControllerGroup stickMotors = new MotorControllerGroup(rightStickClimb, leftStickClimb);
 
     protected boolean loaded;
     protected double hookPosition;
