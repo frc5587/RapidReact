@@ -62,8 +62,8 @@ public final class Constants {
         public static final double KP = 3.2643;
         public static final double TRACK_WIDTH = 0.419;
 
-        public static final double MAXIMUM_VELOCITY = 1; // m/s
-        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
+        public static final double MAXIMUM_VELOCITY = 3; // m/s
+        public static final double MAXIMUM_ACCELERATION = 3; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
             TRACK_WIDTH);
@@ -110,8 +110,8 @@ public final class Constants {
 
         public static final boolean OUTER_CLIMB_RIGHT_MOTOR_INVERTED = true;
         public static final boolean OUTER_CLIMB_LEFT_MOTOR_INVERTED = false;
-        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true; // false
-        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = true; // true
+        public static final boolean INNER_CLIMB_RIGHT_MOTOR_INVERTED = true;
+        public static final boolean INNER_CLIMB_LEFT_MOTOR_INVERTED = true;
         public static final int STALL_CURRENT_LIMIT = 40;
         public static final int FREE_CURRENT_LIMIT = 35;
 
@@ -140,7 +140,7 @@ public final class Constants {
         public static final double GEARING = 12.0;
         public static final double SPOOL_RADIUS = 0.02;
         public static final double LOWER_LIMIT = 0;
-        public static final double UPPER_lIMIT = Units.inchesToMeters(24.25);
+        public static final double UPPER_LIMIT = Units.inchesToMeters(24.25);
 
         /*
         * Constants objects for climber arms. These must be declared here as they need to be

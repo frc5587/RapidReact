@@ -55,7 +55,6 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     public void configureMotors() {
-        System.out.println(leftLeader + "  " + leftFollower + "  " + rightLeader + " " + leftFollower);
         leftLeader.configFactoryDefault();
         rightLeader.configFactoryDefault();
         leftFollower.configFactoryDefault();
@@ -81,7 +80,7 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     protected double getLeftPositionTicks() {
-        return rightLeader.getSelectedSensorPosition() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
+        return leftLeader.getSelectedSensorPosition() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
     }
 
     @Override

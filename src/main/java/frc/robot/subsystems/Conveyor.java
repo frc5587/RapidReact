@@ -116,7 +116,6 @@ public class Conveyor extends ProfiledPIDSubsystem {
         super.periodic();
 
         if (controlMode == ControlMode.VELOCITY) {
-            System.out.println(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
             conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
         }
     }

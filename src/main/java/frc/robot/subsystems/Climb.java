@@ -74,7 +74,7 @@ public class Climb extends ProfiledPIDSubsystem {
     }
 
     public void setPosition(double position, boolean isLoaded) {
-        if (position < ClimbConstants.LOWER_LIMIT || position > ClimbConstants.UPPER_lIMIT) {
+        if (position < ClimbConstants.LOWER_LIMIT || position > ClimbConstants.UPPER_LIMIT) {
             System.out.println(position + " is out of bounds for climb");
         } else {
             this.isLoaded = isLoaded;
