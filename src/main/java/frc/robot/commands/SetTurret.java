@@ -6,16 +6,27 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetTurret extends CommandBase {
     private final Turret turret;
+    private final double position;
 
-    public SetTurret(Turret turret) {
+    public SetTurret(Turret turret, double position) {
         this.turret = turret;
+        this.position = position;
+
         addRequirements(turret);
     }
 
     @Override
     public void initialize() {
-        turret.resetEncoders();
         turret.enable();
-        turret.setPosition((Math.PI / 2));
+    }
+
+    @Override
+    public void execute() {
+        turret.setPosition(position);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        turret.disable();
     }
 }

@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends DrivetrainBase {
-    private static WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
-    private static WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER);
-    private static WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
-    private static WPI_TalonFX rightFollower= new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
+    private static final WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
+    private static final WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER);
+    private static final WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
+    private static final WPI_TalonFX rightFollower= new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
     private Field2d field = new Field2d();
     private Rotation2d lastRotation = new Rotation2d();
     private double angularVelocity = 0;
