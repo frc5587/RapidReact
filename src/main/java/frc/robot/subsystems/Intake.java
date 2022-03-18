@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 Use a motor to control a wheel that will move balls into & out of the kicker
 */
 public class Intake extends SubsystemBase {
-    private CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
-    private RelativeEncoder encoder = motor.getEncoder();
+    private final CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
+    private final RelativeEncoder encoder = motor.getEncoder();
     
     private double setpoint = 0;
 
