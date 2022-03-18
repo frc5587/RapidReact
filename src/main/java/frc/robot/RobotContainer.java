@@ -4,11 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 import org.frc5587.lib.auto.*;
 import org.frc5587.lib.control.*;
+
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,11 +45,8 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
-    private final Climb outerLeftClimb = Climb.createOuterLeftArm();
-    private final Climb outerRightClimb = Climb.createOuterRightArm();
-    private final Climb innerLeftClimb = Climb.createInnerLeftArm();
-    private final Climb innerRightClimb = Climb.createInnerRightArm();
-    private final ClimbPistons climbPistons = new ClimbPistons();
+//     private final ClimbPID climbPID = new ClimbPID();
+    private final Climb climb = new Climb(new ProfiledPIDController(0, 0, 0, ClimbConstants.CONSTRAINTS));
 
     // Commands
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
@@ -61,6 +61,7 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climb, xb::getRightY, xb::getLeftY);
 
     // Auto Paths
     private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
@@ -140,15 +141,18 @@ public class RobotContainer {
          * INTAKE
          */
         xb.bButton.and(xb.leftTrigger.negate())
-                .whileActiveOnce(index);
+            .whileActiveOnce(index);
         xb.bButton.and(xb.leftTrigger)
-                .whileActiveOnce(bottomBallOut);
+            .whileActiveOnce(bottomBallOut);
 
         xb.yButton.and(xb.leftTrigger)
-                .whileActiveOnce(topBallOut);
+            .whileActiveOnce(topBallOut);
 
         xb.aButton.whileActiveOnce(spinUpShooter);
         xb.leftBumper.whileActiveOnce(fireWhenReady);
+
+        xb.rightStickY.or(xb.leftStickY)
+            .whileActiveOnce(climbThrottle);
 
 
         // dpadUp
@@ -188,7 +192,6 @@ public class RobotContainer {
 //       new WaitCommand(0.5),
 //       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
 
-        xb.rightTrigger.and(xb.rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
     }
 
     private void buildAutos() {
