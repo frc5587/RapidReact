@@ -108,11 +108,13 @@ public final class Constants {
         // motor ids
         public static final int RIGHT_HOOK_ARM_MOTOR = 50;
         public static final int LEFT_HOOK_ARM_MOTOR = 51;
-        public static final int STICK_ARM_MOTOR = 55;
+        public static final int RIGHT_STICK_ARM_MOTOR = 55;
+        public static final int LEFT_STICK_ARM_MOTOR = 56;
 
         public static final boolean RIGHT_HOOK_MOTOR_INVERTED = true;
         public static final boolean LEFT_HOOK_MOTOR_INVERTED = false;
-        public static final boolean STICK_ARM_MOTOR_INVERTED = true;
+        public static final boolean RIGHT_STICK_ARM_MOTOR_INVERTED = true;
+        public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = true;
 
         // current limits
         public static final int STALL_CURRENT_LIMIT = 40;
@@ -121,16 +123,19 @@ public final class Constants {
         // PID constants
         public static final PIDController HOOK_UNLOADED_PID = new PIDController(0, 0, 0);
         public static final PIDController HOOK_LOADED_PID = new PIDController(0, 0, 0);
-        public static final ElevatorFeedforward HOOK_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        public static final ElevatorFeedforward UNLOADED_HOOK_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        public static final ElevatorFeedforward LOADED_HOOK_FF = new ElevatorFeedforward(0, 0, 0, 0);
 
         public static final PIDController STICK_UNLOADED_PID = new PIDController(0, 0, 0);
         public static final PIDController STICK_LOADED_PID = new PIDController(0, 0, 0);
-        public static final SimpleMotorFeedforward STICK_FF = new SimpleMotorFeedforward(0, 0, 0);
+        public static final SimpleMotorFeedforward UNLOADED_STICK_FF = new SimpleMotorFeedforward(0, 0, 0);
+        public static final SimpleMotorFeedforward LOADED_STICK_FF = new SimpleMotorFeedforward(0, 0, 0);
 
         // velocity and acceleration constraints
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1);
-        public static final double LOWER_LIMIT = 0;
-        public static final double UPPER_lIMIT = Units.inchesToMeters(24.25);
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1); // TODO Check these
+        public static final double SPOOL_RADIUS = 0.02;
+        public static final double HOOK_GEARING = 16;
+        public static final double STICK_GEARING = 15;
     }
     /*
     CONVEYOR

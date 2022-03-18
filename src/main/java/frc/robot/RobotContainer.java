@@ -45,8 +45,7 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
-//     private final ClimbPID climbPID = new ClimbPID();
-    private final Climb climb = new Climb(new ProfiledPIDController(0, 0, 0, ClimbConstants.CONSTRAINTS));
+    private final ClimbController climbController = new ClimbController();
 
     // Commands
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
@@ -61,7 +60,7 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climb, xb::getRightY, xb::getLeftY);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, xb::getRightX, xb::getLeftX);
 
     // Auto Paths
     private final RamseteCommandWrapper first1 = new RamseteCommandWrapper(drivetrain,
@@ -151,46 +150,8 @@ public class RobotContainer {
         xb.aButton.whileActiveOnce(spinUpShooter);
         xb.leftBumper.whileActiveOnce(fireWhenReady);
 
-        xb.rightStickY.or(xb.leftStickY)
+        (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger)
             .whileActiveOnce(climbThrottle);
-
-
-        // dpadUp
-        //         .whileActiveOnce(new TestKicker(rightKicker, leftKicker));
-
-        /**
-         * SHOOTER
-         */
-        // xButton
-        //         .whileHeld(shootVision);
-
-        // Climb
-        
-//     aButton.and(rightTrigger).whenActive(new ToggleClimbPistons(climbPistons));
-//     bButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, true));
-//     xButton.and(rightTrigger).whenActive(new SameClimbPistons(climbPistons, false));
-
-//     leftStickY.and(rightTrigger)
-//         .whileActiveOnce(new ClimbThrottle(outerLeftClimb, outerRightClimb, xb::getLeftY));
-
-//     rightStickX.and(rightTrigger)
-//         .whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, xb::getRightY));
-
-//     dpadDown.and(rightTrigger)
-//         .whileActiveOnce(new SequentialCommandGroup(
-//             new ParallelCommandGroup(
-//                 new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, false),
-//                 new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.UPPER_lIMIT, false)
-//                 // ,new ToggleClimbPistons(climbPistons)
-//                 )));
-
-//     dpadLeft.and(rightTrigger)
-//         .whileActiveOnce(new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.LOWER_LIMIT, true));
-
-//     dpadUp.and(rightTrigger).whileActiveOnce(new SequentialCommandGroup(
-//       new ClimbToPosition(innerLeftClimb, innerRightClimb, ClimbConstants.LOWER_LIMIT, true),
-//       new WaitCommand(0.5),
-//       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
 
     }
 

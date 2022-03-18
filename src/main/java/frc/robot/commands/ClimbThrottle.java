@@ -7,10 +7,10 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimbThrottle extends CommandBase {
-    private Climb climb;
+    private ClimbController climb;
     private DoubleSupplier hookThrottle, stickThrottle;
 
-    public ClimbThrottle(Climb climb, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
+    public ClimbThrottle(ClimbController climb, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
         this.climb = climb;
         this.hookThrottle = hookThrottle;
         this.stickThrottle = stickThrottle;
