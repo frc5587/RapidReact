@@ -46,7 +46,9 @@ public class AutoPaths {
      * Positions can be seen here:
      * <img src="./doc-files/autoposdiagram_small.png" width=100% />
      */
-    public AutoPaths(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker,     Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain, Limelight limelight, Turret turret, Shooter shooter) {
+    public AutoPaths(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker,
+    Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain, Limelight limelight, 
+    Turret turret, Shooter shooter) {
         // Auto Paths
         first1 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
@@ -117,9 +119,12 @@ public class AutoPaths {
                 stash,
                 new ParallelRaceGroup(
                     new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
-                    new BottomBallOut(intake, intakePistons, conveyor)
+                    new WaitCommand(2)
+                ),
+                new ParallelRaceGroup(
+                    new BottomBallOut(intake, intakePistons, conveyor),
+                    new WaitCommand(3)
                 )));
-
         this.pos2 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
@@ -146,7 +151,11 @@ public class AutoPaths {
                 stash2,
                 new ParallelRaceGroup(
                     new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
-                    new BottomBallOut(intake, intakePistons, conveyor)
+                    new WaitCommand(2)
+                ),
+                new ParallelRaceGroup(
+                    new BottomBallOut(intake, intakePistons, conveyor),
+                    new WaitCommand(3)
                 )));
 
         this.pos3 = new ParallelCommandGroup(

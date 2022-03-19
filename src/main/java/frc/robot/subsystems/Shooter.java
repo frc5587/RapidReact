@@ -82,7 +82,14 @@ public class Shooter extends SubsystemBase {
     }
 
     public double shootDistanceStationary(double distance) {
-        return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        if(Units.metersToInches(distance) >= 180 || distance <= 1) {
+            SmartDashboard.putBoolean("Good Shoot Distance?", false);
+            return 0.0;
+        }
+        else {
+            SmartDashboard.putBoolean("Good Shoot Distance?", true);
+            return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        }
     }
 
     /**
