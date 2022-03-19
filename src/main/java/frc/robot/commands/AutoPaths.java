@@ -162,12 +162,14 @@ public class AutoPaths {
                 finalshoot4,
                 new SpinUpShooter(shooter, drivetrain, turret, limelight),
                 new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+
+        Command emptyCommand = new SequentialCommandGroup();
         
         autoChooser.addOption("1st Position", pos1);
         autoChooser.addOption("2nd Position", pos2);
         autoChooser.addOption("3rd Position", pos3);
         autoChooser.addOption("4th Position", pos4);
-        autoChooser.setDefaultOption("1st Position", pos1);
+        autoChooser.setDefaultOption("NO COMMAND", emptyCommand);
         SmartDashboard.putData(autoChooser);
     }
 
