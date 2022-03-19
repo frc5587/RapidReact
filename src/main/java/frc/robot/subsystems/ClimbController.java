@@ -154,6 +154,7 @@ public class ClimbController extends SubsystemBase {
         return loaded;
     }    
     
+    // TODO SHOULD THIS RETURN IN METERS??
     public double getHookPosition() {
         return Units.rotationsToRadians(rightHookEncoder.getPosition()) * ClimbConstants.SPOOL_RADIUS / ClimbConstants.HOOK_GEARING;
     }

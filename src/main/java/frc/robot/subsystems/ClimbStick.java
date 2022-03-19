@@ -19,8 +19,8 @@ public class ClimbStick extends ProfiledPIDSubsystem {
     @Override
     protected void useOutput(double output, State setpoint) {
         if(climbController.loaded) {
-            stickMotors.setVoltage(ClimbConstants.UNLOADED_STICK_FF.calculate(setpoint.velocity));
-        } else if (!climbController.loaded) {
+            stickMotors.setVoltage(ClimbConstants.LOADED_STICK_FF.calculate(setpoint.velocity));
+        } else {
             stickMotors.setVoltage(ClimbConstants.UNLOADED_STICK_FF.calculate(setpoint.velocity));
         }
         
