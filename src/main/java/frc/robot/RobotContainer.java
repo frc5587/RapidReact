@@ -79,10 +79,10 @@ public class RobotContainer {
      * within {@link DeadbandXboxController}.
      */
     private void configureButtonBindings() {
-        // Trigger limelightTrigger = new Trigger(limelight::hasTarget);
+        Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
         // // TURRET
-        // limelightTrigger.whileActiveOnce(lockTurret);
+        limelightTrigger.whileActiveOnce(lockTurret);
 
         // INTAKE
         xb.bButton.and(xb.leftTrigger.negate()).whileActiveOnce(index);

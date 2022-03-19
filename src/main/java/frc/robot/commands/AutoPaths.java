@@ -26,6 +26,11 @@ public class AutoPaths {
     private final RamseteCommandWrapper secondSteal2;
     private final RamseteCommandWrapper stash;
     private final RamseteCommandWrapper stash2;
+    private final RamseteCommandWrapper taxi1;
+    private final RamseteCommandWrapper taxi2;
+    private final RamseteCommandWrapper taxi3;
+    private final RamseteCommandWrapper taxi4;
+
     // define auto command groups here so they can be referenced anywhere
     public final Command pos1;
     public final Command pos2;
@@ -77,6 +82,14 @@ public class AutoPaths {
             new AutoPath("stash"), AutoConstants.RAMSETE_CONSTANTS);
         stash2 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("stash"), AutoConstants.RAMSETE_CONSTANTS);
+        taxi1 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("taxi 1"), AutoConstants.RAMSETE_CONSTANTS);
+        taxi2 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("taxi 2"), AutoConstants.RAMSETE_CONSTANTS);
+        taxi3 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("taxi 3"), AutoConstants.RAMSETE_CONSTANTS);
+        taxi4 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("taxi 4"), AutoConstants.RAMSETE_CONSTANTS);
 
         this.pos1 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
@@ -169,6 +182,10 @@ public class AutoPaths {
         autoChooser.addOption("2nd Position", pos2);
         autoChooser.addOption("3rd Position", pos3);
         autoChooser.addOption("4th Position", pos4);
+        autoChooser.addOption("Taxi 1st Pos", taxi1);
+        autoChooser.addOption("Taxi 2nd Pos", taxi2);
+        autoChooser.addOption("Taxi 3rd Pos", taxi3);
+        autoChooser.addOption("Taxi 4th Pos", taxi4);
         autoChooser.setDefaultOption("NO COMMAND", emptyCommand);
         SmartDashboard.putData(autoChooser);
     }
