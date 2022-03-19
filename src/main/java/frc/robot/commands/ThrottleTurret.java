@@ -10,9 +10,9 @@ public class ThrottleTurret extends CommandBase {
     // private final DoubleSupplier positionSupplier;
     private final Turret turret;
     private final DeadbandXboxController xb; 
+    private final double slowness = 0.1;
 
     public ThrottleTurret(Turret turret, DeadbandXboxController xb) {
-        // this.positionSupplier = positionSupplier;
         this.xb = xb;
         this.turret = turret;
 
@@ -27,9 +27,7 @@ public class ThrottleTurret extends CommandBase {
     @Override
     public void execute() {
         double movePercent = xb.getLeftX();
-        double position = TurretConstants.LIMIT * movePercent;
-        // System.out.println(positionSupplier.getAsDouble());
-        // System.out.println(xb.getLeftX() + "   " + position);
+        double position = TurretConstants.LIMIT * movePercent * slowness;
 
         turret.setPosition(position);
     }

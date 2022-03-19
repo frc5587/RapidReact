@@ -41,8 +41,8 @@ public class Shooter extends SubsystemBase {
         leaderMotor.setInverted(ShooterConstants.SHOOTER_LEADER_INVERTED);
         followerMotor.setInverted(ShooterConstants.SHOOTER_FOLLOWER_INVERTED);
 
-        leaderMotor.setNeutralMode(NeutralMode.Coast);
-        followerMotor.setNeutralMode(NeutralMode.Coast);
+        leaderMotor.setNeutralMode(NeutralMode.Brake);
+        followerMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public void setVelocity(double velocity) {

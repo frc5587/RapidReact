@@ -18,4 +18,9 @@ public class SetTurret extends CommandBase {
         turret.enable();
         turret.setPosition((Math.PI / 2));
     }
+    
+    @Override
+    public boolean isFinished() {
+        return turret.isFinished();
+    }
 }

@@ -182,7 +182,7 @@ public class RobotContainer {
 //       new WaitCommand(0.5),
 //       new ClimbToPosition(outerLeftClimb, outerRightClimb, ClimbConstants.UPPER_lIMIT, true)));
 
-        xb.rightTrigger.and(xb.rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
+        // xb.rightTrigger.and(xb.rightStickY).whileActiveOnce(new ClimbThrottle(innerLeftClimb, innerRightClimb, outerLeftClimb, outerRightClimb, xb::getRightY));
     }
 
     private void buildAutos() {
