@@ -82,9 +82,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public double shootDistanceStationary(double distance) {
-        distance = distance         
-            + 0.677926 // dist from vision ring to center of hub
-            + 0.3048; // dist from center of hub to halfway point between center and inner back edge
         return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
     }
 
