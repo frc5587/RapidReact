@@ -11,8 +11,8 @@ public class ArcadeDrive extends CommandBase {
     private final Drivetrain drivetrain;
     private final DoubleSupplier throttleSupplier, curveSupplier;
     private double lastThrottle = 0;
-    private SlewRateLimiter throttleFilter = new SlewRateLimiter(4);
-    private SlewRateLimiter curveFilter = new SlewRateLimiter(4);
+    private SlewRateLimiter throttleFilter = new SlewRateLimiter(6);
+    private SlewRateLimiter curveFilter = new SlewRateLimiter(6);
 
     public ArcadeDrive(Drivetrain drivetrain, DoubleSupplier throttleSupplier, DoubleSupplier curveSupplier) {
         this.drivetrain = drivetrain;
