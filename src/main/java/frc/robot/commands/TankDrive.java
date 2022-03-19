@@ -7,8 +7,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TankDrive extends CommandBase {
-    private Drivetrain drivetrain;
-    private DoubleSupplier leftThrottleSupplier, rightThrottleSupplier;
+    private final Drivetrain drivetrain;
+    private final DoubleSupplier leftThrottleSupplier, rightThrottleSupplier;
 
     public TankDrive(Drivetrain drivetrain, DoubleSupplier leftThrottleSupplier, DoubleSupplier rightThrottleSupplier) {
         this.drivetrain = drivetrain;
@@ -20,8 +20,8 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        var leftThrottle = leftThrottleSupplier.getAsDouble();
-        var rightThrottle = rightThrottleSupplier.getAsDouble();
+        double leftThrottle = leftThrottleSupplier.getAsDouble();
+        double rightThrottle = rightThrottleSupplier.getAsDouble();
         drivetrain.tankDriveVolts(leftThrottle, rightThrottle);
     }
 

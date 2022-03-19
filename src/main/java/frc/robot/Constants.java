@@ -7,10 +7,10 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import org.frc5587.lib.auto.RamseteCommandWrapper.RamseteConstants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import org.frc5587.lib.pid.PID;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -62,8 +62,8 @@ public final class Constants {
         public static final double KP = 3.2643;
         public static final double TRACK_WIDTH = 0.419;
 
-        public static final double MAXIMUM_VELOCITY = 1; // m/s
-        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
+        public static final double MAXIMUM_VELOCITY = 3; // m/s
+        public static final double MAXIMUM_ACCELERATION = 3; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
             TRACK_WIDTH);
@@ -114,7 +114,7 @@ public final class Constants {
         public static final boolean RIGHT_HOOK_MOTOR_INVERTED = true;
         public static final boolean LEFT_HOOK_MOTOR_INVERTED = false;
         public static final boolean RIGHT_STICK_ARM_MOTOR_INVERTED = true;
-        public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = true;
+        public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = false;
 
         // current limits
         public static final int STALL_CURRENT_LIMIT = 40;
@@ -193,9 +193,8 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final int GEARING = 90;
 
-        public static final double LIMIT = Units.degreesToRadians(30);
+        public static final double LIMIT = Units.degreesToRadians(70);
     }
-
     /*
     SHOOTER
     */
@@ -231,6 +230,6 @@ public final class Constants {
         public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.7;
 
-        public static final double DEFAULT_SPIN_UP_VELOCITY = 15;
+        public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
     } 
 }

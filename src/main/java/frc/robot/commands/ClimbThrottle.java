@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ClimbThrottle extends CommandBase {
     private ClimbController climb;
     private DoubleSupplier hookThrottle, stickThrottle;
+    public static boolean isClimbing;
 
     public ClimbThrottle(ClimbController climb, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
         this.climb = climb;
@@ -21,6 +22,7 @@ public class ClimbThrottle extends CommandBase {
     @Override
     public void initialize() {
         climb.disable();
+        isClimbing = true;
     }
 
     @Override

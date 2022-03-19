@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LinebreakSensor extends SubsystemBase {
-    private DigitalInput linebreak = new DigitalInput(9);
+    private final DigitalInput linebreak = new DigitalInput(9);
 
     public LinebreakSensor() {}
 

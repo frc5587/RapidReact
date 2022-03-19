@@ -34,8 +34,6 @@ public class FireWhenReady extends CommandBase {
     @Override
     public void execute() {
         if (shooter.atSetpoint()) {
-            System.out.println(rightKicker.getPosition() + "  " + leftKicker.getPosition());
-
             rightKicker.moveMore(1);
             leftKicker.moveMore(1);
 

@@ -1,38 +1,38 @@
 package frc.robot.commands;
 
-import org.frc5587.lib.control.DeadbandXboxController;
-
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.Turret;
 
 public class ThrottleTurret extends CommandBase {
-    // private final DoubleSupplier positionSupplier;
     private final Turret turret;
-    private final DeadbandXboxController xb; 
+    private final DoubleSupplier throttleSupplier;
 
-    public ThrottleTurret(Turret turret, DeadbandXboxController xb) {
-        // this.positionSupplier = positionSupplier;
-        this.xb = xb;
+    public ThrottleTurret(Turret turret, DoubleSupplier throttleSupplier) {
         this.turret = turret;
+        this.throttleSupplier = throttleSupplier;
 
         addRequirements(turret);
     }
 
     @Override
     public void initialize() {
-        turret.enable();
+        turret.disable();
     }
 
     @Override
     public void execute() {
-        double movePercent = xb.getLeftX();
-        double position = TurretConstants.LIMIT * movePercent;
-        // System.out.println(positionSupplier.getAsDouble());
-        // System.out.println(xb.getLeftX() + "   " + position);
+        if(Math.abs(turret.getPositionRadians()) >= TurretConstants.LIMIT) {
+            turret.stopTurret();
+        }
+        else {
+            turret.setThrottle(throttleSupplier.getAsDouble() * 0.1);
+        }
+    }    
 
-        turret.setPosition(position);
+    @Override
+    public void end(boolean interrupted) {
+        turret.enable();
     }
-
-    
 }

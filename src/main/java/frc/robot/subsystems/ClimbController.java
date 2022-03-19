@@ -95,6 +95,7 @@ public class ClimbController extends SubsystemBase {
     }
 
     public void setHookThrottle(double throttle) {
+        System.out.println("Hook throttle: " + throttle);
         hookMotors.set(throttle);
     }
 
