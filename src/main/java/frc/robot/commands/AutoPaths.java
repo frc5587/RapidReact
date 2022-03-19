@@ -83,13 +83,13 @@ public class AutoPaths {
         stash2 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("stash"), AutoConstants.RAMSETE_CONSTANTS);
         taxi1 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("taxi 1"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("taxi 1"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         taxi2 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("taxi 2"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("taxi 2"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         taxi3 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("taxi 3"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("taxi 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         taxi4 = new RamseteCommandWrapper(drivetrain,
-            new AutoPath("taxi 4"), AutoConstants.RAMSETE_CONSTANTS);
+            new AutoPath("taxi 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
 
         this.pos1 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),

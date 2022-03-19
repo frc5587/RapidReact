@@ -62,8 +62,8 @@ public final class Constants {
         public static final double KP = 2.4066;
         public static final double TRACK_WIDTH = 0.419;
 
-        public static final double MAXIMUM_VELOCITY = 3; // m/s
-        public static final double MAXIMUM_ACCELERATION = 3; // m/s^2
+        public static final double MAXIMUM_VELOCITY = 1; // m/s
+        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
             TRACK_WIDTH);
