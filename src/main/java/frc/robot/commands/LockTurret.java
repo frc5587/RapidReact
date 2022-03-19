@@ -22,6 +22,7 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
+        // TODO CHECK IF WE'RE CLIMBING AND DONT RUN TURRET TRACK
         if(limelight.hasTarget()) {
             double error = limelight.getHorizontalAngle();             
             if (Math.abs(error) > 0.03) {

@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import org.frc5587.lib.auto.RamseteCommandWrapper.RamseteConstants;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import org.frc5587.lib.pid.PID;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -55,10 +56,10 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
     }
     public static final class AutoConstants {
-        public static final double KS = 0.68416;
-        public static final double KV = 2.4928;
-        public static final double KA = 0.3566;
-        public static final double KP = 3.2643;
+        public static final double KS = 0.67857;
+        public static final double KV = 2.464;
+        public static final double KA = 0.34891;
+        public static final double KP = 2.4066;
         public static final double TRACK_WIDTH = 0.419;
 
         public static final double MAXIMUM_VELOCITY = 3; // m/s
@@ -99,6 +100,42 @@ public final class Constants {
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
 
         public static final double MIN_VELOCITY = 2;
+    }
+    /*
+    CLIMB
+    */
+    public static final class ClimbConstants {
+        // motor ids
+        public static final int RIGHT_HOOK_ARM_MOTOR = 50;
+        public static final int LEFT_HOOK_ARM_MOTOR = 51;
+        public static final int RIGHT_STICK_ARM_MOTOR = 55;
+        public static final int LEFT_STICK_ARM_MOTOR = 56;
+
+        public static final boolean RIGHT_HOOK_MOTOR_INVERTED = true;
+        public static final boolean LEFT_HOOK_MOTOR_INVERTED = false;
+        public static final boolean RIGHT_STICK_ARM_MOTOR_INVERTED = true;
+        public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = false;
+
+        // current limits
+        public static final int STALL_CURRENT_LIMIT = 40;
+        public static final int FREE_CURRENT_LIMIT = 35;
+
+        // PID constants
+        public static final PIDController HOOK_UNLOADED_PID = new PIDController(0, 0, 0);
+        public static final PIDController HOOK_LOADED_PID = new PIDController(0, 0, 0);
+        public static final ElevatorFeedforward UNLOADED_HOOK_FF = new ElevatorFeedforward(0, 0, 0, 0);
+        public static final ElevatorFeedforward LOADED_HOOK_FF = new ElevatorFeedforward(0, 0, 0, 0);
+
+        public static final PIDController STICK_UNLOADED_PID = new PIDController(0, 0, 0);
+        public static final PIDController STICK_LOADED_PID = new PIDController(0, 0, 0);
+        public static final SimpleMotorFeedforward UNLOADED_STICK_FF = new SimpleMotorFeedforward(0, 0, 0);
+        public static final SimpleMotorFeedforward LOADED_STICK_FF = new SimpleMotorFeedforward(0, 0, 0);
+
+        // velocity and acceleration constraints
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1); // TODO Check these
+        public static final double SPOOL_RADIUS = 0.02;
+        public static final double HOOK_GEARING = 16;
+        public static final double STICK_GEARING = 15;
     }
     /*
     CONVEYOR

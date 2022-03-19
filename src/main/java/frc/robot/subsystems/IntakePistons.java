@@ -4,6 +4,7 @@ import frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -20,5 +21,13 @@ public class IntakePistons extends SubsystemBase {
 
     public void retract() {
         piston.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    public boolean isExtended() {
+        if(piston.get() == Value.kForward) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

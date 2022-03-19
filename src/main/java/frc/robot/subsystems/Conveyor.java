@@ -108,7 +108,7 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) );
+        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity));
     }
 
     @Override

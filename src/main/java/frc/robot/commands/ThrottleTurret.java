@@ -27,7 +27,7 @@ public class ThrottleTurret extends CommandBase {
             turret.stopTurret();
         }
         else {
-            turret.setThrottle(throttleSupplier.getAsDouble());
+            turret.setThrottle(throttleSupplier.getAsDouble() * 0.1);
         }
     }    
 
