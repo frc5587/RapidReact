@@ -85,12 +85,12 @@ public class RobotContainer {
         limelightTrigger.whileActiveOnce(lockTurret);
 
         // INTAKE
-        xb.bButton.and(xb.leftTrigger.negate()).whileActiveOnce(index);
-        xb.bButton.and(xb.leftTrigger).whileActiveOnce(bottomBallOut);
+        xb.bButton.and(xb.leftTrigger.negate()).and(xb.rightTrigger.negate()).whileActiveOnce(index);
+        xb.bButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(bottomBallOut);
 
         xb.yButton.and(xb.leftTrigger).whileActiveOnce(topBallOut);
 
-        xb.xButton.and(xb.rightTrigger)
+        xb.bButton.and(xb.rightTrigger)
             .whenActive(toggleIntakePistons);
 
         // SHOOTER
