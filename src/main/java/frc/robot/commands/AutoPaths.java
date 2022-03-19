@@ -94,87 +94,121 @@ public class AutoPaths {
         this.pos1 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    first1),
-                new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                new ParallelCommandGroup(
+                    first1
+                ),
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                ),
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    firstSteal1),
-                new ParallelCommandGroup(
+                    firstSteal1
+                ),
+                new ParallelRaceGroup (
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    secondSteal),
+                    secondSteal
+                ),
                 stash,
-                new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
-                new BottomBallOut(intake, intakePistons, conveyor)));
+                new ParallelRaceGroup(
+                    new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
+                    new BottomBallOut(intake, intakePistons, conveyor)
+                )));
 
         this.pos2 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    first2),
-                new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                new ParallelCommandGroup(
+                    first2
+                ),
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                ),
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    firstSteal2),
-                new ParallelCommandGroup(
+                    firstSteal2
+                ),
+                new ParallelRaceGroup (
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    secondSteal2),
+                    secondSteal2
+                ),
                 stash2,
-                new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
-                new BottomBallOut(intake, intakePistons, conveyor)));
+                new ParallelRaceGroup(
+                    new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter),
+                    new BottomBallOut(intake, intakePistons, conveyor)
+                )));
 
         this.pos3 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    first3),
-                new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                new ParallelCommandGroup(
+                    first3
+                ),
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                ),
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    second3),
-                new ParallelCommandGroup(
+                    second3
+                ),
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    third3),
+                    third3
+                ),
                 finalshoot3,
-                new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )));
 
         this.pos4 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    first4),
+                    first4
+                ),
                 firstshoot4,
-                new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                ),
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    second4),
-                new ParallelCommandGroup(
+                    second4
+                ),
+                new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
                         leftKicker, linebreakSensor, drivetrain),
-                    third4),
+                    third4
+                ),
                 finalshoot4,
-                new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )));
 
         Command emptyCommand = new SequentialCommandGroup();
         

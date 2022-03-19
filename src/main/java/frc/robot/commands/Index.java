@@ -65,7 +65,7 @@ public class Index extends CommandBase {
         }
 
         // Run intake at 2x speed of robot with a min velocity
-        intake.setVelocity(IntakeConstants.MIN_VELOCITY + (Math.abs(drivetrain.getLeftVelocityMetersPerSecond()) + Math.abs(drivetrain.getRightVelocityMetersPerSecond())) * 1.5);
+        intake.setVelocity(IntakeConstants.MIN_VELOCITY + (Math.abs(drivetrain.getLeftVelocityMetersPerSecond()) + Math.abs(drivetrain.getRightVelocityMetersPerSecond())) * 1);
     }
 
     /*

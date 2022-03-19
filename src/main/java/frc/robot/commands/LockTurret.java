@@ -29,5 +29,8 @@ public class LockTurret extends CommandBase {
                 turret.setPosition(turret.getPositionRadians() - error);
             }
         }
+        else {
+            turret.setPosition(0);
+        }
     }
 }
