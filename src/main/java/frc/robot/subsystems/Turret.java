@@ -14,12 +14,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends ProfiledPIDSubsystem {
-    private CANSparkMax turretMotor = new CANSparkMax(TurretConstants.TURRET_MOTOR, MotorType.kBrushless);
-    private RelativeEncoder encoder = turretMotor.getEncoder();
+    private final CANSparkMax turretMotor = new CANSparkMax(TurretConstants.TURRET_MOTOR, MotorType.kBrushless);
+    private final RelativeEncoder encoder = turretMotor.getEncoder();
     private double lastVelocity = 0;
     private State lastSetpoint = new State(0, 0);
-    private double upperLimit = TurretConstants.LIMIT;
-    private double lowerLimit = -TurretConstants.LIMIT;
+    private final double upperLimit = TurretConstants.LIMIT;
+    private final double lowerLimit = -TurretConstants.LIMIT;
 
     public Turret() {
         super(new ProfiledPIDController(

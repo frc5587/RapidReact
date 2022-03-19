@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
 public class TestKicker extends CommandBase {
-    private Kicker rightKicker, leftKicker;
+    private final Kicker rightKicker, leftKicker;
 
     public TestKicker(Kicker rightKicker, Kicker leftKicker) {
         this.rightKicker = rightKicker;

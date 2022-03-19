@@ -14,15 +14,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Shooter extends SubsystemBase {
     private static final double error_threshold = 0.01;
 
-    private WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
-    private WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
-
-    private MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
-
+    private final WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
+    private final WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
+    private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
     private boolean enabled = false;
     private double setpoint = 0;
-
-    private double time = 0;
 
     public Shooter() {
         configureShooterFalcon();

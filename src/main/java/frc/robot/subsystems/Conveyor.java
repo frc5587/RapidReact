@@ -17,8 +17,8 @@ import edu.wpi.first.math.util.Units;
 Use a motor to control wheels in order to intake & outtake balls to the robot.
 */
 public class Conveyor extends ProfiledPIDSubsystem {
-    private CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
-    private RelativeEncoder encoder = conveyorMotor.getEncoder();
+    private final CANSparkMax conveyorMotor = new CANSparkMax(ConveyorConstants.CONVEYOR_MOTOR, MotorType.kBrushless);
+    private final RelativeEncoder encoder = conveyorMotor.getEncoder();
     private double velocitySetpoint = 0;
     private ControlMode controlMode = ControlMode.OFF;
 
@@ -108,7 +108,7 @@ public class Conveyor extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity) );
+        conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity));
     }
 
     @Override
@@ -116,7 +116,6 @@ public class Conveyor extends ProfiledPIDSubsystem {
         super.periodic();
 
         if (controlMode == ControlMode.VELOCITY) {
-            System.out.println(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
             conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
         }
     }

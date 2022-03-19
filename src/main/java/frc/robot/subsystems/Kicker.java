@@ -17,10 +17,10 @@ import frc.robot.Constants.KickerConstants;
 import com.revrobotics.RelativeEncoder;
 
 public class Kicker extends ProfiledPIDSubsystem {
-    private CANSparkMax kickerMotor;
-    private RelativeEncoder kickerEncoder;
-    private SimpleMotorFeedforward feedforward;
-    private boolean motorInverted;
+    private final CANSparkMax kickerMotor;
+    private final RelativeEncoder kickerEncoder;
+    private final SimpleMotorFeedforward feedforward;
+    private final boolean motorInverted;
     private State lastSetpoint = new State(0, 0);
 
     public Kicker(int motorId, SimpleMotorFeedforward feedForward, PIDController PID, boolean motorInverted) {

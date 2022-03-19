@@ -53,8 +53,8 @@ public class Index extends CommandBase {
         if(linebreakSensor.isCrossed()) {
             conveyor.setVelocity(0);
             if(crossed == false) {
-                rightKicker.setGoal(rightKicker.getPosition() - 0.075);
-                leftKicker.setGoal(leftKicker.getPosition() - 0.075);
+                rightKicker.setGoal(rightKicker.getPosition() - 0.075); // more arbitrary than ur mother
+                leftKicker.setGoal(leftKicker.getPosition() - 0.075); // it's just a Tim Gunn Make It Work Moment
             }
             crossed = true;
             // rightKicker.disable();

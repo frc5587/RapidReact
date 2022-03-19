@@ -15,10 +15,10 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends DrivetrainBase {
-    private static WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
-    private static WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER);
-    private static WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
-    private static WPI_TalonFX rightFollower= new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
+    private static final WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
+    private static final WPI_TalonFX leftFollower = new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER);
+    private static final WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
+    private static final WPI_TalonFX rightFollower= new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
     private Field2d field = new Field2d();
     private Rotation2d lastRotation = new Rotation2d();
     private double angularVelocity = 0;
@@ -66,7 +66,6 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     public void configureMotors() {
-        System.out.println(leftLeader + "  " + leftFollower + "  " + rightLeader + " " + leftFollower);
         leftLeader.configFactoryDefault();
         rightLeader.configFactoryDefault();
         leftFollower.configFactoryDefault();
@@ -92,7 +91,7 @@ public class Drivetrain extends DrivetrainBase {
 
     @Override
     protected double getLeftPositionTicks() {
-        return rightLeader.getSelectedSensorPosition() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
+        return leftLeader.getSelectedSensorPosition() * (DrivetrainConstants.LEFT_ENCODERS_INVERTED ? -1:1);
     }
 
     @Override
