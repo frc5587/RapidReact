@@ -7,6 +7,8 @@ package frc.robot;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import org.frc5587.lib.control.*;
+
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -25,6 +27,7 @@ public class RobotContainer {
     // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
     // for TankDrive ^
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
+    private final PowerDistribution pdh = new PowerDistribution();
 
     // Subsystems
     private final Drivetrain drivetrain = new Drivetrain();
@@ -37,6 +40,7 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
+    private final ClimbController climbController = new ClimbController();
 
     // Commands
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
@@ -51,6 +55,8 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, xb::getRightY, xb::getLeftY);
+    private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
 
     // Auto Paths
     private final AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
@@ -60,7 +66,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        // Set default commands
+        pdh.clearStickyFaults();        // Set default commands
         drivetrain.setDefaultCommand(arcadeDrive);
         // drivetrain.setDefaultCommand(tankDrive);
         turret.setDefaultCommand(throttleTurret);
@@ -73,10 +79,10 @@ public class RobotContainer {
      * within {@link DeadbandXboxController}.
      */
     private void configureButtonBindings() {
-        Trigger limelightTrigger = new Trigger(limelight::hasTarget);
+        // Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
-        // TURRET
-        limelightTrigger.whileActiveOnce(lockTurret);
+        // // TURRET
+        // limelightTrigger.whileActiveOnce(lockTurret);
 
         // INTAKE
         xb.bButton.and(xb.leftTrigger.negate()).whileActiveOnce(index);
@@ -84,9 +90,20 @@ public class RobotContainer {
 
         xb.yButton.and(xb.leftTrigger).whileActiveOnce(topBallOut);
 
+        xb.xButton.and(xb.rightTrigger)
+            .whenActive(toggleIntakePistons);
+
         // SHOOTER
         xb.aButton.whileActiveOnce(spinUpShooter);
         xb.leftBumper.whileActiveOnce(fireWhenReady);
+
+        // CLIMB
+        (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger) // .or(xb.leftStickY))
+            .whileActiveOnce(climbThrottle);
+
+        // xb.leftStickY.and(xb.rightTrigger)
+        //     .whileActiveOnce(climbThrottle);
+
     }
 
     /**
