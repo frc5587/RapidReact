@@ -39,7 +39,7 @@ public class AutoPaths {
      * and {@link AutoPath}, then links them to a {@link SendableChooser}.
      * 
      * Positions can be seen here:
-     * <img src="./doc-files/autoposdiagram.png" width=100% />
+     * <img src="./doc-files/autoposdiagram_small.png" width=100% />
      */
     public AutoPaths(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker,     Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain, Limelight limelight, Turret turret, Shooter shooter) {
         // Auto Paths
