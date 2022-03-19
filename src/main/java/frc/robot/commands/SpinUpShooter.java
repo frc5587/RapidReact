@@ -26,6 +26,7 @@ public class SpinUpShooter extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println("shooterspin!!!");
         if (limelight.hasTarget()) {
             shooter.setVelocity(shooter.shootDistanceStationary(limelight.calculateDistance()));
 
@@ -40,5 +41,6 @@ public class SpinUpShooter extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooter.disable();
+        System.out.println("spin up ending");
     }
 }

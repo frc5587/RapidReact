@@ -55,7 +55,7 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY, intakePistons);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
 
     // Auto Paths

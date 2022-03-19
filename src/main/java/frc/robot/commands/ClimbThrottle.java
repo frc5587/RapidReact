@@ -11,12 +11,14 @@ public class ClimbThrottle extends CommandBase {
     private DoubleSupplier hookThrottle, stickThrottle;
     public boolean isClimbing;
     private final Turret turret;
+    private final IntakePistons intake;
 
-    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
+    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle, IntakePistons intake) {
         this.climb = climb;
         this.turret = turret;
         this.hookThrottle = hookThrottle;
         this.stickThrottle = stickThrottle;
+        this.intake = intake;
 
         addRequirements(climb);
     }
@@ -27,6 +29,7 @@ public class ClimbThrottle extends CommandBase {
         isClimbing = true;
         turret.enable();
         turret.setPosition(0);
+        intake.extend();
     }
 
     @Override
@@ -39,5 +42,6 @@ public class ClimbThrottle extends CommandBase {
     public void end(boolean interrupted) {
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
+        intake.retract();
     }
 }

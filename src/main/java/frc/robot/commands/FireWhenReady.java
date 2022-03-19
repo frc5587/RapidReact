@@ -33,6 +33,7 @@ public class FireWhenReady extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println("shooter firewhenready!!!");
         if (shooter.atSetpoint()) {
             rightKicker.moveMore(1);
             leftKicker.moveMore(1);
@@ -50,5 +51,6 @@ public class FireWhenReady extends CommandBase {
         rightKicker.disable();
         leftKicker.disable();
         shooter.disable();
+        System.out.println("fire when read ending");
     }
 }
