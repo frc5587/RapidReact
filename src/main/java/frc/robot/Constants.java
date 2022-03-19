@@ -186,6 +186,7 @@ public final class Constants {
         public static final boolean TURRET_MOTOR_INVERTED = false;
         public static final int STALL_CURRENT_LIMIT = 35;
         public static final int FREE_CURRENT_LIMIT = 30;
+        public static final double THROTTLE_MULTIPLIER = 0.1;
 
         // PID Constants
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);

@@ -1,11 +1,8 @@
 package frc.robot.subsystems;
 
-import frc.robot.subsystems.*;
 import frc.robot.Constants.*;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.*;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
