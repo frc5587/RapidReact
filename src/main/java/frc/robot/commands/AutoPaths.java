@@ -13,6 +13,10 @@ public class AutoPaths {
     private final RamseteCommandWrapper first2;
     private final RamseteCommandWrapper first3;
     private final RamseteCommandWrapper first4;
+    private final RamseteCommandWrapper first12;
+    private final RamseteCommandWrapper first22;
+    private final RamseteCommandWrapper first32;
+    private final RamseteCommandWrapper first42;
     private final RamseteCommandWrapper second3;
     private final RamseteCommandWrapper second4;
     private final RamseteCommandWrapper third3;
@@ -34,8 +38,12 @@ public class AutoPaths {
     // define auto command groups here so they can be referenced anywhere
     public final Command pos1;
     public final Command pos2;
-    public final Command pos3;
-    public final Command pos4;
+    public final Command pos3FourBall;
+    public final Command pos4FourBall;
+    public final Command pos1NoStash;
+    public final Command pos2NoStash;
+    public final Command pos3TwoBall;
+    public final Command pos4TwoBall;
 
     SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -57,6 +65,14 @@ public class AutoPaths {
         first3 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         first4 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first12 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first22 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("first 2"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first32 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first42 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         second3 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("second 3"), AutoConstants.RAMSETE_CONSTANTS);
@@ -124,7 +140,10 @@ public class AutoPaths {
                 new ParallelRaceGroup(
                     new BottomBallOut(intake, intakePistons, conveyor),
                     new WaitCommand(3)
-                )));
+                )
+            )
+        );
+
         this.pos2 = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
@@ -156,9 +175,11 @@ public class AutoPaths {
                 new ParallelRaceGroup(
                     new BottomBallOut(intake, intakePistons, conveyor),
                     new WaitCommand(3)
-                )));
+                )
+            )
+        );
 
-        this.pos3 = new ParallelCommandGroup(
+        this.pos3FourBall = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
@@ -168,33 +189,29 @@ public class AutoPaths {
                 ),
                 new ParallelCommandGroup(
                     new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
-                    // new WaitCommand(10)
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
                 ), 
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    second3
+                ),
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    third3
+                ),
+                finalshoot3,
+                new ParallelRaceGroup(
                     new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)
-                    // new WaitCommand(10)
-                )//,
-                // new ParallelRaceGroup(
-                //     new Index(intake, intakePistons, conveyor, rightKicker,
-                //         leftKicker, linebreakSensor, drivetrain),
-                //     second3
-                // ),
-                // new ParallelRaceGroup(
-                //     new Index(intake, intakePistons, conveyor, rightKicker,
-                //         leftKicker, linebreakSensor, drivetrain),
-                //     third3
-                // ),
-                // finalshoot3,
-                // new ParallelRaceGroup(
-                //     new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                //     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                //     new WaitCommand(4)
-                // )
-                ));
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )
+            )        
+        );
 
-        this.pos4 = new ParallelCommandGroup(
+        this.pos4FourBall = new ParallelCommandGroup(
             new LockTurret(turret, limelight, drivetrain),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
@@ -207,31 +224,101 @@ public class AutoPaths {
                     new SpinUpShooter(shooter, drivetrain, turret, limelight),
                     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
                     new WaitCommand(4)
-                )//,
-                // new ParallelRaceGroup(
-                //     new Index(intake, intakePistons, conveyor, rightKicker,
-                //         leftKicker, linebreakSensor, drivetrain),
-                //     second4
-                // ),
-                // new ParallelRaceGroup(
-                //     new Index(intake, intakePistons, conveyor, rightKicker,
-                //         leftKicker, linebreakSensor, drivetrain),
-                //     third4
-                // ),
-                // finalshoot4,
-                // new ParallelRaceGroup(
-                //     new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                //     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
-                //     new WaitCommand(4)
-                // )
-                ));
+                ),
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    second4
+                ),
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    third4
+                ),
+                finalshoot4,
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )
+            )
+        );
+
+        this.pos1NoStash = new ParallelCommandGroup(
+            new LockTurret(turret, limelight, drivetrain),
+            new SequentialCommandGroup(
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    first12
+                ),
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )
+            )
+        );
+
+        this.pos2NoStash = new ParallelCommandGroup(
+            new LockTurret(turret, limelight, drivetrain),
+            new SequentialCommandGroup(
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    first22
+                ),
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )
+            )
+        );
+
+        this.pos3TwoBall = new ParallelCommandGroup(
+            new LockTurret(turret, limelight, drivetrain),
+            new SequentialCommandGroup(
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    first32
+                ),
+                new ParallelCommandGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )
+            )        
+        );
+
+        this.pos4TwoBall = new ParallelCommandGroup(
+            new LockTurret(turret, limelight, drivetrain),
+            new SequentialCommandGroup(
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                        leftKicker, linebreakSensor, drivetrain),
+                    first42
+                ),
+                firstshoot4,
+                new ParallelRaceGroup(
+                    new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
+                    new WaitCommand(4)
+                )
+            )
+        );
 
         Command emptyCommand = new SequentialCommandGroup();
         
-        autoChooser.addOption("1st Position", pos1);
-        autoChooser.addOption("2nd Position", pos2);
-        autoChooser.addOption("3rd Position", pos3);
-        autoChooser.addOption("4th Position", pos4);
+        autoChooser.addOption("1st Position With Stash", pos1);
+        autoChooser.addOption("2nd Position With Stash", pos2);
+        autoChooser.addOption("3rd Position 4 Ball", pos3FourBall);
+        autoChooser.addOption("4th Position 4 Ball", pos4FourBall);
+        autoChooser.addOption("1st Position No Stash", pos1);
+        autoChooser.addOption("2nd Position No Stash", pos2);
+        autoChooser.addOption("3rd Position 2 Ball", pos3FourBall);
+        autoChooser.addOption("4th Position 2 Ball", pos4FourBall);
         autoChooser.addOption("Taxi 1st Pos", taxi1);
         autoChooser.addOption("Taxi 2nd Pos", taxi2);
         autoChooser.addOption("Taxi 3rd Pos", taxi3);
