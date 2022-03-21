@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import org.frc5587.lib.subsystems.LimelightBase;
 
-import frc.robot.Constants.*;
+import frc.robot.Constants.LimelightConstants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.IntakePistons;
 
 public class ToggleIntakePistons extends InstantCommand {
     private final IntakePistons intakePistons;

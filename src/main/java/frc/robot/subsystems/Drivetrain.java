@@ -2,13 +2,15 @@ package frc.robot.subsystems;
 
 import org.frc5587.lib.subsystems.DrivetrainBase;
 
-import frc.robot.Constants.*;
+import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.AutoConstants;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class Drivetrain extends DrivetrainBase {

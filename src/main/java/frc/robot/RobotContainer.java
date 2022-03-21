@@ -6,7 +6,8 @@ package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import org.frc5587.lib.control.*;
+import org.frc5587.lib.control.DeadbandJoystick;
+import org.frc5587.lib.control.DeadbandXboxController;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;

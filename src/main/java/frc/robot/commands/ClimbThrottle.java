@@ -9,9 +9,9 @@ import java.util.function.DoubleSupplier;
 public class ClimbThrottle extends CommandBase {
     private ClimbController climb;
     private DoubleSupplier hookThrottle, stickThrottle;
-    public boolean isClimbing;
     private final Turret turret;
     private final IntakePistons intake;
+    public boolean isClimbing;
 
     public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle, IntakePistons intake) {
         this.climb = climb;

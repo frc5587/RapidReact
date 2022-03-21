@@ -1,11 +1,13 @@
 package frc.robot.commands;
 
-import org.frc5587.lib.auto.*;
+import org.frc5587.lib.auto.RamseteCommandWrapper;
+import org.frc5587.lib.auto.AutoPath;
 
 import frc.robot.subsystems.*;
-import frc.robot.Constants.*;
+import frc.robot.Constants.AutoConstants;
 
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 
 public class AutoPaths {
