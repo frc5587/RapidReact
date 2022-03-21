@@ -1,15 +1,18 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
+import frc.robot.Constants.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.KickerConstants;
 
 public class Kicker extends ProfiledPIDSubsystem {
     private final CANSparkMax kickerMotor;

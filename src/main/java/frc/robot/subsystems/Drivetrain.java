@@ -1,16 +1,15 @@
 package frc.robot.subsystems;
 
+import org.frc5587.lib.subsystems.DrivetrainBase;
+
+import frc.robot.Constants.*;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import org.frc5587.lib.subsystems.DrivetrainBase;
-
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DrivetrainConstants;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
@@ -56,10 +55,10 @@ public class Drivetrain extends DrivetrainBase {
         leftFollower.setNeutralMode(NeutralMode.Brake);
         rightFollower.setNeutralMode(NeutralMode.Brake);
 
-        leftLeader.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
-        rightLeader.setInverted(DrivetrainConstants.RIGHT_SIDE_INVERTED);
-        leftFollower.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
-        rightFollower.setInverted(DrivetrainConstants.RIGHT_SIDE_INVERTED);
+        leftLeader.setInverted(DrivetrainConstants.LEFT_MOTORS_INVERTED);
+        rightLeader.setInverted(DrivetrainConstants.RIGHT_MOTORS_INVERTED);
+        leftFollower.setInverted(DrivetrainConstants.LEFT_MOTORS_INVERTED);
+        rightFollower.setInverted(DrivetrainConstants.RIGHT_MOTORS_INVERTED);
 
         leftLeader.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
         rightLeader.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);

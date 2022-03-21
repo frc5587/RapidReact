@@ -22,56 +22,59 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // Controllers
+    /* Controllers */
     private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
-    // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
-    // for TankDrive ^
+    // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5); // TankDrive
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
+
     private final PowerDistribution pdh = new PowerDistribution();
 
-    // Subsystems
+    /* Subsystems */
     private final Drivetrain drivetrain = new Drivetrain();
-    private final IntakePistons intakePistons = new IntakePistons();
+    private final ClimbController climbController = new ClimbController();
     private final Intake intake = new Intake();
+    private final IntakePistons intakePistons = new IntakePistons();
     private final Conveyor conveyor = new Conveyor();
     private final Kicker rightKicker = Kicker.createRightKicker();
     private final Kicker leftKicker = Kicker.createLeftKicker();
-    private final LinebreakSensor linebreakSensor = new LinebreakSensor();
-    private final Limelight limelight = new Limelight();
     private final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
-    private final ClimbController climbController = new ClimbController();
+    private final LinebreakSensor linebreakSensor = new LinebreakSensor();
+    private final Limelight limelight = new Limelight();
 
-    // Commands
+    /* Commands */
     private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
             () -> -joystick.getXCurveDampened());
     // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY,
     // rightJoystick::getY);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY,
+            intakePistons);
+    private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
             drivetrain);
-    private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
+    private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY, intakePistons);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, climbThrottle);
-    private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
 
-    // Auto Paths
-    private final AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
-        drivetrain, limelight, turret, shooter, climbThrottle);
+    /* Auto Paths */
+    private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker,
+            linebreakSensor,
+            drivetrain, limelight, turret, shooter, climbThrottle);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        pdh.clearStickyFaults();        
-        // Set default commands
+        /* Clear sticky fault LEDs on PDH upon deploy */
+        pdh.clearStickyFaults();
+        /* Set default commands */
         drivetrain.setDefaultCommand(arcadeDrive);
         // drivetrain.setDefaultCommand(tankDrive);
         turret.setDefaultCommand(throttleTurret);
-        // Configure the button bindings
+        /* Configure the button bindings */
         configureButtonBindings();
     }
 
@@ -82,25 +85,33 @@ public class RobotContainer {
     private void configureButtonBindings() {
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
 
-        // // TURRET
-        limelightTrigger.whileActiveOnce(lockTurret);
-
-        // INTAKE
+        /*
+         * INDEX
+         */
         xb.bButton.and(xb.leftTrigger.negate()).and(xb.rightTrigger.negate()).whileActiveOnce(index);
-        xb.bButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(bottomBallOut);
 
+        xb.bButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(bottomBallOut);
         xb.yButton.and(xb.leftTrigger).whileActiveOnce(topBallOut);
 
-        xb.bButton.and(xb.rightTrigger)
-            .whenActive(toggleIntakePistons);
+        /*
+         * TURRET
+         */
+        limelightTrigger.whileActiveOnce(lockTurret);
 
-        // SHOOTER
+        /*
+         * SHOOTER
+         */
         xb.aButton.whileActiveOnce(spinUpShooter);
         xb.leftBumper.whileActiveOnce(fireWhenReady);
 
-        // CLIMB
+        /*
+         * CLIMB
+         */
         (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger)
-            .whileActiveOnce(climbThrottle);
+                .whileActiveOnce(climbThrottle);
+
+        xb.bButton.and(xb.rightTrigger)
+                .whenActive(toggleIntakePistons);
     }
 
     /**
@@ -109,6 +120,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return autopaths.getSelectedCommand();
+        return autoPaths.getSelectedCommand();
     }
 }

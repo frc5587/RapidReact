@@ -1,10 +1,11 @@
 package frc.robot.commands;
 
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.*;
-import frc.robot.subsystems.Conveyor.ControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.subsystems.*;
+import frc.robot.Constants.*;
+
+import frc.robot.subsystems.Conveyor.ControlMode;
 
 public class Index extends CommandBase {
     private final Intake intake;

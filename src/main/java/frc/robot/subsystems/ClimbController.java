@@ -1,13 +1,16 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants.ClimbConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.math.util.Units;
+
+import frc.robot.Constants.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.math.util.Units;
 
 public class ClimbController extends SubsystemBase {
     private final CANSparkMax rightHookClimb = new CANSparkMax(ClimbConstants.RIGHT_HOOK_ARM_MOTOR, MotorType.kBrushless);

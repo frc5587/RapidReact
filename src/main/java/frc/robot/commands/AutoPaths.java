@@ -2,8 +2,9 @@ package frc.robot.commands;
 
 import org.frc5587.lib.auto.*;
 
-import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.*;
+import frc.robot.Constants.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 

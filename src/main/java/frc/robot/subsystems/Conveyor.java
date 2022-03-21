@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants.ConveyorConstants;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
+import frc.robot.Constants.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
 import edu.wpi.first.math.util.Units;
 
