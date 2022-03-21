@@ -25,8 +25,8 @@ public class ClimbThrottle extends CommandBase {
 
     @Override
     public void initialize() {
-        climb.disable();
         isClimbing = true;
+        climb.disable();
         turret.enable();
         turret.setPosition(0);
         intake.extend();
@@ -40,6 +40,7 @@ public class ClimbThrottle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        isClimbing = false;
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
         intake.retract();

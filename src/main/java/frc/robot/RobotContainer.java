@@ -51,22 +51,23 @@ public class RobotContainer {
             drivetrain);
     private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
-    private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
     private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY, intakePistons);
+    private final LockTurret lockTurret = new LockTurret(turret, limelight, climbThrottle);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
 
     // Auto Paths
     private final AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
-        drivetrain, limelight, turret, shooter);
+        drivetrain, limelight, turret, shooter, climbThrottle);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        pdh.clearStickyFaults();        // Set default commands
+        pdh.clearStickyFaults();        
+        // Set default commands
         drivetrain.setDefaultCommand(arcadeDrive);
         // drivetrain.setDefaultCommand(tankDrive);
         turret.setDefaultCommand(throttleTurret);
@@ -98,12 +99,8 @@ public class RobotContainer {
         xb.leftBumper.whileActiveOnce(fireWhenReady);
 
         // CLIMB
-        (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger) // .or(xb.leftStickY))
+        (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger)
             .whileActiveOnce(climbThrottle);
-
-        // xb.leftStickY.and(xb.rightTrigger)
-        //     .whileActiveOnce(climbThrottle);
-
     }
 
     /**

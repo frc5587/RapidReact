@@ -56,7 +56,7 @@ public class AutoPaths {
      */
     public AutoPaths(Intake intake, IntakePistons intakePistons, Conveyor conveyor, Kicker rightKicker,
     Kicker leftKicker, LinebreakSensor linebreakSensor, Drivetrain drivetrain, Limelight limelight, 
-    Turret turret, Shooter shooter) {
+    Turret turret, Shooter shooter, ClimbThrottle climbCommand) {
         // Auto Paths
         first1 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
@@ -110,7 +110,7 @@ public class AutoPaths {
             new AutoPath("taxi 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
 
         this.pos1 = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -145,7 +145,7 @@ public class AutoPaths {
         );
 
         this.pos2 = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -180,7 +180,7 @@ public class AutoPaths {
         );
 
         this.pos3FourBall = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -212,7 +212,7 @@ public class AutoPaths {
         );
 
         this.pos4FourBall = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -245,7 +245,7 @@ public class AutoPaths {
         );
 
         this.pos1NoStash = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -261,7 +261,7 @@ public class AutoPaths {
         );
 
         this.pos2NoStash = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -277,7 +277,7 @@ public class AutoPaths {
         );
 
         this.pos3TwoBall = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -293,7 +293,7 @@ public class AutoPaths {
         );
 
         this.pos4TwoBall = new ParallelCommandGroup(
-            new LockTurret(turret, limelight, drivetrain),
+            new LockTurret(turret, limelight, climbCommand),
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,

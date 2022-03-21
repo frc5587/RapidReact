@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ArcadeDrive extends CommandBase {
     private final Drivetrain drivetrain;
     private final DoubleSupplier throttleSupplier, curveSupplier;
-    private double lastThrottle = 0;
     private SlewRateLimiter throttleFilter = new SlewRateLimiter(4);
     private SlewRateLimiter curveFilter = new SlewRateLimiter(4);
 
@@ -26,8 +24,6 @@ public class ArcadeDrive extends CommandBase {
     public void execute() {
         double throttle = throttleSupplier.getAsDouble();
         double curve = curveSupplier.getAsDouble();
-
-        // lastThrottle += Math.min(Math.max(throttle - lastThrottle, -1./15.), 1./15.);
 
         drivetrain.arcadeDrive(throttleFilter.calculate(throttle), curveFilter.calculate(curve));
     }

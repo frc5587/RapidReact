@@ -49,19 +49,14 @@ public class Shooter extends SubsystemBase {
     public void disable() {
         stop();
         enabled = false;
-        stopVoltage();
     }
 
     public boolean isEnabled() {
-        return enabled == true;
+        return enabled;
     }
     
     public void stop() {
         setVelocity(0);
-    }
-
-    public void stopVoltage() {
-        shooterMotors.setVoltage(0);
     }
 
     public void resetEncoders() {
@@ -70,7 +65,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getVelocity() {
-        return (leaderMotor.getSelectedSensorVelocity() / (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
+        // Encoder velocity divided by (EPR * (wheel circumference / gearing)
+        return (leaderMotor.getSelectedSensorVelocity() / 
+        (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * 
+        (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
     public double getSmartDashboard() {
@@ -108,20 +106,12 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        super.periodic();
-
-        SmartDashboard.putNumber("Setpoint", setpoint);
-        SmartDashboard.putNumber("PID Output", ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        SmartDashboard.putNumber("Voltage", ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        SmartDashboard.putNumber("Real Velocity", getVelocity());
-        SmartDashboard.putNumber("Feedforward", ShooterConstants.SHOOTER_FF.calculate(setpoint));
-        SmartDashboard.putBoolean("At threshold", atSetpoint());
+        SmartDashboard.putNumber("Shooter Setpoint", setpoint);
+        SmartDashboard.putNumber("Shooter Velocity", getVelocity());
+        SmartDashboard.putBoolean("Shooter At Threshold?", atSetpoint());
 
         if(isEnabled()) {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
-        
-        // if(getVelocity() != 0)
-            // System.out.println(getVelocity() + "  " + getSmartDashboard() + "  "+ setpoint + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
     }
 }

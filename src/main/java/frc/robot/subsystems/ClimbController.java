@@ -1,15 +1,11 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants.*;
-
+import frc.robot.Constants.ClimbConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
-import edu.wpi.first.math.controller.*;
 import edu.wpi.first.math.util.Units;
-
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -31,33 +27,13 @@ public class ClimbController extends SubsystemBase {
     protected double hookPosition;
     protected double stickPosition;
 
-    private ClimbHook climbHookLoaded = new ClimbHook(new ProfiledPIDController(
-        ClimbConstants.HOOK_LOADED_PID.getP(),
-        ClimbConstants.HOOK_LOADED_PID.getI(),
-        ClimbConstants.HOOK_LOADED_PID.getD(),
-        ClimbConstants.CONSTRAINTS
-    ), this, hookMotors);
+    private ClimbHook climbHookLoaded = new ClimbHook(ClimbConstants.HOOK_LOADED_PID, this, hookMotors);
 
-    private ClimbHook climbHookUnloaded = new ClimbHook(new ProfiledPIDController(
-        ClimbConstants.HOOK_UNLOADED_PID.getP(),
-        ClimbConstants.HOOK_UNLOADED_PID.getI(),
-        ClimbConstants.HOOK_UNLOADED_PID.getD(),
-        ClimbConstants.CONSTRAINTS
-    ), this, hookMotors);
+    private ClimbHook climbHookUnloaded = new ClimbHook(ClimbConstants.HOOK_UNLOADED_PID, this, hookMotors);
 
-    private ClimbStick climbStickLoaded = new ClimbStick(new ProfiledPIDController(
-        ClimbConstants.STICK_LOADED_PID.getP(),
-        ClimbConstants.STICK_LOADED_PID.getI(),
-        ClimbConstants.STICK_LOADED_PID.getD(),
-        ClimbConstants.CONSTRAINTS
-    ), this, stickMotors);
+    private ClimbStick climbStickLoaded = new ClimbStick(ClimbConstants.STICK_LOADED_PID, this, stickMotors);
 
-    private ClimbStick climbStickUnloaded = new ClimbStick(new ProfiledPIDController(
-        ClimbConstants.STICK_UNLOADED_PID.getP(),
-        ClimbConstants.STICK_UNLOADED_PID.getI(),
-        ClimbConstants.STICK_UNLOADED_PID.getD(),
-        ClimbConstants.CONSTRAINTS
-    ), this, stickMotors);
+    private ClimbStick climbStickUnloaded = new ClimbStick(ClimbConstants.STICK_UNLOADED_PID, this, stickMotors);
 
     public ClimbController() {
         configureClimbMotors();

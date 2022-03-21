@@ -38,7 +38,6 @@ public class Index extends CommandBase {
         // Enable Kicker PositionPID
         rightKicker.enable();
         leftKicker.enable();
-        // System.out.println(rightKicker + "  " + leftKicker);
         conveyor.setControlMode(ControlMode.VELOCITY);
         if(!linebreakSensor.isCrossed()) {
             conveyor.setVelocity(3);
@@ -57,8 +56,6 @@ public class Index extends CommandBase {
                 leftKicker.setGoal(leftKicker.getPosition() - 0.075); // it's just a Tim Gunn Make It Work Moment
             }
             crossed = true;
-            // rightKicker.disable();
-            // leftKicker.disable();
         } else {
             rightKicker.setGoal(rightKicker.getPosition() + 0.1);
             leftKicker.setGoal(leftKicker.getPosition() + 0.1);

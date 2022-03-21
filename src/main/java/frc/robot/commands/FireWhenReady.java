@@ -26,7 +26,6 @@ public class FireWhenReady extends CommandBase {
     public void initialize() {
         rightKicker.enable();
         leftKicker.enable();
-        // conveyor.enable();
         conveyor.setControlMode(ControlMode.VELOCITY);
         conveyor.setVelocity(0);
     }
@@ -51,6 +50,5 @@ public class FireWhenReady extends CommandBase {
         rightKicker.disable();
         leftKicker.disable();
         shooter.disable();
-        System.out.println("fire when read ending");
     }
 }

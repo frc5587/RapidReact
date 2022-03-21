@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class LockTurret extends CommandBase {
     private final Turret turret;
     private final Limelight limelight;
+    private final ClimbThrottle climbCommand;
 
-    public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain) {
+    public LockTurret(Turret turret, Limelight limelight, ClimbThrottle climbCommand) {
         this.turret = turret;
         this.limelight = limelight;
+        this.climbCommand = climbCommand;
 
         addRequirements(turret, limelight);
     }
@@ -22,8 +24,7 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
-        // TODO CHECK IF WE'RE CLIMBING AND DONT RUN TURRET TRACK
-        if(limelight.hasTarget()) {
+        if(limelight.hasTarget() && !climbCommand.isClimbing) {
             double error = limelight.getHorizontalAngle();             
             if (Math.abs(error) > 0.03) {
                 turret.setPosition(turret.getPositionRadians() - error);

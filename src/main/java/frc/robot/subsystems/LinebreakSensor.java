@@ -9,6 +9,6 @@ public class LinebreakSensor extends SubsystemBase {
     public LinebreakSensor() {}
 
     public boolean isCrossed() {
-        return linebreak.get() == false;
+        return !linebreak.get();
     }
 }
