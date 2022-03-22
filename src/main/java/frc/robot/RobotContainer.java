@@ -43,8 +43,10 @@ public class RobotContainer {
     private final ClimbController climbController = new ClimbController();
 
     // Commands
-    private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
-            () -> -joystick.getXCurveDampened());
+    // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
+    //         () -> -joystick.getXCurveDampened());
+    private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
+            joystick::getTrigger);
     // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY,
     // rightJoystick::getY);
     private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
@@ -55,19 +57,21 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY, intakePistons);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY, xb::getLeftY,
+            intakePistons);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
 
     // Auto Paths
-    private final AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor,
-        drivetrain, limelight, turret, shooter);
+    private final AutoPaths autopaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker,
+            linebreakSensor,
+            drivetrain, limelight, turret, shooter);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        pdh.clearStickyFaults();        // Set default commands
-        drivetrain.setDefaultCommand(arcadeDrive);
+        pdh.clearStickyFaults(); // Set default commands
+        drivetrain.setDefaultCommand(curveDrive);
         // drivetrain.setDefaultCommand(tankDrive);
         turret.setDefaultCommand(throttleTurret);
         // Configure the button bindings
@@ -91,7 +95,7 @@ public class RobotContainer {
         xb.yButton.and(xb.leftTrigger).whileActiveOnce(topBallOut);
 
         xb.bButton.and(xb.rightTrigger)
-            .whenActive(toggleIntakePistons);
+                .whenActive(toggleIntakePistons);
 
         // SHOOTER
         xb.aButton.whileActiveOnce(spinUpShooter);
@@ -99,10 +103,10 @@ public class RobotContainer {
 
         // CLIMB
         (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger) // .or(xb.leftStickY))
-            .whileActiveOnce(climbThrottle);
+                .whileActiveOnce(climbThrottle);
 
         // xb.leftStickY.and(xb.rightTrigger)
-        //     .whileActiveOnce(climbThrottle);
+        // .whileActiveOnce(climbThrottle);
 
     }
 

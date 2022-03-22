@@ -28,7 +28,8 @@ public class Drivetrain extends DrivetrainBase {
         DrivetrainConstants.HISTORY_LIMIT, 
         DrivetrainConstants.INVERT_GYRO,
         DrivetrainConstants.ENCODER_EPR, 
-        DrivetrainConstants.GEARING
+        DrivetrainConstants.GEARING,
+        AutoConstants.TRACK_WIDTH
     );
 
     public Drivetrain() {

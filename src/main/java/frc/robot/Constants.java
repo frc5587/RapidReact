@@ -56,11 +56,11 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
     }
     public static final class AutoConstants {
-        public static final double KS = 0.67857;
-        public static final double KV = 2.464;
-        public static final double KA = 0.34891;
-        public static final double KP = 2.4066;
+        public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(0.67857, 2.464, 0.34891);
+        public static final PIDController PID_CONTROLLER = new PIDController(2.4066, 0, 0);
         public static final double TRACK_WIDTH = 0.419;
+
+        public static final double THEORETICAL_TOP_SPEED = (12 - FEEDFORWARD.ks) / FEEDFORWARD.kv;
 
         public static final double MAXIMUM_VELOCITY = 2; // m/s
         public static final double MAXIMUM_ACCELERATION = 2; // m/s^2
@@ -69,7 +69,7 @@ public final class Constants {
             TRACK_WIDTH);
 
         public static final RamseteConstants RAMSETE_CONSTANTS = new RamseteConstants(
-            KS, KV, KA, KP, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, DRIVETRAIN_KINEMATICS);
+            FEEDFORWARD, PID_CONTROLLER, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, DRIVETRAIN_KINEMATICS);
     }
     /*
     INTAKE PISTONS
