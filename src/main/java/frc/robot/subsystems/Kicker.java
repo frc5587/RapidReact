@@ -1,20 +1,18 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
+import frc.robot.Constants.KickerConstants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.KickerConstants;
-
-import com.revrobotics.RelativeEncoder;
 
 public class Kicker extends ProfiledPIDSubsystem {
     private final CANSparkMax kickerMotor;
@@ -23,13 +21,8 @@ public class Kicker extends ProfiledPIDSubsystem {
     private final boolean motorInverted;
     private State lastSetpoint = new State(0, 0);
 
-    public Kicker(int motorId, SimpleMotorFeedforward feedForward, PIDController PID, boolean motorInverted) {
-        super(new ProfiledPIDController(
-            PID.getP(),
-            PID.getI(),
-            PID.getD(),
-            Constants.KickerConstants.CONSTRAINTS
-        ));
+    public Kicker(int motorId, SimpleMotorFeedforward feedForward, ProfiledPIDController PID, boolean motorInverted) {
+        super(PID);
 
         this.feedforward = feedForward;
         this.motorInverted = motorInverted;

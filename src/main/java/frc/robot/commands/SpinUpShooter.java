@@ -1,8 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.*;
+
 import frc.robot.subsystems.*;
+import frc.robot.Constants.*;
 
 public class SpinUpShooter extends CommandBase {
     private final Shooter shooter;
@@ -34,7 +35,7 @@ public class SpinUpShooter extends CommandBase {
             // shooter.setVelocity(shooter.shootDistanceMoving(drivetrain, turret, limelight, limelight.calculateDistance()));
             // System.out.println(shooter.shootDistanceMoving(drivetrain, turret, limelight, limelight.calculateDistance()));
         } else {
-            shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);
+            shooter.setVelocity(LimelightConstants.DEFAULT_SPIN_UP_VELOCITY);
         }
     }
 

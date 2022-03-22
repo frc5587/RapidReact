@@ -1,12 +1,15 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants.*;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Constants.ShooterConstants;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.*;
-import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.util.Units;
 
 public class Shooter extends SubsystemBase {
     private static final double error_threshold = 0.01;
@@ -49,19 +52,14 @@ public class Shooter extends SubsystemBase {
     public void disable() {
         stop();
         enabled = false;
-        stopVoltage();
     }
 
     public boolean isEnabled() {
-        return enabled == true;
+        return enabled;
     }
     
     public void stop() {
         setVelocity(0);
-    }
-
-    public void stopVoltage() {
-        shooterMotors.setVoltage(0);
     }
 
     public void resetEncoders() {
@@ -70,7 +68,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getVelocity() {
-        return (leaderMotor.getSelectedSensorVelocity() / (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
+        // Encoder velocity divided by (EPR * (wheel circumference / gearing)
+        return (leaderMotor.getSelectedSensorVelocity() / 
+        (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * 
+        (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
     public double getSmartDashboard() {
@@ -92,36 +93,18 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    /**
-     * Calculate the flywheel velocity to spin up to, while factoring in drivetrain velocity.
-     * <p>
-     * @see {@link https://www.desmos.com/calculator/yad5bwclbs}
-     * @param drivetrain
-     * @param turret
-     * @param limelight
-     * @param distance - distance to shoot
-     * @return double velocity of the flywheel
-     */
     public double shootDistanceMoving(Drivetrain drivetrain, Turret turret, Limelight limelight, double distance) {
         return (((drivetrain.getLinearVelocity() * Math.cos(turret.getPositionRadians() - limelight.getHorizontalAngle())) / (0.7 * Math.cos(Units.degreesToRadians(ShooterConstants.SHOOTER_ANGLE))) * 2) + shootDistanceStationary(distance));
     }
 
     @Override
     public void periodic() {
-        super.periodic();
-
-        SmartDashboard.putNumber("Setpoint", setpoint);
-        SmartDashboard.putNumber("PID Output", ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        SmartDashboard.putNumber("Voltage", ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
-        SmartDashboard.putNumber("Real Velocity", getVelocity());
-        SmartDashboard.putNumber("Feedforward", ShooterConstants.SHOOTER_FF.calculate(setpoint));
-        SmartDashboard.putBoolean("At threshold", atSetpoint());
+        SmartDashboard.putNumber("Shooter Setpoint", setpoint);
+        SmartDashboard.putNumber("Shooter Velocity", getVelocity());
+        SmartDashboard.putBoolean("Shooter At Threshold?", atSetpoint());
 
         if(isEnabled()) {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
-        
-        // if(getVelocity() != 0)
-            // System.out.println(getVelocity() + "  " + getSmartDashboard() + "  "+ setpoint + "  " + ShooterConstants.PID.calculate(setpoint - getVelocity()));
     }
 }

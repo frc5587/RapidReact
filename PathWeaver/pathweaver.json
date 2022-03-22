@@ -3,7 +3,7 @@
   "exportUnit": "Same as Project",
   "maxVelocity": 2.0,
   "maxAcceleration": 2.0,
-  "trackWidth": 0.6643,
+  "trackWidth": 0.6659,
   "robotWidth": 0.9398,
   "robotLength": 0.9398,
   "gameName": "Rapid React",

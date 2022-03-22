@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
 import frc.robot.Constants.ConveyorConstants;
 
 import com.revrobotics.CANSparkMax;
@@ -7,10 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -27,12 +26,7 @@ public class Conveyor extends ProfiledPIDSubsystem {
     }
 
     public Conveyor() {
-        super(new ProfiledPIDController(
-            ConveyorConstants.POSITION_PID.getP(),
-            ConveyorConstants.POSITION_PID.getI(),
-            ConveyorConstants.POSITION_PID.getD(),
-            ConveyorConstants.CONSTRAINTS
-        ));
+        super(ConveyorConstants.POSITION_PID);
 
         configureConveyorSpark();
     }

@@ -1,9 +1,11 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.TurretConstants;
+
 import frc.robot.subsystems.Turret;
+import frc.robot.Constants.TurretConstants;
+
+import java.util.function.DoubleSupplier;
 
 public class ThrottleTurret extends CommandBase {
     private final Turret turret;
