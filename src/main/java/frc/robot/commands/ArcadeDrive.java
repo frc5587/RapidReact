@@ -11,8 +11,11 @@ import java.util.function.DoubleSupplier;
 public class ArcadeDrive extends CommandBase {
     private final Drivetrain drivetrain;
     private final DoubleSupplier throttleSupplier, curveSupplier;
-    private SlewRateLimiter throttleFilter = new SlewRateLimiter(4);
-    private SlewRateLimiter curveFilter = new SlewRateLimiter(4);
+    private final SlewRateLimiter throttleFilter = new SlewRateLimiter(4);
+    private final SlewRateLimiter curveFilter = new SlewRateLimiter(4);
+
+    double throttle;
+    double curve;
 
     public ArcadeDrive(Drivetrain drivetrain, DoubleSupplier throttleSupplier, DoubleSupplier curveSupplier) {
         this.drivetrain = drivetrain;
@@ -24,8 +27,8 @@ public class ArcadeDrive extends CommandBase {
 
     @Override
     public void execute() {
-        double throttle = throttleSupplier.getAsDouble();
-        double curve = curveSupplier.getAsDouble();
+        throttle = throttleSupplier.getAsDouble();
+        curve = curveSupplier.getAsDouble();
 
         drivetrain.arcadeDrive(throttleFilter.calculate(throttle), curveFilter.calculate(curve));
     }
