@@ -311,22 +311,20 @@ public class AutoPaths {
                 )
             )
         );
-
-        Command emptyCommand = new SequentialCommandGroup();
         
         autoChooser.addOption("1st Position With Stash", pos1);
         autoChooser.addOption("2nd Position With Stash", pos2);
         autoChooser.addOption("3rd Position 4 Ball", pos3FourBall);
         autoChooser.addOption("4th Position 4 Ball", pos4FourBall);
-        autoChooser.addOption("1st Position No Stash", pos1);
-        autoChooser.addOption("2nd Position No Stash", pos2);
-        autoChooser.addOption("3rd Position 2 Ball", pos3FourBall);
-        autoChooser.addOption("4th Position 2 Ball", pos4FourBall);
+        autoChooser.addOption("1st Position No Stash", pos1NoStash);
+        autoChooser.addOption("2nd Position No Stash", pos2NoStash);
+        autoChooser.addOption("3rd Position 2 Ball", pos3TwoBall);
+        autoChooser.addOption("4th Position 2 Ball", pos4TwoBall);
         autoChooser.addOption("Taxi 1st Pos", taxi1);
         autoChooser.addOption("Taxi 2nd Pos", taxi2);
         autoChooser.addOption("Taxi 3rd Pos", taxi3);
         autoChooser.addOption("Taxi 4th Pos", taxi4);
-        autoChooser.setDefaultOption("NO COMMAND", emptyCommand);
+        autoChooser.setDefaultOption("NO COMMAND", null);
         SmartDashboard.putData(autoChooser);
     }
 
