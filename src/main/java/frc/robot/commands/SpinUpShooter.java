@@ -35,7 +35,7 @@ public class SpinUpShooter extends CommandBase {
             // shooter.setVelocity(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), (turret.getPositionRadians() - limelight.getHorizontalAngle()), limelight.calculateDistance()));
             // System.out.println(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), (turret.getPositionRadians() - limelight.getHorizontalAngle()), limelight.calculateDistance()));
         } else {
-            shooter.setVelocity(LimelightConstants.DEFAULT_SPIN_UP_VELOCITY);
+            shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);
         }
     }
 

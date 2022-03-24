@@ -9,6 +9,7 @@ import frc.robot.subsystems.*;
 import org.frc5587.lib.control.DeadbandJoystick;
 import org.frc5587.lib.control.DeadbandXboxController;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -73,6 +74,8 @@ public class RobotContainer {
     public RobotContainer() {
         /* Clear sticky fault LEDs on PDH upon deploy */
         pdh.clearStickyFaults();
+        /* Start USB camera capture */
+        CameraServer.startAutomaticCapture();
         /* Set default commands */
         drivetrain.setDefaultCommand(curveDrive);
         // drivetrain.setDefaultCommand(tankDrive);
