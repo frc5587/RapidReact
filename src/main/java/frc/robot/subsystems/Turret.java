@@ -18,6 +18,9 @@ public class Turret extends ProfiledPIDSubsystem {
     private final double limit = TurretConstants.LIMIT;
     private State lastSetpoint = new State(0, 0);
 
+    private final double upperLimit = TurretConstants.LIMIT;
+    private final double lowerLimit = -TurretConstants.LIMIT;
+
     public Turret() {
         super(TurretConstants.PID);
         configureMotors();
@@ -36,7 +39,7 @@ public class Turret extends ProfiledPIDSubsystem {
     }
 
     public void setPosition(double position) {
-        if(Math.abs(position) >= limit) {
+        if(position >= upperLimit || position <= lowerLimit) {
             if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
                 setGoal(position);
             } else {
@@ -48,7 +51,7 @@ public class Turret extends ProfiledPIDSubsystem {
     }
 
     public void setVelocityAtPosition(double position, double velocity) {
-        if(Math.abs(position) >= limit) {
+        if(position >= upperLimit || position <= lowerLimit) {
             System.out.println(position + " is not allowed.");
         } else {
             setGoal(new State(position, velocity));

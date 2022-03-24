@@ -35,15 +35,17 @@ public class SpinUpShooterAndEnd extends CommandBase {
             // System.out.println(shooter.shootDistanceMoving(drivetrain, turret, limelight, limelight.calculateDistance()));
         }
         else {
-            shooter.setVelocity(LimelightConstants.DEFAULT_SPIN_UP_VELOCITY);
-        }
-        if(shooter.atSetpoint()) {
-            end(true);
+            shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
         shooter.disable();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return shooter.atSetpoint();
     }
 }

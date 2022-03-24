@@ -267,6 +267,7 @@ public final class Constants {
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
         public static final double VELOCITY_DENOMINATOR = 0.1;
         public static final double SHOOTER_ANGLE = 70;
+        public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
     }
 
     /*
@@ -277,7 +278,5 @@ public final class Constants {
         public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.007); // is 0.813 meters
         public static final double MOUNT_ANGLE = 30; // in degrees
         public static final double DISTANCE_OFFSET = 0.7;
-
-        public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
     }
 }
