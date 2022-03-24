@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Conveyor.ControlMode;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class FireWhenReady extends CommandBase {
     private final Conveyor conveyor;
@@ -26,7 +26,6 @@ public class FireWhenReady extends CommandBase {
     public void initialize() {
         rightKicker.enable();
         leftKicker.enable();
-        // conveyor.enable();
         conveyor.setControlMode(ControlMode.VELOCITY);
         conveyor.setVelocity(0);
     }
@@ -51,6 +50,5 @@ public class FireWhenReady extends CommandBase {
         rightKicker.disable();
         leftKicker.disable();
         shooter.disable();
-        System.out.println("fire when read ending");
     }
 }

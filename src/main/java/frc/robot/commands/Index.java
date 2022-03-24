@@ -1,10 +1,11 @@
 package frc.robot.commands;
 
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.*;
-import frc.robot.subsystems.Conveyor.ControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.subsystems.*;
+import frc.robot.Constants.IntakeConstants;
+
+import frc.robot.subsystems.Conveyor.ControlMode;
 
 public class Index extends CommandBase {
     private final Intake intake;
@@ -38,7 +39,6 @@ public class Index extends CommandBase {
         // Enable Kicker PositionPID
         rightKicker.enable();
         leftKicker.enable();
-        // System.out.println(rightKicker + "  " + leftKicker);
         conveyor.setControlMode(ControlMode.VELOCITY);
         if(!linebreakSensor.isCrossed()) {
             conveyor.setVelocity(3);
@@ -57,8 +57,6 @@ public class Index extends CommandBase {
                 leftKicker.setGoal(leftKicker.getPosition() - 0.075); // it's just a Tim Gunn Make It Work Moment
             }
             crossed = true;
-            // rightKicker.disable();
-            // leftKicker.disable();
         } else {
             rightKicker.setGoal(rightKicker.getPosition() + 0.1);
             leftKicker.setGoal(leftKicker.getPosition() + 0.1);

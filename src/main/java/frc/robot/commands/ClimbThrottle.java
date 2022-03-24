@@ -1,35 +1,36 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.*;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
 public class ClimbThrottle extends CommandBase {
-    private ClimbController climb;
-    private DoubleSupplier hookThrottle, stickThrottle;
-    public boolean isClimbing;
+    private final ClimbController climb;
     private final Turret turret;
-    private final IntakePistons intake;
+    private final IntakePistons intakePistons;
+    private final DoubleSupplier hookThrottle, stickThrottle;
 
-    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle, IntakePistons intake) {
+    public boolean isClimbing;
+
+    public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
         this.climb = climb;
         this.turret = turret;
+        this.intakePistons = intakePistons;
         this.hookThrottle = hookThrottle;
         this.stickThrottle = stickThrottle;
-        this.intake = intake;
 
         addRequirements(climb);
     }
 
     @Override
     public void initialize() {
-        climb.disable();
         isClimbing = true;
+        climb.disable();
         turret.enable();
         turret.setPosition(0);
-        intake.extend();
+        intakePistons.extend();
     }
 
     @Override
@@ -40,8 +41,9 @@ public class ClimbThrottle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        isClimbing = false;
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
-        intake.retract();
+        intakePistons.retract();
     }
 }
