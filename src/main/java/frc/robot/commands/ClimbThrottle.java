@@ -7,18 +7,19 @@ import frc.robot.subsystems.*;
 import java.util.function.DoubleSupplier;
 
 public class ClimbThrottle extends CommandBase {
-    private ClimbController climb;
-    private DoubleSupplier hookThrottle, stickThrottle;
+    private final ClimbController climb;
     private final Turret turret;
-    private final IntakePistons intake;
+    private final IntakePistons intakePistons;
+    private final DoubleSupplier hookThrottle, stickThrottle;
+
     public boolean isClimbing;
 
-    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle, IntakePistons intake) {
+    public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
         this.climb = climb;
         this.turret = turret;
+        this.intakePistons = intakePistons;
         this.hookThrottle = hookThrottle;
         this.stickThrottle = stickThrottle;
-        this.intake = intake;
 
         addRequirements(climb);
     }
@@ -29,7 +30,7 @@ public class ClimbThrottle extends CommandBase {
         climb.disable();
         turret.enable();
         turret.setPosition(0);
-        intake.extend();
+        intakePistons.extend();
     }
 
     @Override
@@ -43,6 +44,6 @@ public class ClimbThrottle extends CommandBase {
         isClimbing = false;
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
-        intake.retract();
+        intakePistons.retract();
     }
 }

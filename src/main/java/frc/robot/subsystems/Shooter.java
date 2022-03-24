@@ -60,8 +60,14 @@ public class Shooter extends SubsystemBase {
         return enabled;
     }
 
+    public void stopVoltage() {
+        setVelocity(0);
+        shooterMotors.setVoltage(0);
+    }
+    
     public void stop() {
         setVelocity(0);
+        shooterMotors.set(0);
     }
 
     public void resetEncoders() {
