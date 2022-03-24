@@ -19,6 +19,8 @@ public class Shooter extends SubsystemBase {
     private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
     private boolean enabled = false;
     private double setpoint = 0;
+    private final double shotEfficiency = 0.8; // how efficient the flywheel is a transferring momentum
+    private final double flywheelCargoVelocityRatio = 2; // ratio between the velocity of the flywheel and release velocity of cargo
 
     public Shooter() {
         configureShooterFalcon();
@@ -57,7 +59,7 @@ public class Shooter extends SubsystemBase {
     public boolean isEnabled() {
         return enabled;
     }
-    
+
     public void stop() {
         setVelocity(0);
     }
@@ -69,9 +71,9 @@ public class Shooter extends SubsystemBase {
 
     public double getVelocity() {
         // Encoder velocity divided by (EPR * (wheel circumference / gearing)
-        return (leaderMotor.getSelectedSensorVelocity() / 
-        (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) * 
-        (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
+        return (leaderMotor.getSelectedSensorVelocity() /
+                (ShooterConstants.ENCODER_EPR * ShooterConstants.VELOCITY_DENOMINATOR) *
+                (2 * Math.PI) * (ShooterConstants.WHEEL_RADIUS / ShooterConstants.GEARING));
     }
 
     public double getSmartDashboard() {
@@ -82,19 +84,44 @@ public class Shooter extends SubsystemBase {
         return Math.abs(setpoint - getVelocity()) / setpoint < error_threshold && setpoint != 0;
     }
 
+    public double shooterRegression(double distance) {
+        return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+    }
+
+    /**
+     * ! this is highly approximate
+     */
+    public double horizontalCargoVelocity(double distance) {
+        return (shotEfficiency * shooterRegression(distance) / flywheelCargoVelocityRatio * Math.cos(ShooterConstants.SHOOTER_ANGLE));
+    }
+
+    /**
+     * ! this is highly approximate
+     */
+    public double horizontalCargoVelocityToShooterVelocity(double horizontalVelocity) {
+        return flywheelCargoVelocityRatio * horizontalVelocity / (Math.cos(ShooterConstants.SHOOTER_ANGLE) * shotEfficiency);
+    }
+
+    /**
+     * ! this is highly approximate
+     */
+    public double timeOfFlight(double distance) {
+        return distance / horizontalCargoVelocity(distance);
+    }
+
     public double shootDistanceStationary(double distance) {
-        if(Units.metersToInches(distance) >= 180 || distance <= 1) {
-            SmartDashboard.putBoolean("Good Shoot Distance?", false);
+        if (Units.metersToInches(distance) >= 180 || Units.metersToInches(distance) <= 100) {
+            SmartDashboard.putBoolean("In Range", false);
             return 0.0;
-        }
-        else {
-            SmartDashboard.putBoolean("Good Shoot Distance?", true);
-            return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        } else {
+            SmartDashboard.putBoolean("In Range", true);
+            return shooterRegression(distance);
         }
     }
 
-    public double shootDistanceMoving(Drivetrain drivetrain, Turret turret, Limelight limelight, double distance) {
-        return (((drivetrain.getLinearVelocity() * Math.cos(turret.getPositionRadians() - limelight.getHorizontalAngle())) / (0.7 * Math.cos(Units.degreesToRadians(ShooterConstants.SHOOTER_ANGLE))) * 2) + shootDistanceStationary(distance));
+    public double shootDistanceMoving(double velocity, double movingAngle, double distance) {
+        final double effect = 1;
+        return (horizontalCargoVelocityToShooterVelocity(velocity * Math.cos(movingAngle) * effect) + shootDistanceStationary(distance));
     }
 
     @Override
@@ -103,8 +130,9 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("Shooter Velocity", getVelocity());
         SmartDashboard.putBoolean("Shooter At Threshold?", atSetpoint());
 
-        if(isEnabled()) {
-            shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint) - ShooterConstants.PID.calculate(setpoint - getVelocity()));
+        if (isEnabled()) {
+            shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint)
+                    - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
     }
 }

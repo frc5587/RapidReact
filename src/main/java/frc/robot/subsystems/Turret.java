@@ -39,8 +39,9 @@ public class Turret extends ProfiledPIDSubsystem {
         if(Math.abs(position) >= limit) {
             if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
                 setGoal(position);
+            } else {
+                System.out.println(position + " is not allowed.");
             }
-            System.out.println(position + " is not allowed.");
         } else {
             setGoal(position);
         }

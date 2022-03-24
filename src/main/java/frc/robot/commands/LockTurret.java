@@ -7,12 +7,14 @@ import frc.robot.subsystems.*;
 public class LockTurret extends CommandBase {
     private final Turret turret;
     private final Limelight limelight;
-    private final ClimbThrottle climbCommand;
+    private final Drivetrain drivetrain;
+    private final Shooter shooter;
 
-    public LockTurret(Turret turret, Limelight limelight, ClimbThrottle climbCommand) {
+    public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain, Shooter shooter) {
         this.turret = turret;
         this.limelight = limelight;
-        this.climbCommand = climbCommand;
+        this.drivetrain = drivetrain;
+        this.shooter = shooter;
 
         addRequirements(turret, limelight);
     }
@@ -24,10 +26,14 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
-        if(limelight.hasTarget() && !climbCommand.isClimbing) {
-            double error = limelight.getHorizontalAngle();             
-            if (Math.abs(error) > 0.03) {
-                turret.setPosition(turret.getPositionRadians() - error);
+        if(limelight.hasTarget()) {
+            double error = -limelight.getHorizontalAngle(); 
+            double distance = limelight.calculateDistance();
+            double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * Math.sin(turret.getPositionRadians() + error);
+            double angleAdjustment = Math.atan2(sideBallTravel, distance);
+            double totalError = error + angleAdjustment;
+            if (Math.abs(totalError) > 0.03) {
+                turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.angularVelocity());
             }
         }
         else {

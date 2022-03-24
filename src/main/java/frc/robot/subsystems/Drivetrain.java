@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 
 public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
@@ -100,6 +101,10 @@ public class Drivetrain extends DrivetrainBase {
     @Override
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         super.tankDriveVolts(-leftVolts, -rightVolts);
+    }
+
+    public double angularVelocity() {
+        return Units.degreesToRadians(ahrs.getRate());
     }
 
     @Override

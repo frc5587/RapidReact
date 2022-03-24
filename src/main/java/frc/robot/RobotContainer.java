@@ -60,7 +60,7 @@ public class RobotContainer {
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
-    private final LockTurret lockTurret = new LockTurret(turret, limelight, climbThrottle);
+    private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
 
     /* Auto Paths */
     private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, leftKicker,
