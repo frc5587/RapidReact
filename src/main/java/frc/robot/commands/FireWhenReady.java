@@ -45,10 +45,16 @@ public class FireWhenReady extends CommandBase {
     When the command ends, turn off the conveyor
     */
     @Override
-    public void end(boolean interruptable) {
+    public void end(boolean interrupted) {
+        System.out.println("firewhenready ending!!! " + interrupted);
         conveyor.setControlMode(ControlMode.OFF);
         rightKicker.disable();
         leftKicker.disable();
         shooter.disable();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

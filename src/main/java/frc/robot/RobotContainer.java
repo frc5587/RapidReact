@@ -80,7 +80,7 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(curveDrive);
         // drivetrain.setDefaultCommand(tankDrive);
         turret.setDefaultCommand(throttleTurret);
-        /* Configure the button bindings */
+        // /* Configure the button bindings */
         configureButtonBindings();
     }
 

@@ -147,7 +147,7 @@ public final class Constants {
         public static final double GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
 
-        public static final double MIN_VELOCITY = 2;
+        public static final double MIN_VELOCITY = 4;
     }
 
     /*

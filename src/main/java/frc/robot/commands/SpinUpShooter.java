@@ -42,6 +42,11 @@ public class SpinUpShooter extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooter.disable();
-        System.out.println("spin up ending");
+        System.out.println("spin up ending " + interrupted);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
