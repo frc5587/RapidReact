@@ -109,7 +109,7 @@ public class Drivetrain extends DrivetrainBase {
         super.tankDriveVolts(-leftVolts, -rightVolts);
     }
 
-    public double angularVelocity() {
+    public double getAngularVelocity() {
         return Units.degreesToRadians(ahrs.getRate());
     }
 

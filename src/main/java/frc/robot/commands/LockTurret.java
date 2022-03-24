@@ -33,7 +33,7 @@ public class LockTurret extends CommandBase {
             double angleAdjustment = Math.atan2(sideBallTravel, distance);
             double totalError = error + angleAdjustment;
             if (Math.abs(totalError) > 0.03) {
-                turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.angularVelocity());
+                turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.getAngularVelocity());
             }
         }
         else {

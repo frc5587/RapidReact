@@ -116,7 +116,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double shootDistanceStationary(double distance) {
-        if (Units.metersToInches(distance) >= 180 || Units.metersToInches(distance) <= 100) {
+        if (Units.metersToInches(distance) > 180 || Units.metersToInches(distance) < 100) {
             SmartDashboard.putBoolean("In Range", false);
             return 0.0;
         } else {
