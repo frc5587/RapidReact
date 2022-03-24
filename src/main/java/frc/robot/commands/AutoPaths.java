@@ -25,6 +25,7 @@ public class AutoPaths {
     private final RamseteCommandWrapper third3;
     private final RamseteCommandWrapper third4;
     private final RamseteCommandWrapper firstshoot4;
+    private final RamseteCommandWrapper firstshoot42;
     private final RamseteCommandWrapper finalshoot3;
     private final RamseteCommandWrapper finalshoot4;
     private final RamseteCommandWrapper firstSteal1;
@@ -86,6 +87,8 @@ public class AutoPaths {
         third4 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("third 4"), AutoConstants.RAMSETE_CONSTANTS);
         firstshoot4 = new RamseteCommandWrapper(drivetrain,
+            new AutoPath("firstshoot 4"), AutoConstants.RAMSETE_CONSTANTS);
+        firstshoot42 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("firstshoot 4"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot3 = new RamseteCommandWrapper(drivetrain,
             new AutoPath("finalshoot 3"), AutoConstants.RAMSETE_CONSTANTS);
@@ -303,7 +306,7 @@ public class AutoPaths {
                         leftKicker, linebreakSensor, drivetrain),
                     first42
                 ),
-                firstshoot4,
+                firstshoot42,
                 new ParallelRaceGroup(
                     new SpinUpShooter(shooter, drivetrain, turret, limelight),
                     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter),
