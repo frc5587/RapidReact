@@ -11,6 +11,8 @@ public class ThrottleTurret extends CommandBase {
     private final Turret turret;
     private final DoubleSupplier throttleSupplier;
     private boolean wasEnabledOnInit;
+    private final double upperLimit = TurretConstants.LIMIT;
+    private final double lowerLimit = -TurretConstants.LIMIT;
 
     public ThrottleTurret(Turret turret, DoubleSupplier throttleSupplier) {
         this.turret = turret;
@@ -18,26 +20,34 @@ public class ThrottleTurret extends CommandBase {
 
         addRequirements(turret);
     }
+    
     @Override
     public void initialize() {
         wasEnabledOnInit = turret.isEnabled();
+        /** disable PID so it's not interfering with throttle control */
         turret.disable();
     }
 
     @Override
     public void execute() {
-        if(Math.abs(turret.getPositionRadians()) >= TurretConstants.LIMIT) {
-            turret.stopTurret();
+        /** 
+         * if the turret is above the limit but the joystick is trying to move 
+         * it back into range (the throttle is negative), let the turret move
+         */
+        if((turret.getPositionRadians() >= upperLimit && throttleSupplier.getAsDouble() < 0) ||
+                (turret.getPositionRadians() <= lowerLimit && throttleSupplier.getAsDouble() > 0)) {
+            turret.setThrottle(throttleSupplier.getAsDouble() * TurretConstants.THROTTLE_MULTIPLIER);
         }
         else {
-            turret.setThrottle(throttleSupplier.getAsDouble() * TurretConstants.THROTTLE_MULTIPLIER);
+            turret.stopTurret();
         }
     }    
 
     @Override
     public void end(boolean interrupted) {
-        // if the turret was enabled before the command was run, set it back to enabled;
-        // otherwise, we can leave it disabled as it was supposed to be.
+        /* if the turret was enabled before the command was run, set it back to enabled;
+         * otherwise, we can leave it disabled as it was supposed to be.
+         */
         if(wasEnabledOnInit) {
             turret.enable();
         }
