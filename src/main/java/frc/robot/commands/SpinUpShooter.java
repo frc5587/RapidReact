@@ -3,8 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.*;
-import frc.robot.Constants.*;
+import frc.robot.Constants.ShooterConstants;
 
+/** Spins up the shooter to the desired velocity and does not end */
 public class SpinUpShooter extends CommandBase {
     private final Shooter shooter;
     private final Drivetrain drivetrain;

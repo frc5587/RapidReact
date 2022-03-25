@@ -49,12 +49,16 @@ public class Kicker extends ProfiledPIDSubsystem {
         kickerEncoder.setPosition(0);
     }
 
+    /**
+     * @return position in meters of wheel circumference
+     */
     public double getPosition() {
-        return (Units.rotationsToRadians(kickerEncoder.getPosition()) * (KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING));
+        return (Units.rotationsToRadians(kickerEncoder.getPosition()) 
+                * (KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING));
     }
 
     /**
-     * Sets the setpoint as a position if ControlMode position is chosen
+     * Sets the setpoint as a position
      * @param position the desired position in radians
      */
     public void setPosition(double position) {
@@ -62,8 +66,8 @@ public class Kicker extends ProfiledPIDSubsystem {
     }
 
     /**
-     * Adds a desired distance to the current position (moves the conveyor by a given amount)
-     * @param distance the distance to move the conveyor in radians
+     * Adds a desired distance to the current position (moves the kicker by a given amount)
+     * @param distance the distance to move the kicker in radians
      */
     public void moveDistance(double distance) {
         setPosition(getPosition() + distance);

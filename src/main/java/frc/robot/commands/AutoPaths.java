@@ -62,7 +62,11 @@ public class AutoPaths {
     private final RamseteCommandWrapper taxi3;
     private final RamseteCommandWrapper taxi4;
 
-    // define auto command groups here so they can be referenced anywhere
+    /* define auto command groups here so they can be referenced anywhere */
+    /** 
+     * Starting with 1 pre-loaded cargo in position 1, grab another then shoot.
+     * Stash two cargo from the opposing alliance in the corner of the field
+     */
     public final Command pos1stash;
     public final Command pos2stash;
     public final Command pos3FourBall;

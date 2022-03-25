@@ -1,11 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.*;
-
 import java.util.function.DoubleSupplier;
 
+/** Manually sets the climb subsystems to given throttles. */
 public class ClimbThrottle extends CommandBase {
     private final ClimbController climb;
     private final Turret turret;
@@ -14,7 +13,8 @@ public class ClimbThrottle extends CommandBase {
 
     public boolean isClimbing;
 
-    public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
+    public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, 
+            DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
         this.climb = climb;
         this.turret = turret;
         this.intakePistons = intakePistons;
@@ -30,6 +30,8 @@ public class ClimbThrottle extends CommandBase {
         climb.disable();
         turret.enable();
         turret.setPosition(0);
+        // TODO: make intake extension conditional so it only extends when hooks are completely retracted
+        /* Extend the intake, as it interferes with the hooks */
         intakePistons.extend();
     }
 

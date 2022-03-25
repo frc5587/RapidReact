@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import frc.robot.subsystems.IntakePistons;
 
+/** Toggles intake pistons in and out */
 public class ToggleIntakePistons extends InstantCommand {
     private final IntakePistons intakePistons;
 

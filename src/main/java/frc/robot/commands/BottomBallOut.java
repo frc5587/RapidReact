@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Conveyor.ControlMode;
 
+/** Ejects the bottom ball in the index out through the intake */
 public class BottomBallOut extends CommandBase {
     private final Intake intake;
     private final IntakePistons intakePistons;

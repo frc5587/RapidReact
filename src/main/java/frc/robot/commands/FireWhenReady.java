@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Conveyor.ControlMode;
 
+/** Pushes balls into the shooter once it is at the desired spin-up speed */
 public class FireWhenReady extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker leftKicker, rightKicker;
@@ -19,9 +20,6 @@ public class FireWhenReady extends CommandBase {
         addRequirements(conveyor, rightKicker, leftKicker);
     }
 
-        /*
-    Enable kicker PID
-    */
     @Override
     public void initialize() {
         rightKicker.enable();
@@ -41,9 +39,6 @@ public class FireWhenReady extends CommandBase {
         }
     }
 
-    /*
-    When the command ends, turn off the conveyor
-    */
     @Override
     public void end(boolean interrupted) {
         System.out.println("firewhenready ending!!! " + interrupted);

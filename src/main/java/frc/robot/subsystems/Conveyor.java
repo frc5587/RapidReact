@@ -119,7 +119,8 @@ public class Conveyor extends ProfiledPIDSubsystem {
     }
 
     public double getPosition() {
-        return Units.rotationsToRadians(encoder.getPosition()) * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING;
+        return Units.rotationsToRadians(encoder.getPosition()) 
+                * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING;
     }
 
     public double getVelocity() {
@@ -127,7 +128,10 @@ public class Conveyor extends ProfiledPIDSubsystem {
     }
 
     public boolean hasBall() {
-        // TODO Check if velocity slows/voltage decreases when ball is in conveyor. Use this to return a boolean on if the conveyor has a ball.
+        /* 
+        * TODO Check if velocity slows/voltage decreases when ball is in conveyor. 
+        * Use this to return a boolean on if the conveyor has a ball.
+        */
         return false;
     }
 

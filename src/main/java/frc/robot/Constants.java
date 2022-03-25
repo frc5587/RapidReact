@@ -49,7 +49,7 @@ public final class Constants {
                 DrivetrainConstants.HARD_CURRENT_LIMIT,
                 DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY);
 
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6);
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6.3065);
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
         public static final double GEARING = (54. / 20.) * (50. / 12.);
@@ -151,6 +151,7 @@ public final class Constants {
         public static final double GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
 
+        public static final double DRIVETRAIN_VELOCITY_OFFSET = 2;
         public static final double MIN_VELOCITY = 4;
     }
 
@@ -169,10 +170,8 @@ public final class Constants {
         public static final int FREE_CURRENT_LIMIT = 30;
 
         /* pid/ff values */
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20); // TODO
-                                                                                                                // Check
-                                                                                                                // out
-                                                                                                                // high
+        // TODO: Check out high constraint
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20);
         public static final ProfiledPIDController POSITION_PID = new ProfiledPIDController(
                 4.3574, 0, 0.12733, CONSTRAINTS);
         public static final ProfiledPIDController VELOCITY_PID = new ProfiledPIDController(
@@ -201,7 +200,8 @@ public final class Constants {
         public static final int FREE_CURRENT_LIMIT = 30;
 
         /* pid/ff values */
-        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10); // TODO Should bethe same as conveyor                                                                       
+        // TODO Should be the same as conveyor, check constraints
+        public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10);
         public static final ProfiledPIDController RIGHT_KICKER_PID = new ProfiledPIDController(
                 4.4195, 0, 0, CONSTRAINTS);
         public static final ProfiledPIDController LEFT_KICKER_PID = new ProfiledPIDController(

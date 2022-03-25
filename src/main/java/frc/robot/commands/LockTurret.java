@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.*;
 
+/** Moves the turret to track the limelight target */
 public class LockTurret extends CommandBase {
     private final Turret turret;
     private final Limelight limelight;
@@ -36,6 +37,7 @@ public class LockTurret extends CommandBase {
                 turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.getAngularVelocity());
             }
         }
+        /** If the limelight does not have a target, keep the turret stationary */
         else {
             turret.setPosition(0);
         }

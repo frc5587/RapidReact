@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Conveyor.ControlMode;
 
+/** Ejects the top cargo out of the shooter */
 public class TopBallOut extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker rightKicker, leftKicker;
@@ -33,10 +34,13 @@ public class TopBallOut extends CommandBase {
 
         shooter.enable();
         shooter.setVelocity(10);
+        /* if the linebreak sensor is not crossed, move the conveyor until the ball is in it */
         if(!linebreakSensor.isCrossed()) {
             conveyor.setControlMode(ControlMode.VELOCITY);
             conveyor.setVelocity(1);
-        } else {
+        }
+        /* if the linebreak sensor is crossed, push up the kickers  */
+        else {
             rightKicker.moveDistance(-.2);
             leftKicker.moveDistance(-.2);
             wasCrossedInBeginning = true;
@@ -47,17 +51,22 @@ public class TopBallOut extends CommandBase {
 
     @Override
     public void execute() {
+        /* 
+         * if the linebreak sensor was crossed at initialize and the kickers aren't moving,
+         * or if the linebreaksensor is no longer crossed, set the crossed variable to false
+         */
         if (wasCrossedInBeginning && (rightKicker.isDone() || leftKicker.isDone())) {
             wasCrossedInBeginning = false;
         } else if (wasCrossedInBeginning && !linebreakSensor.isCrossed()) {
             wasCrossedInBeginning = false;
         }
         
+        /* if the crossed variable is true, don't continue the command */
         if (wasCrossedInBeginning) {
             return;
         }
 
-        // While the ball is still in the robot, move it slowly to pop it out of the robot.
+        /* While the ball is still in the robot, move it slowly to pop it out of the robot. */
         if (!linebreakSensor.isCrossed() && !linebroken) {
             rightKicker.moveDistance(1);
             leftKicker.moveDistance(1);
@@ -70,13 +79,9 @@ public class TopBallOut extends CommandBase {
             }
             linebroken = true;
         }
-        // rightKicker.setGoal(rightKicker.getPosition());
-        // leftKicker.setGoal(leftKicker.getPosition());
     }
 
-    /*
-    When the command ends, turn off the conveyor
-    */
+    /* When the command ends, turn off the conveyor */
     @Override
     public void end(boolean interruptable) {
         conveyor.setControlMode(ControlMode.OFF);

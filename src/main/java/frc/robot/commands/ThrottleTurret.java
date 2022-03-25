@@ -7,6 +7,7 @@ import frc.robot.Constants.TurretConstants;
 
 import java.util.function.DoubleSupplier;
 
+/** Move the turret at a given throttle */
 public class ThrottleTurret extends CommandBase {
     private final Turret turret;
     private final DoubleSupplier throttleSupplier;
