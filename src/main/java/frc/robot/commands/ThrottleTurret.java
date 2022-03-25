@@ -35,9 +35,10 @@ public class ThrottleTurret extends CommandBase {
          * if the turret is above the limit but the joystick is trying to move 
          * it back into range (the throttle is negative), let the turret move
          */
-        if((turret.getPositionRadians() >= upperLimit && throttleSupplier.getAsDouble() < 0) ||
-                (turret.getPositionRadians() <= lowerLimit && throttleSupplier.getAsDouble() > 0)) {
-            turret.setThrottle(throttleSupplier.getAsDouble() * TurretConstants.THROTTLE_MULTIPLIER);
+        System.out.println(throttleSupplier.getAsDouble());
+        if((turret.getPositionRadians() >= upperLimit && throttleSupplier.getAsDouble() > 0) ||
+                (turret.getPositionRadians() <= lowerLimit && throttleSupplier.getAsDouble() < 0)) {
+            turret.setThrottle(-(throttleSupplier.getAsDouble() * TurretConstants.THROTTLE_MULTIPLIER));
         }
         else {
             turret.stopTurret();

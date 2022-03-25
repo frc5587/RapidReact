@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Turret extends ProfiledPIDSubsystem {
@@ -87,6 +89,13 @@ public class Turret extends ProfiledPIDSubsystem {
     protected void useOutput(double output, State setpoint) {
         turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
         lastSetpoint = setpoint;
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+
+        SmartDashboard.putNumber("Turret Pos Degrees", Units.radiansToDegrees(getPositionRadians()));
     }
 
     public boolean isFinished() {

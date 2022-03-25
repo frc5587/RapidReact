@@ -151,7 +151,7 @@ public final class Constants {
         public static final double GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
 
-        public static final double DRIVETRAIN_VELOCITY_OFFSET = 2;
+        public static final double DRIVETRAIN_VELOCITY_OFFSET = 1;
         public static final double MIN_VELOCITY = 4;
     }
 

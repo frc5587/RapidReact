@@ -11,7 +11,6 @@ import org.frc5587.lib.control.DeadbandXboxController;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -66,7 +65,7 @@ public class RobotContainer {
     /* Misc */
     private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, 
             leftKicker, linebreakSensor, drivetrain, limelight, turret, shooter, climbThrottle);
-    private final PowerDistribution pdh = new PowerDistribution(0, ModuleType.kRev);
+    private final PowerDistribution pdh = new PowerDistribution();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
