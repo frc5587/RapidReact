@@ -26,7 +26,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
     /* Controllers */
     private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
-    // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5); // TankDrive
+    // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
+    // // TankDrive
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
 
     private final PowerDistribution pdh = new PowerDistribution();
@@ -45,12 +46,13 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
 
     // Commands
-    // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
-    //         () -> -joystick.getXCurveDampened());
+    // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain,
+    // joystick::getY,
+    // () -> -joystick.getXCurveDampened());
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
     // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY,
-    //         rightJoystick::getY);
+    // rightJoystick::getY);
     private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons, xb::getRightY,
             xb::getLeftY);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
@@ -102,7 +104,10 @@ public class RobotContainer {
         /*
          * TURRET
          */
-        limelightTrigger.whileActiveOnce(lockTurret);
+        // runs lock turret but if left trigger + left stick x are being used, then it
+        // cancels it and goes back to the default command (manual control), this gives
+        // the operator override over lock turret
+        limelightTrigger.and(xb.leftTrigger.and(xb.leftStickX).negate()).whileActiveOnce(lockTurret);
 
         /*
          * SHOOTER
