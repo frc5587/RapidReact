@@ -55,6 +55,10 @@ public final class Constants {
         public static final double GEARING = (54. / 20.) * (50. / 12.);
         public static final boolean INVERT_GYRO = false;
         public static final double VELOCITY_DENOMINATOR = 0.1;
+        public static final double VOLTAGE_RAMP_RATE = 0.4;
+
+        // TODO likely in between 0.25 & 0.5. Test these to find the right value
+        public static final double QUICKTURN_CURVE_MULTIPLIER = 0.5;
     }
 
     public static final class AutoConstants {

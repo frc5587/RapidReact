@@ -69,11 +69,10 @@ public class Drivetrain extends DrivetrainBase {
         leftFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
         rightFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
 
-        // TODO In between 0.25 & 0.5. Test these to find the right value
-        leftLeader.configOpenloopRamp(0.375);
-        rightLeader.configOpenloopRamp(0.375);
-        leftFollower.configOpenloopRamp(0.375);
-        rightFollower.configOpenloopRamp(0.375);
+        leftLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        rightLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        leftFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        rightFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
 
         resetEncoders();
     }

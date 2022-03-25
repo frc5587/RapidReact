@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.Drivetrain;
 
 import java.util.function.BooleanSupplier;
@@ -27,6 +28,8 @@ public class CurveDrive extends CommandBase {
         double throttle = throttleSupplier.getAsDouble();
         double curve = curveSupplier.getAsDouble();
         boolean quickTurn = quickTurnSupplier.getAsBoolean();
+
+        curve *= quickTurn? DrivetrainConstants.QUICKTURN_CURVE_MULTIPLIER : 1;
 
         drivetrain.curvatureDrive(throttle, curve, quickTurn);
     }
