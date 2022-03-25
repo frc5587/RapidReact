@@ -30,6 +30,17 @@ public class Intake extends SubsystemBase {
         motor.setSmartCurrentLimit(IntakeConstants.STALL_CURRENT_LIMIT, IntakeConstants.FREE_CURRENT_LIMIT);
     }
 
+    /**
+     * Sets the intake motor to a given percentOutput
+     */
+    public void setThrottle(double percentOutput) {
+        motor.set(percentOutput);
+    }
+
+    /**
+     * Sets the setpoint of the PID Controller
+     * @param velocity velocity in m/s of the wheel surface
+     */
     public void setVelocity(double velocity) {
         setpoint = velocity;
     }
@@ -42,9 +53,9 @@ public class Intake extends SubsystemBase {
         encoder.setPosition(0);
     }
 
-    /*
-    Convert velocity RPM to meters per second of the surface of the wheel
-    */
+    /**
+     * Convert velocity RPM to meters per second of the surface of the wheel
+     */
     protected double getMeasurement() {
         return (encoder.getVelocity() / 60) * (2 * Math.PI) * (IntakeConstants.WHEEL_RADIUS / IntakeConstants.GEARING);
     }

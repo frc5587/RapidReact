@@ -25,10 +25,6 @@ public class IntakePistons extends SubsystemBase {
     }
 
     public boolean isExtended() {
-        if(piston.get() == Value.kForward) {
-            return true;
-        } else {
-            return false;
-        }
+        return piston.get() == Value.kForward;
     }
 }
