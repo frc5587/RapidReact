@@ -1,16 +1,20 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.*;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.subsystems.*;
 
 public class LockTurret extends CommandBase {
     private final Turret turret;
     private final Limelight limelight;
+    private final Drivetrain drivetrain;
+    private final Shooter shooter;
 
-    public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain) {
+    public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain, Shooter shooter) {
         this.turret = turret;
         this.limelight = limelight;
+        this.drivetrain = drivetrain;
+        this.shooter = shooter;
 
         addRequirements(turret, limelight);
     }
@@ -22,12 +26,18 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
-        // TODO CHECK IF WE'RE CLIMBING AND DONT RUN TURRET TRACK
         if(limelight.hasTarget()) {
-            double error = limelight.getHorizontalAngle();             
-            if (Math.abs(error) > 0.03) {
-                turret.setPosition(turret.getPositionRadians() - error);
+            double error = -limelight.getHorizontalAngle(); 
+            double distance = limelight.calculateDistance();
+            double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * Math.sin(turret.getPositionRadians() + error);
+            double angleAdjustment = Math.atan2(sideBallTravel, distance);
+            double totalError = error + angleAdjustment;
+            if (Math.abs(totalError) > 0.03) {
+                turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.getAngularVelocity());
             }
+        }
+        else {
+            turret.setPosition(0);
         }
     }
 }

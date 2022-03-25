@@ -1,15 +1,18 @@
 package frc.robot.subsystems;
 
+import org.frc5587.lib.subsystems.DrivetrainBase;
+
+import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.AutoConstants;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import org.frc5587.lib.subsystems.DrivetrainBase;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.DrivetrainConstants;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.util.Units;
 
 public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX leftLeader =new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER);
@@ -17,41 +20,32 @@ public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
     private static final WPI_TalonFX rightFollower= new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
     private Field2d field = new Field2d();
-    private Rotation2d lastRotation = new Rotation2d();
-    private double angularVelocity = 0;
 
     private static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_DIAMETER,
         DrivetrainConstants.HISTORY_LIMIT, 
         DrivetrainConstants.INVERT_GYRO,
         DrivetrainConstants.ENCODER_EPR, 
-        DrivetrainConstants.GEARING
+        DrivetrainConstants.GEARING,
+        AutoConstants.TRACK_WIDTH
     );
 
     public Drivetrain() {
-        // this(new WPI_TalonFX(DrivetrainConstants.LEFT_LEADER), new WPI_TalonFX(DrivetrainConstants.LEFT_FOLLOWER),
-        //         new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER), new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER));
-        super(new MotorControllerGroup(leftLeader, leftFollower), new MotorControllerGroup(rightLeader, rightFollower), 
-        driveConstants);
+        super(
+            new MotorControllerGroup(leftLeader, leftFollower), 
+            new MotorControllerGroup(rightLeader, rightFollower), 
+            driveConstants);
         zeroOdometry();
         SmartDashboard.putData(field);
     }
 
-    public double getAngularVelocity() {
-        return angularVelocity;
+    private ChassisSpeeds getChassisSpeeds() {
+        return AutoConstants.DRIVETRAIN_KINEMATICS.toChassisSpeeds(this.getWheelSpeeds());
     }
 
-    // public Drivetrain(WPI_TalonFX leftLeader, WPI_TalonFX leftFollower, WPI_TalonFX rightLeader, WPI_TalonFX rightFollower) {
-    //     super(new MotorControllerGroup(leftLeader, leftFollower), new MotorControllerGroup(rightLeader, rightFollower), 
-    //     driveConstants);
-
-    //     // System.out.println("!! " + leftLeader + "  " + );
-
-    //     this.leftLeader = leftLeader;
-    //     this.leftFollower = leftFollower;
-    //     this.rightLeader = rightLeader;
-    //     this.rightFollower = rightFollower;
-    // }
+    public double getLinearVelocity() {
+        return getChassisSpeeds().vxMetersPerSecond;
+    }
 
     @Override
     public void configureMotors() {
@@ -65,15 +59,20 @@ public class Drivetrain extends DrivetrainBase {
         leftFollower.setNeutralMode(NeutralMode.Brake);
         rightFollower.setNeutralMode(NeutralMode.Brake);
 
-        leftLeader.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
-        rightLeader.setInverted(DrivetrainConstants.RIGHT_SIDE_INVERTED);
-        leftFollower.setInverted(DrivetrainConstants.LEFT_SIDE_INVERTED);
-        rightFollower.setInverted(DrivetrainConstants.RIGHT_SIDE_INVERTED);
+        leftLeader.setInverted(DrivetrainConstants.LEFT_MOTORS_INVERTED);
+        rightLeader.setInverted(DrivetrainConstants.RIGHT_MOTORS_INVERTED);
+        leftFollower.setInverted(DrivetrainConstants.LEFT_MOTORS_INVERTED);
+        rightFollower.setInverted(DrivetrainConstants.RIGHT_MOTORS_INVERTED);
 
         leftLeader.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
         rightLeader.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
         leftFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
         rightFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
+
+        leftLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        rightLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        leftFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        rightFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
 
         resetEncoders();
     }
@@ -109,22 +108,14 @@ public class Drivetrain extends DrivetrainBase {
         super.tankDriveVolts(-leftVolts, -rightVolts);
     }
 
+    public double getAngularVelocity() {
+        return Units.degreesToRadians(ahrs.getRate());
+    }
+
     @Override
     public void periodic() {
         super.periodic();
 
-        angularVelocity = (getRotation2d().getRadians() - lastRotation.getRadians()) / .02;
-        lastRotation = getRotation2d();
-
-        // System.out.println(angularVelocity);
-
         field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
-        SmartDashboard.putNumber("Pose X", getPose().getX());
-        SmartDashboard.putNumber("Pose Y", getPose().getY());
-        SmartDashboard.putNumber("Angle", getHeading());
-        SmartDashboard.putNumber("LeftEncoder", getLeftPositionTicks());
-        SmartDashboard.putNumber("RightEncoder", getRightPositionTicks());
-        SmartDashboard.putNumber("LeftMeters", getLeftPositionMeters());
-        SmartDashboard.putNumber("RightMeters", getRightPositionMeters());
     }
 }

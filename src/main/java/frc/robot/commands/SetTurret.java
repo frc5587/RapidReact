@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.*;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import frc.robot.subsystems.Turret;
 
 public class SetTurret extends CommandBase {
     private final Turret turret;
@@ -24,9 +24,9 @@ public class SetTurret extends CommandBase {
     public void execute() {
         turret.setPosition(position);
     }
-
+    
     @Override
-    public void end(boolean interrupted) {
-        turret.disable();
+    public boolean isFinished() {
+        return turret.isFinished();
     }
 }
