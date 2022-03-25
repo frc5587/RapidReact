@@ -40,4 +40,9 @@ public class LockTurret extends CommandBase {
             turret.setPosition(0);
         }
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        turret.setPosition(0);
+    }
 }
