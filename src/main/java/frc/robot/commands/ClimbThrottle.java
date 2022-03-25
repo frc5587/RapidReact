@@ -8,16 +8,13 @@ import java.util.function.DoubleSupplier;
 public class ClimbThrottle extends CommandBase {
     private final ClimbController climb;
     private final Turret turret;
-    private final IntakePistons intakePistons;
     private final DoubleSupplier hookThrottle, stickThrottle;
 
     public boolean isClimbing;
 
-    public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, 
-            DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
+    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier hookThrottle, DoubleSupplier stickThrottle) {
         this.climb = climb;
         this.turret = turret;
-        this.intakePistons = intakePistons;
         this.hookThrottle = hookThrottle;
         this.stickThrottle = stickThrottle;
 
@@ -30,9 +27,7 @@ public class ClimbThrottle extends CommandBase {
         climb.disable();
         turret.enable();
         turret.setPosition(0);
-        // TODO: make intake extension conditional so it only extends when hooks are completely retracted
-        /* Extend the intake, as it interferes with the hooks */
-        intakePistons.extend();
+        turret.disable();
     }
 
     @Override
@@ -46,6 +41,5 @@ public class ClimbThrottle extends CommandBase {
         isClimbing = false;
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
-        intakePistons.retract();
     }
 }

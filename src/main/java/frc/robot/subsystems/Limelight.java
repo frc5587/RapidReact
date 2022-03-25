@@ -15,5 +15,6 @@ public class Limelight extends LimelightBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Limelight Distance", calculateDistance());
+        SmartDashboard.putBoolean("Has Target", hasTarget());
     }
 }
