@@ -21,6 +21,18 @@ public class Conveyor extends ProfiledPIDSubsystem {
     private double velocitySetpoint = 0;
     private ControlMode controlMode = ControlMode.OFF;
 
+    /** 
+     * The control mode of the conveyor, used to change PID usage
+     * <p>
+     * <ul>
+     * <li><b>ControlMode</b>
+     * <ul>
+     * <li> <b>POSITION:</b> allows the conveyor to be controlled by setting a position </li>
+     * <li> <b>VELOCITY:</b> allows the conveyor to be controlled by setting a velocity </li>
+     * <li> <b>OFF:</b> a default value that disables control altogether. </li>
+     * </ul></li>
+     * </ul>
+     */
     public enum ControlMode {
         POSITION, VELOCITY, OFF
     }
@@ -36,10 +48,14 @@ public class Conveyor extends ProfiledPIDSubsystem {
         conveyorMotor.restoreFactoryDefaults();
         conveyorMotor.setInverted(ConveyorConstants.MOTOR_INVERTED);
         conveyorMotor.setIdleMode(IdleMode.kBrake);
-
-        conveyorMotor.setSmartCurrentLimit(ConveyorConstants.STALL_CURRENT_LIMIT, ConveyorConstants.FREE_CURRENT_LIMIT);
+        conveyorMotor.setSmartCurrentLimit(ConveyorConstants.STALL_CURRENT_LIMIT,
+                ConveyorConstants.FREE_CURRENT_LIMIT);
     }    
 
+    /**
+     * Sets the control mode and handles PID enabled state
+     * @param controlMode the desired {@link ControlMode} to use with the conveyor
+     */
     public void setControlMode(ControlMode controlMode) {
         this.controlMode = controlMode;
 
@@ -50,10 +66,17 @@ public class Conveyor extends ProfiledPIDSubsystem {
         }
     }
 
+    /**
+     * @return the current {@link ControlMode} of the conveyor
+     */
     public ControlMode getControlMode() {
         return controlMode;
     }
 
+    /**
+     * Sets the setpoint as a velocity if ControlMode velocity is chosen
+     * @param velocity the desired velocity in radians per second
+     */
     public void setVelocity(double velocity) {
         if (controlMode == ControlMode.VELOCITY) {
             velocitySetpoint = velocity;
@@ -62,16 +85,24 @@ public class Conveyor extends ProfiledPIDSubsystem {
         }
     }
 
-    public void moveDistance(double distance) {
+    /**
+     * Sets the setpoint as a position if ControlMode position is chosen
+     * @param distance the desired position in radians
+     */
+    public void setPosition(double position) {
         if (controlMode == ControlMode.POSITION) {
-            setGoal(distance);
+            setGoal(position);
         } else {
             throw new RuntimeException("Cannot control position, control mode is on: " + controlMode);
         }
     }
 
-    public void moveMore(double distance) {
-        moveDistance(getPosition() + distance);
+    /**
+     * Adds a desired distance to the current position (moves the conveyor by a given amount)
+     * @param distance the distance to move the conveyor in radians
+     */
+    public void moveDistance(double distance) {
+        setPosition(getPosition() + distance);
     }
 
     public void stop() {

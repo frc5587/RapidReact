@@ -41,10 +41,6 @@ public class Kicker extends ProfiledPIDSubsystem {
         kickerMotor.setSmartCurrentLimit(KickerConstants.STALL_CURRENT_LIMIT, KickerConstants.FREE_CURRENT_LIMIT);
     }
 
-    public void moveDistance(double distance) {
-        setGoal(distance);
-    }
-
     public void stop() {
         kickerMotor.set(0);
     }
@@ -57,8 +53,20 @@ public class Kicker extends ProfiledPIDSubsystem {
         return (Units.rotationsToRadians(kickerEncoder.getPosition()) * (KickerConstants.WHEEL_RADIUS / KickerConstants.GEARING));
     }
 
-    public void moveMore(double distance) {
-        moveDistance(getPosition() + distance);
+    /**
+     * Sets the setpoint as a position if ControlMode position is chosen
+     * @param position the desired position in radians
+     */
+    public void setPosition(double position) {
+        setGoal(position);
+    }
+
+    /**
+     * Adds a desired distance to the current position (moves the conveyor by a given amount)
+     * @param distance the distance to move the conveyor in radians
+     */
+    public void moveDistance(double distance) {
+        setPosition(getPosition() + distance);
     }
 
     @Override
@@ -78,10 +86,17 @@ public class Kicker extends ProfiledPIDSubsystem {
         return (lastSetpoint.velocity == 0);
     }
 
+    /**
+     * makes an instance of Kicker for use as the right kicker
+     */
     public static Kicker createRightKicker() {
-        return new Kicker(KickerConstants.RIGHT_KICKER_MOTOR, KickerConstants.RIGHT_KICKER_FF, KickerConstants.RIGHT_KICKER_PID, KickerConstants.RIGHT_KICKER_INVERTED);
+        return new Kicker(KickerConstants.RIGHT_KICKER_MOTOR, KickerConstants.RIGHT_KICKER_FF, 
+                KickerConstants.RIGHT_KICKER_PID, KickerConstants.RIGHT_KICKER_INVERTED);
     }
 
+    /**
+     * makes an instance of Kicker for use as the right kicker
+     */
     public static Kicker createLeftKicker() {
         return new Kicker(KickerConstants.LEFT_KICKER_MOTOR, KickerConstants.LEFT_KICKER_FF, KickerConstants.LEFT_KICKER_PID, KickerConstants.LEFT_KICKER_INVERTED);
     }

@@ -31,11 +31,8 @@ public class ClimbController extends SubsystemBase {
     protected double stickPosition;
 
     private ClimbHook climbHookLoaded = new ClimbHook(ClimbConstants.HOOK_LOADED_PID, this, hookMotors);
-
     private ClimbHook climbHookUnloaded = new ClimbHook(ClimbConstants.HOOK_UNLOADED_PID, this, hookMotors);
-
     private ClimbStick climbStickLoaded = new ClimbStick(ClimbConstants.STICK_LOADED_PID, this, stickMotors);
-
     private ClimbStick climbStickUnloaded = new ClimbStick(ClimbConstants.STICK_UNLOADED_PID, this, stickMotors);
 
     public ClimbController() {
@@ -73,11 +70,16 @@ public class ClimbController extends SubsystemBase {
         leftStickEncoder.setPosition(0);
     }
 
+    /**
+     * sets the hook motors to a given percentOutput throttle
+     */
     public void setHookThrottle(double throttle) {
-        System.out.println("Hook throttle: " + throttle);
         hookMotors.set(throttle);
     }
 
+    /**
+     * sets the stick motors to a given percentOutput throttle
+     */
     public void setStickThrottle(double throttle) {
         stickMotors.set(throttle);
     }
@@ -111,7 +113,6 @@ public class ClimbController extends SubsystemBase {
     }
 
     /**
-     * Sets the hook position to go to.
      * @param position The desired hook position in meters
      */
     public void setHookPosition(double position) {
@@ -119,7 +120,6 @@ public class ClimbController extends SubsystemBase {
     }
 
     /**
-     * Sets the stick position to go to.
      * @param position The desired stick position in meters
      */
     public void setStickPosition(double position) {
@@ -127,7 +127,6 @@ public class ClimbController extends SubsystemBase {
     }
 
     /**
-     * Returns whether the climb is loaded.
      * @return Whether the climb is loaded.
      */
     public boolean isLoaded() {

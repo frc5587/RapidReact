@@ -76,6 +76,6 @@ public class Index extends CommandBase {
         intake.stop();
 
         conveyor.setControlMode(ControlMode.POSITION);
-        conveyor.moveMore(0.4);
+        conveyor.moveDistance(0.4);
     }
 }

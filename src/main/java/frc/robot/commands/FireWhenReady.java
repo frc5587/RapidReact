@@ -34,8 +34,8 @@ public class FireWhenReady extends CommandBase {
     public void execute() {
         System.out.println("shooter firewhenready!!!");
         if (shooter.atSetpoint()) {
-            rightKicker.moveMore(1);
-            leftKicker.moveMore(1);
+            rightKicker.moveDistance(1);
+            leftKicker.moveDistance(1);
 
             conveyor.setVelocity(1);
         }

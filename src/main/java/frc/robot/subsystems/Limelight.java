@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends LimelightBase {
     public Limelight() {
-        super(LimelightConstants.MOUNT_ANGLE, LimelightConstants.LENS_HEIGHT_METERS, LimelightConstants.GOAL_HEIGHT_METERS, LimelightConstants.DISTANCE_OFFSET);
+        super(LimelightConstants.MOUNT_ANGLE, LimelightConstants.LENS_HEIGHT_METERS, 
+                LimelightConstants.GOAL_HEIGHT_METERS, LimelightConstants.DISTANCE_OFFSET);
     }
 
     @Override

@@ -37,8 +37,8 @@ public class TopBallOut extends CommandBase {
             conveyor.setControlMode(ControlMode.VELOCITY);
             conveyor.setVelocity(1);
         } else {
-            rightKicker.moveMore(-.2);
-            leftKicker.moveMore(-.2);
+            rightKicker.moveDistance(-.2);
+            leftKicker.moveDistance(-.2);
             wasCrossedInBeginning = true;
         }
 
@@ -59,14 +59,14 @@ public class TopBallOut extends CommandBase {
 
         // While the ball is still in the robot, move it slowly to pop it out of the robot.
         if (!linebreakSensor.isCrossed() && !linebroken) {
-            rightKicker.moveMore(1);
-            leftKicker.moveMore(1);
+            rightKicker.moveDistance(1);
+            leftKicker.moveDistance(1);
         } else {
             if(!linebroken) {
                 conveyor.setControlMode(ControlMode.POSITION);
-                conveyor.moveMore(0.5);
-                rightKicker.moveMore(.3);
-                leftKicker.moveMore(.3);
+                conveyor.moveDistance(0.5);
+                rightKicker.moveDistance(.3);
+                leftKicker.moveDistance(.3);
             }
             linebroken = true;
         }

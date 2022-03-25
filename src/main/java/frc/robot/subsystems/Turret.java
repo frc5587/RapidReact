@@ -32,6 +32,11 @@ public class Turret extends ProfiledPIDSubsystem {
         turretMotor.set(throttle);
     }
 
+    /**
+     * Sets the position of the turret, unless the position is outside of the
+     * turret's soft limits.
+     * @param position the desired position in radians
+     */
     public void setPosition(double position) {
         if(position >= upperLimit || position <= lowerLimit) {
             if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
@@ -44,6 +49,11 @@ public class Turret extends ProfiledPIDSubsystem {
         }
     }
 
+    /**
+     * Sets the position of the turret accounting for a given velocity offset
+     * @param position the desired position in radians
+     * @param velocity the velocity in radians per second
+     */
     public void setVelocityAtPosition(double position, double velocity) {
         if(position >= upperLimit || position <= lowerLimit) {
             System.out.println(position + " is not allowed.");
