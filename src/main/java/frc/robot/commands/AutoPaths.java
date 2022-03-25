@@ -64,7 +64,7 @@ public class AutoPaths {
 
     // define auto command groups here so they can be referenced anywhere
     public final Command pos1stash;
-    public final Command pos2;
+    public final Command pos2stash;
     public final Command pos3FourBall;
     public final Command pos4FourBall;
     public final Command pos1NoStash;
@@ -158,14 +158,16 @@ public class AutoPaths {
                         timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
                         timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor)));
 
-        this.pos2 = new SequentialCommandGroup(
+        this.pos2stash = new ParallelCommandGroup(
+                new LockTurret(turret, limelight, drivetrain, shooter),
+                new SequentialCommandGroup(
                     intakeDuringPath(first2),
                         timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)),
                         intakeDuringPath(secondSteal),
                         intakeDuringPath(secondSteal_2),
                         stash_2,
                         timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
-                        timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor)));
+                        timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor))));
 
         this.pos3FourBall = new SequentialCommandGroup(
                         intakeDuringPath(first3),
@@ -202,7 +204,7 @@ public class AutoPaths {
                 timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
         
         autoChooser.addOption("1st Position With Stash", pos1stash);
-        autoChooser.addOption("2nd Position With Stash", pos2);
+        autoChooser.addOption("2nd Position With Stash", pos2stash);
         autoChooser.addOption("3rd Position 4 Ball", pos3FourBall);
         autoChooser.addOption("4th Position 4 Ball", pos4FourBall);
         autoChooser.addOption("1st Position No Stash", pos1NoStash);
@@ -226,6 +228,8 @@ public class AutoPaths {
         }
         return new ParallelRaceGroup(commandsWithWait);
     }
+
+    
 
     private Command intakeDuringPath(RamseteCommandWrapper path) {
         return new ParallelRaceGroup(path, new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor, drivetrain));

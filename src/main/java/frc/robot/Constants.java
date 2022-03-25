@@ -271,6 +271,8 @@ public final class Constants {
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
         public static final double VELOCITY_DENOMINATOR = 0.1;
         public static final double SHOOTER_ANGLE = 70;
+        public static final double MIN_SHOOT_DISTANCE = Units.inchesToMeters(100);
+        public static final double MAX_SHOOT_DISTANCE = Units.inchesToMeters(180);
         public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
     }
 

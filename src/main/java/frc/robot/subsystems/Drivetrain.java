@@ -117,12 +117,5 @@ public class Drivetrain extends DrivetrainBase {
         super.periodic();
 
         field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
-        SmartDashboard.putNumber("Pose X", getPose().getX());
-        SmartDashboard.putNumber("Pose Y", getPose().getY());
-        SmartDashboard.putNumber("Angle", getHeading());
-        SmartDashboard.putNumber("LeftEncoder", getLeftPositionTicks());
-        SmartDashboard.putNumber("RightEncoder", getRightPositionTicks());
-        SmartDashboard.putNumber("LeftMeters", getLeftPositionMeters());
-        SmartDashboard.putNumber("RightMeters", getRightPositionMeters());
     }
 }

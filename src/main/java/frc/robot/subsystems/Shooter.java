@@ -115,7 +115,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public double shootDistanceStationary(double distance) {
-        if (Units.metersToInches(distance) > 180 || Units.metersToInches(distance) < 100) {
+        if (distance > ShooterConstants.MAX_SHOOT_DISTANCE ||
+                distance < ShooterConstants.MIN_SHOOT_DISTANCE) {
             SmartDashboard.putBoolean("In Range", false);
             return 0.0;
         } else {
@@ -133,7 +134,7 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Shooter Setpoint", setpoint);
         SmartDashboard.putNumber("Shooter Velocity", getVelocity());
-        SmartDashboard.putBoolean("Shooter At Threshold?", atSetpoint());
+        SmartDashboard.putBoolean("Shooter At Setpoint?", atSetpoint());
 
         if (isEnabled()) {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint)
