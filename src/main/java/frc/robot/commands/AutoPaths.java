@@ -159,7 +159,6 @@ public class AutoPaths {
                         timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor)));
 
         this.pos2stash = new ParallelCommandGroup(
-                new LockTurret(turret, limelight, drivetrain, shooter),
                 new SequentialCommandGroup(
                     intakeDuringPath(first2),
                         timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)),
