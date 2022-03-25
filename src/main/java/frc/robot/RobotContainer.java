@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     /* Controllers */
-    private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
+    private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5, 0.15);
     // Second joystick for TankDrive
     // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
