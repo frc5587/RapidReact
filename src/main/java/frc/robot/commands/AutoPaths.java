@@ -235,7 +235,13 @@ public class AutoPaths {
     
 
     private Command intakeDuringPath(RamseteCommandWrapper path) {
-        return new ParallelRaceGroup(path, new Index(intake, intakePistons, conveyor, rightKicker, leftKicker, linebreakSensor, drivetrain));
+        return new ParallelCommandGroup(
+                path,
+                /** limit indexing time, as if the intake is running too long it pushes balls too high */
+                new ParallelRaceGroup(
+                        new Index(intake, intakePistons, conveyor, rightKicker,
+                                leftKicker, linebreakSensor, drivetrain),
+                        new WaitCommand(3)));
     }
 
 
