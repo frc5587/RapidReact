@@ -23,6 +23,7 @@ public class LockTurret extends CommandBase {
     @Override
     public void initialize() {
         turret.enable();
+        turret.enableVelocityCompensation();
     }
 
     @Override
@@ -37,14 +38,11 @@ public class LockTurret extends CommandBase {
                 turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.getAngularVelocity());
             }
         }
-        /** If the limelight does not have a target, keep the turret stationary */
-        else {
-            turret.setPosition(0);
-        }
     }
 
     @Override
     public void end(boolean interrupted) {
+        turret.disableVelocityCompensation();
         turret.setPosition(0);
     }
 }

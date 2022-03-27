@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.TurretConstants;
+
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -16,9 +19,14 @@ public class Turret extends ProfiledPIDSubsystem {
     private final double upperLimit = TurretConstants.LIMIT;
     private final double lowerLimit = -TurretConstants.LIMIT;
     private State lastSetpoint = new State(0, 0);
+    private final DoubleSupplier velocityCompensationSupplier;
+    private boolean isCompensatingVelocity = false;
 
-    public Turret() {
+    public Turret(DoubleSupplier velocityCompensationSupplier) {
         super(TurretConstants.PID);
+
+        this.velocityCompensationSupplier = velocityCompensationSupplier;
+
         configureMotors();
     }
 
@@ -64,6 +72,14 @@ public class Turret extends ProfiledPIDSubsystem {
         }
     }
 
+    public void enableVelocityCompensation() {
+        isCompensatingVelocity = true;
+    }
+
+    public void disableVelocityCompensation() {
+        isCompensatingVelocity = false;
+    }
+
     public void stopTurret() {
         turretMotor.set(0);
     }
@@ -87,7 +103,10 @@ public class Turret extends ProfiledPIDSubsystem {
 
     @Override
     protected void useOutput(double output, State setpoint) {
-        turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity, (setpoint.velocity - lastSetpoint.velocity)/.02) + output);
+        double acceleration = (setpoint.velocity - lastSetpoint.velocity)/.02;
+        double compensation = isCompensatingVelocity ? velocityCompensationSupplier.getAsDouble() : 0;
+
+        turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity - compensation, acceleration) + output);
         lastSetpoint = setpoint;
     }
 
