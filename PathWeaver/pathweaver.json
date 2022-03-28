@@ -6,6 +6,10 @@
   "trackWidth": 0.6659,
   "robotWidth": 0.9398,
   "robotLength": 0.9398,
+  "smallRange": 1.984,
+  "largeRange": 4.885,
+  "smallRangeEnabled": true,
+  "largeRangeEnabled": true,
   "gameName": "Rapid React",
   "outputDir": "../src/main/deploy/paths"
 }
