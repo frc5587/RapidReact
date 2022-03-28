@@ -68,12 +68,36 @@ public class AutoPaths {
      * Stash two cargo from the opposing alliance in the corner of the field
      */
     public final Command pos1stash;
+    /** 
+     * Starting with 1 pre-loaded cargo in position 2, grab another then shoot.
+     * Stash two cargo from the opposing alliance in the corner of the field
+     */
     public final Command pos2stash;
+    /**
+     * Get the closest ball and then shoot it. Next, get the one against the wall.
+     * Back up and go to the terminal to get the ball in front of it, then shoot both.
+     */
     public final Command pos3FourBall;
+    /**
+     * Get the ball against the wall and back up to shoot it. Drive through the next ball
+     * on the way to the terminal, where the last ball is retrieved. Back up to shoot both.
+     */
     public final Command pos4FourBall;
+    /**
+     * Get the closest ball and shoot that along with the pre-loaded cargo.
+     */
     public final Command pos1NoStash;
+    /**
+     * Get the closest ball and shoot that along with the pre-loaded cargo.
+     */
     public final Command pos2NoStash;
+    /**
+     * Get the closest ball and shoot that along with the pre-loaded cargo.
+     */
     public final Command pos3TwoBall;
+    /**
+     * Get the closest ball and shoot that along with the pre-loaded cargo.
+     */
     public final Command pos4TwoBall;
 
     SendableChooser<Command> autoChooser = new SendableChooser<Command>();
