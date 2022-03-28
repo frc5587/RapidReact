@@ -50,6 +50,7 @@ public class AutoPaths {
     private final RamseteCommandWrapper third4;
     private final RamseteCommandWrapper fourth3;
     private final RamseteCommandWrapper finalshoot;
+    private final RamseteCommandWrapper finalshoot_2;
     private final RamseteCommandWrapper firstSteal1;
     private final RamseteCommandWrapper firstSteal2;
     private final RamseteCommandWrapper secondSteal;
@@ -151,6 +152,8 @@ public class AutoPaths {
                 new AutoPath("fourth 3"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
+        finalshoot_2 = new RamseteCommandWrapper(drivetrain,
+                new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal1 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first steal 1"), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal2 = new RamseteCommandWrapper(drivetrain,
@@ -169,55 +172,54 @@ public class AutoPaths {
                 new AutoPath("taxi 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
 
         this.pos1stash = new SequentialCommandGroup(
-                        intakeDuringPath(first1),
-                        timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)),
-                        intakeDuringPath(firstSteal1),
-                        intakeDuringPath(secondSteal),
-                        timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
-                        timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor)));
+                intakeDuringPath(first1),
+                fullShootCommand(),
+                intakeDuringPath(firstSteal1),
+                intakeDuringPath(secondSteal),
+                timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
+                timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor)));
 
-        this.pos2stash = new ParallelCommandGroup(
-                new SequentialCommandGroup(
-                    intakeDuringPath(first2),
-                        timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)),
-                        intakeDuringPath(firstSteal2),
-                        intakeDuringPath(secondSteal_2),
-                        timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
-                        timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor))));
+        this.pos2stash = new SequentialCommandGroup(
+                intakeDuringPath(first2),
+                fullShootCommand(),
+                intakeDuringPath(firstSteal2),
+                intakeDuringPath(secondSteal_2),
+                timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
+                timedCommand(3, new BottomBallOut(intake, intakePistons, conveyor)));
 
         this.pos3FourBall = new SequentialCommandGroup(
-                        intakeDuringPath(first3),
-                        timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)),
-                        intakeDuringPath(second3),
-                        third3,
-                        intakeDuringPath(fourth3),
-                        finalshoot,
-                        timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                intakeDuringPath(first3),
+                fullShootCommand(),
+                intakeDuringPath(second3),
+                third3,
+                intakeDuringPath(fourth3),
+                finalshoot,
+                fullShootCommand());
 
         this.pos4FourBall = new SequentialCommandGroup(
-                    intakeDuringPath(first4),
-                        second4,
-                        timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)),
-                        intakeDuringPath(third4),
-                        finalshoot,
-                        timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                intakeDuringPath(first4),
+                second4,
+                fullShootCommand(),
+                intakeDuringPath(third4),
+                finalshoot_2,
+                fullShootCommand());
 
         this.pos1NoStash = new SequentialCommandGroup(
-                    intakeDuringPath(first1_2),
-                    timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                intakeDuringPath(first1_2),
+                fullShootCommand());
 
         this.pos2NoStash = new SequentialCommandGroup(
-                    intakeDuringPath(first2_2),
-                                timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                intakeDuringPath(first2_2),
+                fullShootCommand());
 
         this.pos3TwoBall = new SequentialCommandGroup(
-                    intakeDuringPath(first3_2),
-                    timedCommand(2, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                intakeDuringPath(first3_2),
+                fullShootCommand());
 
         this.pos4TwoBall = new SequentialCommandGroup(
                 intakeDuringPath(first4_2),
                 second4_2,
-                timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                fullShootCommand());
         
         autoChooser.addOption("1st Position With Stash", pos1stash);
         autoChooser.addOption("2nd Position With Stash", pos2stash);
@@ -245,16 +247,20 @@ public class AutoPaths {
         return new ParallelRaceGroup(commandsWithWait);
     }
 
-    
+    private Command fullShootCommand() {
+        return timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter));
+    }
 
     private Command intakeDuringPath(RamseteCommandWrapper path) {
         return new ParallelCommandGroup(
                 path,
                 /** limit indexing time, as if the intake is running too long it pushes balls too high */
-                new ParallelRaceGroup(
+                // new ParallelRaceGroup(
                         new Index(intake, intakePistons, conveyor, rightKicker,
-                                leftKicker, linebreakSensor, drivetrain),
-                        new WaitCommand(3)));
+                                leftKicker, linebreakSensor, drivetrain)
+                        // ,new WaitCommand(3))
+                        );
     }
 
 

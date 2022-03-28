@@ -41,11 +41,6 @@ public class SpinUpShooterAndEnd extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        shooter.disable();
-    }
-
-    @Override
     public boolean isFinished() {
         return shooter.atSetpoint();
     }
