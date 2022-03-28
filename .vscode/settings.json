@@ -27,5 +27,12 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests"
+"java.test.defaultConfig": "WPIlibUnitTests",
+"cSpell.words": [
+    "cheesyish",
+    "Devs",
+    "Linebreak",
+    "Pathweaver",
+    "Vels"
+]
 }

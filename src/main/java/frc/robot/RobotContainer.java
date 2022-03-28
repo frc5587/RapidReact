@@ -78,7 +78,7 @@ public class RobotContainer {
         /* Set default commands */
         drivetrain.setDefaultCommand(curveDrive);
         // drivetrain.setDefaultCommand(tankDrive);
-        turret.setDefaultCommand(throttleTurret);
+        turret.setDefaultCommand(lockTurret);
         /* Configure the button bindings */
         configureButtonBindings();
     }
@@ -107,13 +107,8 @@ public class RobotContainer {
         /*
          * TURRET
          */
-
-        /**
-         * runs lock turret but if left trigger + left stick x are being used, then it
-         * cancels it and goes back to the default command (manual control), this gives
-         * the operator override over lock turret
-         */
-        limelightTrigger.and(xb.leftTrigger.and(xb.leftStickX).negate()).whileActiveOnce(lockTurret);
+        // Allows throttle turret if left x and no target is found, otherwise, operator can override with left trigger
+        xb.leftStickX.and(limelightTrigger.negate().or(xb.leftTrigger)).whileActiveOnce(throttleTurret);
 
         /*
          * SHOOTER

@@ -29,7 +29,7 @@ public class LockTurret extends CommandBase {
     @Override
     public void execute() {
         if(limelight.hasTarget()) {
-            double error = -limelight.getHorizontalAngle(); 
+            double error = -limelight.getHorizontalAngleRadians(); 
             double distance = limelight.calculateDistance();
             double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * Math.sin(turret.getPositionRadians() + error);
             double angleAdjustment = Math.atan2(sideBallTravel, distance);
