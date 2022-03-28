@@ -51,6 +51,7 @@ public class AutoPaths {
     private final RamseteCommandWrapper fourth3;
     private final RamseteCommandWrapper finalshoot;
     private final RamseteCommandWrapper finalshoot_2;
+    private final RamseteCommandWrapper finalshoot_3;
     private final RamseteCommandWrapper firstSteal1;
     private final RamseteCommandWrapper firstSteal2;
     private final RamseteCommandWrapper secondSteal;
@@ -76,6 +77,12 @@ public class AutoPaths {
      * Back up and go to the terminal to get the ball in front of it, then shoot both.
      */
     public final Command pos3FourBall;
+    /**
+     * Do {@link #pos3FourBall}, but shoot before going to the terminal, and then
+     * intake for longer while at the terminal. This allows for a human player to get
+     * a ball into the intake to be shot at the end of the command.
+     */
+    public final Command pos3FiveBall;
     /**
      * Get the ball against the wall and back up to shoot it. Drive through the next ball
      * on the way to the terminal, where the last ball is retrieved. Back up to shoot both.
@@ -154,6 +161,8 @@ public class AutoPaths {
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot_2 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
+        finalshoot_3 = new RamseteCommandWrapper(drivetrain,
+                new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal1 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first steal 1"), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal2 = new RamseteCommandWrapper(drivetrain,
@@ -196,6 +205,21 @@ public class AutoPaths {
                 finalshoot,
                 fullShootCommand());
 
+        this.pos3FiveBall = new SequentialCommandGroup(
+                intakeDuringPath(first3),
+                fullShootCommand(),
+                intakeDuringPath(second3),
+                third3,
+                fullShootCommand(),
+                intakeDuringPath(fourth3),
+                new ParallelRaceGroup(
+                    new Index(intake, intakePistons, conveyor, rightKicker,
+                    leftKicker, linebreakSensor, drivetrain),
+                    new WaitCommand(3)
+                ),
+                finalshoot_3,
+                fullShootCommand());
+
         this.pos4FourBall = new SequentialCommandGroup(
                 intakeDuringPath(first4),
                 second4,
@@ -224,6 +248,7 @@ public class AutoPaths {
         autoChooser.addOption("1st Position With Stash", pos1stash);
         autoChooser.addOption("2nd Position With Stash", pos2stash);
         autoChooser.addOption("3rd Position 4 Ball", pos3FourBall);
+        autoChooser.addOption("3rd Position 5 Ball", pos3FiveBall);
         autoChooser.addOption("4th Position 4 Ball", pos4FourBall);
         autoChooser.addOption("1st Position No Stash", pos1NoStash);
         autoChooser.addOption("2nd Position No Stash", pos2NoStash);
