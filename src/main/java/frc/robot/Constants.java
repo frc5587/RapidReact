@@ -66,7 +66,7 @@ public final class Constants {
                 0.66725, 2.3304, 0.3317);
         public static final PIDController PID_CONTROLLER = new PIDController(3.2003, 0, 0);
 
-        public static final double TRACK_WIDTH = 0.419;
+        public static final double TRACK_WIDTH = 0.7;
 
         public static final double THEORETICAL_TOP_SPEED = (12 - FEEDFORWARD.ks) / FEEDFORWARD.kv;
 

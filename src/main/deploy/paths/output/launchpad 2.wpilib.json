@@ -75,7 +75,7 @@
 "velocity": -0.3861127719785256
 },
 {
-"acceleration": -1.0,
+"acceleration": -0.9999999999999986,
 "curvature": 3.770103938468525,
 "pose": {
 "rotation": {
@@ -90,7 +90,7 @@
 "velocity": -0.4299986388914293
 },
 {
-"acceleration": -1.0,
+"acceleration": -1.0000000000000013,
 "curvature": 3.1476671767537687,
 "pose": {
 "rotation": {
@@ -102,7 +102,7 @@
 }
 },
 "time": 0.47336066739666316,
-"velocity": -0.4733606673966631
+"velocity": -0.47336066739666305
 },
 {
 "acceleration": -1.000000000000001,

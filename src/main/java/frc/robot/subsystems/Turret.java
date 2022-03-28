@@ -65,7 +65,7 @@ public class Turret extends ProfiledPIDSubsystem {
      * @param velocity the velocity in radians per second
      */
     public void setVelocityAtPosition(double position, double velocity) {
-        if(position >= upperLimit || position <= lowerLimit) {
+        if((position >= upperLimit || position <= lowerLimit) && ((Math.abs(getPositionRadians())) < (Math.abs(position)))) {
             System.out.println(position + " is not allowed.");
         } else {
             setGoal(new State(position, velocity));

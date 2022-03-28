@@ -23,7 +23,7 @@ public class LockTurret extends CommandBase {
     @Override
     public void initialize() {
         turret.enable();
-        turret.enableVelocityCompensation();
+        // turret.enableVelocityCompensation();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class LockTurret extends CommandBase {
             double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * Math.sin(turret.getPositionRadians() + error);
             double angleAdjustment = Math.atan2(sideBallTravel, distance);
             double totalError = error + angleAdjustment;
-            if (Math.abs(totalError) > 0.06) { //TODO: try changing this number to make turret motion better
+            if (Math.abs(totalError) > 0.05) { //TODO: try changing this number to make turret motion better
                 turret.setVelocityAtPosition(turret.getPositionRadians() + totalError, -drivetrain.getAngularVelocity());
             }
         }

@@ -24,6 +24,8 @@ public class ThrottleTurret extends CommandBase {
     private final int updateRate = 90; // framerate of limelight 
     private final ObjectTracker upperHubTracker = new ObjectTracker();
 
+    private final double moveAmount = 0.5;
+
     public ThrottleTurret(Turret turret, Limelight limelight, DoubleSupplier throttleSupplier) {
         this.turret = turret;
         this.limelight = limelight;
@@ -42,34 +44,11 @@ public class ThrottleTurret extends CommandBase {
     public void initialize() {
         wasEnabledOnInit = turret.isEnabled();
         /** disable PID so it's not interfering with throttle control */
-        turret.disable();
+        turret.enable();
     }
 
     @Override
     public void execute() {
-        /** 
-         * if the turret is above the limit but the joystick is trying to move 
-         * it back into range (the throttle is negative), let the turret move
-         */
-        System.out.println(throttleSupplier.getAsDouble());
-        if(!limelight.hasTarget()) {
-            if((turret.getPositionRadians() <= lowerLimit && throttleSupplier.getAsDouble() < 0) || (turret.getPositionRadians() >= upperLimit && throttleSupplier.getAsDouble() > 0)) {
-                turret.setThrottle(-(throttleSupplier.getAsDouble() * TurretConstants.THROTTLE_MULTIPLIER));
-            } else {
-                turret.setThrottle(-(throttleSupplier.getAsDouble() * TurretConstants.THROTTLE_MULTIPLIER));
-            }   
-        } else {
-            turret.stopTurret();
-        }
-    }    
-
-    @Override
-    public void end(boolean interrupted) {
-        /* if the turret was enabled before the command was run, set it back to enabled;
-         * otherwise, we can leave it disabled as it was supposed to be.
-         */
-        if(wasEnabledOnInit) {
-            turret.enable();
-        }
-    }
+        turret.setPosition(turret.getPositionRadians() + (moveAmount * throttleSupplier.getAsDouble()));
+    } 
 }
