@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.*;
@@ -16,7 +17,7 @@ public class LockTurret extends CommandBase {
     private final Shooter shooter;
 
     private final Notifier limelightNotifier = new Notifier(this::updateLimelight);
-    private final int updateRate = 90; // framerate of limelight 
+    private final int updateRate = 50; // framerate of limelight 
 
     public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain, Shooter shooter) {
         this.turret = turret;
@@ -36,16 +37,20 @@ public class LockTurret extends CommandBase {
 
     public void updateLimelight() {
         if (limelight.hasTarget()) {
-            double distance = limelight.calculateDistance();
             Rotation2d angleError = new Rotation2d(-limelight.getHorizontalAngleRadians());
-            double timeStamp = limelight.calculateFPGAFrameTimestamp();
-            Rotation2d drivetrainAngle = drivetrain.getHeadingAtTime(timeStamp);
+            if (Math.abs(angleError.getDegrees()) < 4 ) {
+                // double distance = limelight.calculateDistance();
+                // double timeStamp = limelight.calculateFPGAFrameTimestamp();
+                // Rotation2d drivetrainAngle = drivetrain.getHeadingAtTime(timeStamp);
 
-            Rotation2d relativeAnglePosition = turret.getPosition().plus(angleError).plus(drivetrainAngle).plus(Rotation2d.fromDegrees(180));
-            Translation2d estimatedOffset = new Translation2d(distance * relativeAnglePosition.getCos(), distance * relativeAnglePosition.getSin());
-            Pose2d estimatedPosition = new Pose2d(estimatedOffset.plus(TurretConstants.HUB_POSITION), drivetrainAngle); 
+                // Rotation2d relativeAnglePosition = turret.getPosition().plus(angleError).plus(drivetrainAngle).plus(Rotation2d.fromDegrees(180));
+                // Translation2d estimatedOffset = new Translation2d(distance * relativeAnglePosition.getCos(), distance * relativeAnglePosition.getSin());
+                // Pose2d estimatedPosition = new Pose2d(estimatedOffset.plus(TurretConstants.HUB_POSITION), drivetrainAngle); 
 
-            drivetrain.updateOdometryEstimatorWithVision(estimatedPosition, timeStamp);
+                // System.out.println(estimatedPosition + "   " + timeStamp + "  " + Timer.getFPGATimestamp() + "  " + (Timer.getFPGATimestamp()-(limelight.pipelineLatencyMS()/1000)));
+
+                // drivetrain.updateOdometryEstimatorWithVision(estimatedPosition, Timer.getFPGATimestamp()-(limelight.pipelineLatencyMS()/1000));
+            }
         }
     }
 
@@ -63,11 +68,14 @@ public class LockTurret extends CommandBase {
         //     }
         // }
 
-        Translation2d relativePosition = drivetrain.getEstimatedPose().getTranslation().minus(TurretConstants.HUB_POSITION);
-        Rotation2d angleToHub = new Rotation2d(relativePosition.getX(), relativePosition.getY());
-        Rotation2d relativeAngleToRobot = angleToHub.plus(Rotation2d.fromDegrees(180)).plus(angleToHub);
+        // Translation2d relativePosition = drivetrain.getEstimatedPose().getTranslation().minus(TurretConstants.HUB_POSITION);
+        // Rotation2d angleToHub = new Rotation2d(relativePosition.getX(), relativePosition.getY());
+        // Rotation2d relativeAngleToRobot = angleToHub.plus(Rotation2d.fromDegrees(180)).plus(angleToHub);
 
-        turret.setPose(relativeAngleToRobot);
+        Rotation2d angleError = new Rotation2d(-limelight.getHorizontalAngleRadians());
+        Rotation2d turnAngle = turret.getPosition().plus(angleError);
+        // System.out.println(angleError + "  " + turnAngle + "   " + turret.getPosition() );
+        turret.setPose(turnAngle);
     }
 
     @Override
