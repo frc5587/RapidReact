@@ -75,7 +75,7 @@ public final class Constants {
 
         public static final double MAXIMUM_VELOCITY = 2; // m/s
         public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
-        public static final double CENTRIPETAL_ACCELERATION = 0.2; // m/s^2
+        public static final double CENTRIPETAL_ACCELERATION = 1; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
                 TRACK_WIDTH);

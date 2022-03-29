@@ -53,13 +53,13 @@ public class Index extends CommandBase {
         if(linebreakSensor.isCrossed()) {
             conveyor.setVelocity(0);
             if(crossed == false) {
-                leftKicker.moveDistance(-0.075); // this number is arbitrary but it works
-                rightKicker.moveDistance(-0.075);
+                // leftKicker.moveDistance(-0.01); // this number is arbitrary but it works
+                // rightKicker.moveDistance(-0.01);
             }
             crossed = true;
         } else {
-            leftKicker.moveDistance(0.1); // more arbitrary numbers
-            rightKicker.moveDistance(0.1);
+            // leftKicker.moveDistance(0.1); // more arbitrary numbers
+            // rightKicker.moveDistance(0.1);
         }
 
         /** Run intake by the speed of robot with a minimum velocity */
@@ -77,6 +77,6 @@ public class Index extends CommandBase {
         intake.stop();
 
         conveyor.setControlMode(ControlMode.POSITION);
-        conveyor.moveDistance(0.4);
+        conveyor.moveDistance(0.1);
     }
 }

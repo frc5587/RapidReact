@@ -1,7 +1,7 @@
 {
   "lengthUnit": "Meter",
   "exportUnit": "Same as Project",
-  "maxVelocity": 2.0,
+  "maxVelocity": 3.0,
   "maxAcceleration": 1.0,
   "trackWidth": 0.7,
   "robotWidth": 0.9398,
