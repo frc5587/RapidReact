@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.controller.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -235,13 +237,15 @@ public final class Constants {
 
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
-        public static final ProfiledPIDController PID = new ProfiledPIDController(
-                9.65, 0, 1.0649, CONSTRAINTS);
+        public static final PIDController PID = new PIDController(
+                9.65, 0, 1.0649);
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.27429, 0.86838, 0.049705);
 
         public static final int GEARING = 90;
         public static final double THROTTLE_MULTIPLIER = 0.1;
         public static final double LIMIT = Units.degreesToRadians(90);
+
+        public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
     }
 
     /*
@@ -287,6 +291,6 @@ public final class Constants {
         public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(103); // is 2.578 meters;
         public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.007); // is 0.813 meters
         public static final double MOUNT_ANGLE = 30; // in degrees
-        public static final double DISTANCE_OFFSET = 0.7;
+        public static final double DISTANCE_OFFSET = 0.677;
     }
 }

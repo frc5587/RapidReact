@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import java.util.function.DoubleSupplier;
@@ -18,7 +19,7 @@ public class ClimbThrottle extends CommandBase {
         this.hookThrottle = hookThrottle;
         this.stickThrottle = stickThrottle;
 
-        addRequirements(climb);
+        addRequirements(climb, turret);
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ClimbThrottle extends CommandBase {
         isClimbing = true;
         climb.disable();
         turret.enable();
-        turret.setPosition(0);
+        turret.setPose(new Rotation2d());
         turret.disable();
     }
 

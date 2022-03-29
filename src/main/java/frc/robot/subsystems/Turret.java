@@ -8,24 +8,23 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
-public class Turret extends ProfiledPIDSubsystem {
+public class Turret extends PIDSubsystem {
     private final CANSparkMax turretMotor = new CANSparkMax(TurretConstants.TURRET_MOTOR, MotorType.kBrushless);
     private final RelativeEncoder turretEncoder = turretMotor.getEncoder();
-    private final double upperLimit = TurretConstants.LIMIT;
-    private final double lowerLimit = -TurretConstants.LIMIT;
-    private State lastSetpoint = new State(0, 0);
-    private final DoubleSupplier velocityCompensationSupplier;
-    private boolean isCompensatingVelocity = false;
+    private final Rotation2d upperLimit = new Rotation2d(TurretConstants.LIMIT);
+    private final Rotation2d lowerLimit = new Rotation2d(-TurretConstants.LIMIT);
+    private Rotation2d targetPosition = new Rotation2d();
+    private Rotation2d targetVelocity = new Rotation2d();
 
-    public Turret(DoubleSupplier velocityCompensationSupplier) {
+    public Turret() {
         super(TurretConstants.PID);
-
-        this.velocityCompensationSupplier = velocityCompensationSupplier;
 
         configureMotors();
     }
@@ -42,43 +41,37 @@ public class Turret extends ProfiledPIDSubsystem {
         turretMotor.set(throttle);
     }
 
-    /**
-     * Sets the position of the turret, unless the position is outside of the
-     * turret's soft limits.
-     * @param position the desired position in radians
-     */
-    public void setPosition(double position) {
-        System.out.println("TURRET SET!!!!!!!!!!!");
-        if(position >= upperLimit || position <= lowerLimit) {
-            if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
-                setGoal(position);
-            } else {
-                System.out.println(position + " is not allowed.");
-            }
-        } else {
-            setGoal(position);
+    public boolean isMoveAllowed(Rotation2d position) {
+        return isInBounds(position) && ((Math.abs(getPosition().getRadians())) < (Math.abs(position.getRadians())));
+    }
+
+    public boolean isInBounds(Rotation2d position) {
+        return (position.getRadians() < upperLimit.getRadians() || position.getRadians() > lowerLimit.getRadians());
+    }
+
+    public boolean isTurretInBounds() {
+        return isInBounds(getPosition());
+    }
+
+    public boolean isMoveInSameDirectionFromHome(Rotation2d position, Rotation2d velocity) {
+        return (velocity.getRadians() > 0 && position.getRadians() > 0) || (velocity.getRadians() < 0 && position.getRadians() < 0);
+    }
+
+    public void setPose(Rotation2d position) {
+        setPose(position, new Rotation2d());
+    }
+
+    public void setPose(Rotation2d position, Rotation2d velocity) {
+        if (isMoveAllowed(position)) {
+            setSetpoint(position.getRadians());
+
+            targetPosition = position;
+            targetVelocity = velocity;
         }
     }
 
-    /**
-     * Sets the position of the turret accounting for a given velocity offset
-     * @param position the desired position in radians
-     * @param velocity the velocity in radians per second
-     */
-    public void setVelocityAtPosition(double position, double velocity) {
-        if((position >= upperLimit || position <= lowerLimit) && ((Math.abs(getPositionRadians())) < (Math.abs(position)))) {
-            System.out.println(position + " is not allowed.");
-        } else {
-            setGoal(new State(position, velocity));
-        }
-    }
-
-    public void enableVelocityCompensation() {
-        isCompensatingVelocity = true;
-    }
-
-    public void disableVelocityCompensation() {
-        isCompensatingVelocity = false;
+    public void setVelocity(Rotation2d velocity) {
+        setPose(getPosition(), velocity);
     }
 
     public void stopTurret() {
@@ -89,36 +82,34 @@ public class Turret extends ProfiledPIDSubsystem {
         turretEncoder.setPosition(0);
     }
 
-    public double getPositionRadians() {
-        return (turretEncoder.getPosition() * (2 * Math.PI) / TurretConstants.GEARING);
+    public Rotation2d getPosition() {
+        return new Rotation2d(turretEncoder.getPosition() * (2 * Math.PI) / TurretConstants.GEARING);
     }
 
-    public double getVelocity() {
-        return (turretEncoder.getVelocity() / 60 * (2 * Math.PI) / TurretConstants.GEARING);
+    public Rotation2d getVelocity() {
+        return new Rotation2d(turretEncoder.getVelocity() / 60 * (2 * Math.PI) / TurretConstants.GEARING);
     }
 
     @Override
     protected double getMeasurement() {
-        return getPositionRadians();
+        return getPosition().getRadians();
     }
 
     @Override
-    protected void useOutput(double output, State setpoint) {
-        double acceleration = (setpoint.velocity - lastSetpoint.velocity)/.02;
-        double compensation = isCompensatingVelocity ? velocityCompensationSupplier.getAsDouble() : 0;
+    protected void useOutput(double output, double setpoint) {
+        if (!isTurretInBounds() && isMoveInSameDirectionFromHome(targetPosition, targetVelocity)) {
+            turretMotor.set(output);
 
-        turretMotor.setVoltage(TurretConstants.TURRET_FF.calculate(setpoint.velocity - compensation, acceleration) + output);
-        lastSetpoint = setpoint;
+        } else {
+            turretMotor.set(TurretConstants.TURRET_FF.calculate(targetVelocity.getRadians()) + output);
+        }
+
     }
 
     @Override
     public void periodic() {
         super.periodic();
 
-        SmartDashboard.putNumber("Turret Pos Degrees", Units.radiansToDegrees(getPositionRadians()));
-    }
-
-    public boolean isFinished() {
-        return lastSetpoint.velocity == 0;
+        SmartDashboard.putNumber("Turret Pos Degrees", getPosition().getDegrees());
     }
 }

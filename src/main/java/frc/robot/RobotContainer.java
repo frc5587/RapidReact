@@ -38,7 +38,7 @@ public class RobotContainer {
     private final Conveyor conveyor = new Conveyor();
     private final Kicker rightKicker = Kicker.createRightKicker();
     private final Kicker leftKicker = Kicker.createLeftKicker();
-    protected final Turret turret = new Turret(drivetrain::getAngularVelocity);
+    protected final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
     private final LinebreakSensor linebreakSensor = new LinebreakSensor();
     private final Limelight limelight = new Limelight();
