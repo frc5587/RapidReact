@@ -5,6 +5,7 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.AutoConstants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -32,6 +33,8 @@ public class Drivetrain extends DrivetrainBase {
             driveConstants);
         zeroOdometry();
         SmartDashboard.putData(field);
+
+        SmartDashboard.putBoolean("BrakeMode", true);
     }
 
     @Override
@@ -100,5 +103,17 @@ public class Drivetrain extends DrivetrainBase {
         super.periodic();
 
         field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
+        if(SmartDashboard.getBoolean("BrakeMode", true) == true) {
+            leftLeader.setNeutralMode(NeutralMode.Brake);
+            rightLeader.setNeutralMode(NeutralMode.Brake);
+            leftFollower.setNeutralMode(NeutralMode.Brake);
+            rightFollower.setNeutralMode(NeutralMode.Brake);
+        }
+        else {
+            leftLeader.setNeutralMode(NeutralMode.Coast);
+            rightLeader.setNeutralMode(NeutralMode.Coast);
+            leftFollower.setNeutralMode(NeutralMode.Coast);
+            rightFollower.setNeutralMode(NeutralMode.Coast);
+        }
     }
 }
