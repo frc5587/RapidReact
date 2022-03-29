@@ -15,7 +15,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -194,7 +193,7 @@ public class AutoPaths {
 
         this.pos1stash = new SequentialCommandGroup(
                 intakeDuringPath(first1),
-                fullShootCommand(),
+                fullShootCommand(2),
                 intakeDuringPath(firstSteal1),
                 intakeDuringPath(secondSteal),
                 timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
@@ -202,7 +201,7 @@ public class AutoPaths {
 
         this.pos2stash = new SequentialCommandGroup(
                 intakeDuringPath(first2),
-                fullShootCommand(),
+                fullShootCommand(2),
                 intakeDuringPath(firstSteal2),
                 intakeDuringPath(secondSteal_2),
                 timedCommand(2, new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter)),
@@ -210,19 +209,19 @@ public class AutoPaths {
 
         this.pos3FourBall = new SequentialCommandGroup(
                 intakeDuringPath(first3),
-                fullShootCommand(),
+                fullShootCommand(2),
                 intakeDuringPath(second3),
                 third3,
                 intakeDuringPath(fourth3),
                 finalshoot,
-                fullShootCommand());
+                fullShootCommand(2));
 
         this.pos3FiveBall = new SequentialCommandGroup(
                 intakeDuringPath(first3_3),
-                fullShootCommand(),
+                fullShootCommand(2),
                 intakeDuringPath(second3_2),
                 third3_2,
-                fullShootCommand(),
+                fullShootCommand(2),
                 intakeDuringPath(fourth3_2),
                 new ParallelRaceGroup(
                     new Index(intake, intakePistons, conveyor, rightKicker,
@@ -230,32 +229,32 @@ public class AutoPaths {
                     new WaitCommand(0.5)
                 ),
                 finalshoot_3,
-                fullShootCommand());
+                fullShootCommand(2));
 
         this.pos4FourBall = new SequentialCommandGroup(
                 intakeDuringPath(first4),
                 second4,
-                fullShootCommand(),
+                fullShootCommand(2),
                 intakeDuringPath(third4),
                 finalshoot_2,
-                fullShootCommand());
+                fullShootCommand(2));
 
         this.pos1NoStash = new SequentialCommandGroup(
                 intakeDuringPath(first1_2),
-                fullShootCommand());
+                fullShootCommand(2));
 
         this.pos2NoStash = new SequentialCommandGroup(
                 intakeDuringPath(first2_2),
-                fullShootCommand());
+                fullShootCommand(2));
 
         this.pos3TwoBall = new SequentialCommandGroup(
                 intakeDuringPath(first3_2),
-                fullShootCommand());
+                fullShootCommand(2));
 
         this.pos4TwoBall = new SequentialCommandGroup(
                 intakeDuringPath(first4_2),
                 second4_2,
-                fullShootCommand());
+                fullShootCommand(2));
         
         autoChooser.addOption("1st Position With Stash", pos1stash);
         autoChooser.addOption("2nd Position With Stash", pos2stash);
@@ -284,9 +283,11 @@ public class AutoPaths {
         return new ParallelRaceGroup(commandsWithWait);
     }
 
-    private Command fullShootCommand() {
-        return timedCommand(4, new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter));
+    private Command fullShootCommand(double time) {
+        return new SequentialCommandGroup(
+            new SetTurret(turret, 0),
+            timedCommand(time, new SpinUpShooter(shooter, drivetrain, turret, limelight),
+                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
     }
 
     private Command intakeDuringPath(RamseteCommandWrapper path) {

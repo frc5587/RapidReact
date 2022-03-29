@@ -48,6 +48,7 @@ public class Turret extends ProfiledPIDSubsystem {
      * @param position the desired position in radians
      */
     public void setPosition(double position) {
+        System.out.println("TURRET SET!!!!!!!!!!!");
         if(position >= upperLimit || position <= lowerLimit) {
             if ((Math.abs(getPositionRadians())) > (Math.abs(position))) {
                 setGoal(position);

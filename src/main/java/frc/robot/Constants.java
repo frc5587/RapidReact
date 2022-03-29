@@ -71,13 +71,15 @@ public final class Constants {
         public static final double THEORETICAL_TOP_SPEED = (12 - FEEDFORWARD.ks) / FEEDFORWARD.kv;
 
         public static final double MAXIMUM_VELOCITY = 2; // m/s
-        public static final double MAXIMUM_ACCELERATION = 2; // m/s^2
+        public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
+        public static final double CENTRIPETAL_ACCELERATION = 0.2; // m/s^2
 
         public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
                 TRACK_WIDTH);
 
         public static final RamseteConstants RAMSETE_CONSTANTS = new RamseteConstants(
-            FEEDFORWARD, PID_CONTROLLER, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, DRIVETRAIN_KINEMATICS);
+                FEEDFORWARD, PID_CONTROLLER, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
+                CENTRIPETAL_ACCELERATION, DRIVETRAIN_KINEMATICS);
     }
 
     /*
