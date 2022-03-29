@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import org.frc5587.lib.auto.ConstrainedTrajectory.TrajectoryConstraints;
 import org.frc5587.lib.auto.RamseteCommandWrapper.RamseteConstants;
 
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -81,6 +82,10 @@ public final class Constants {
 
         public static final RamseteConstants RAMSETE_CONSTANTS = new RamseteConstants(
                 FEEDFORWARD, PID_CONTROLLER, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
+                CENTRIPETAL_ACCELERATION, DRIVETRAIN_KINEMATICS);
+        
+        public static final TrajectoryConstraints TRAJECTORY_CONSTRAINTS = new TrajectoryConstraints(
+                FEEDFORWARD, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
                 CENTRIPETAL_ACCELERATION, DRIVETRAIN_KINEMATICS);
     }
 

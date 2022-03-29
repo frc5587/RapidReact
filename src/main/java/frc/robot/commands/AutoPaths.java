@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import org.frc5587.lib.auto.RamseteCommandWrapper;
 import org.frc5587.lib.auto.AutoPath;
+import org.frc5587.lib.auto.ConstrainedTrajectory;
 
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Conveyor;
@@ -149,11 +150,13 @@ public class AutoPaths {
         first4_2 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         first3_3 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        ConstrainedTrajectory.constrain(
+                new AutoPath("first 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         second3 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("second 3"), AutoConstants.RAMSETE_CONSTANTS);
         second3_2 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("second 3"), AutoConstants.RAMSETE_CONSTANTS);
+        ConstrainedTrajectory.constrain(
+                new AutoPath("second 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS), AutoConstants.RAMSETE_CONSTANTS);
         second4 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("second 4"), AutoConstants.RAMSETE_CONSTANTS);
         second4_2 = new RamseteCommandWrapper(drivetrain,
@@ -161,19 +164,22 @@ public class AutoPaths {
         third3 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("third 3"), AutoConstants.RAMSETE_CONSTANTS);
         third3_2 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("third 3"), AutoConstants.RAMSETE_CONSTANTS);
+        ConstrainedTrajectory.constrain(
+                new AutoPath("third 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS), AutoConstants.RAMSETE_CONSTANTS);
         third4 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("third 4"), AutoConstants.RAMSETE_CONSTANTS);
         fourth3 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("fourth 3"), AutoConstants.RAMSETE_CONSTANTS);
         fourth3_2 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("fourth 3"), AutoConstants.RAMSETE_CONSTANTS);
+        ConstrainedTrajectory.constrain(
+                new AutoPath("fourth 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot_2 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot_3 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
+        ConstrainedTrajectory.constrain(
+                new AutoPath("finalshoot 3 and 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal1 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first steal 1"), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal2 = new RamseteCommandWrapper(drivetrain,
