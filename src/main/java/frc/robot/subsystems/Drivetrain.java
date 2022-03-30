@@ -16,7 +16,6 @@ public class Drivetrain extends DrivetrainBase {
     private static final WPI_TalonFX rightLeader = new WPI_TalonFX(DrivetrainConstants.RIGHT_LEADER);
     private static final WPI_TalonFX rightFollower= new WPI_TalonFX(DrivetrainConstants.RIGHT_FOLLOWER);
     private Field2d field = new Field2d();
-    private Field2d field2 = new Field2d();
 
     private static DriveConstants driveConstants = new DriveConstants(
         DrivetrainConstants.WHEEL_DIAMETER,
@@ -103,8 +102,8 @@ public class Drivetrain extends DrivetrainBase {
     public void periodic() {
         super.periodic();
 
-        // field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
-        field.setRobotPose(getEstimatedPose().getX(), getEstimatedPose().getY(), getEstimatedPose().getRotation());
+        field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
+        // field.setRobotPose(getEstimatedPose().getX(), getEstimatedPose().getY(), getEstimatedPose().getRotation());
 
         if(SmartDashboard.getBoolean("BrakeMode", true) == true) {
             leftLeader.setNeutralMode(NeutralMode.Brake);

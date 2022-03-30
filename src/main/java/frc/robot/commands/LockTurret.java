@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,9 +17,6 @@ public class LockTurret extends CommandBase {
     private final Drivetrain drivetrain;
     private final Shooter shooter;
 
-    private final Notifier limelightNotifier = new Notifier(this::updateLimelight);
-    private final int updateRate = 50; // framerate of limelight 
-
     public LockTurret(Turret turret, Limelight limelight, Drivetrain drivetrain, Shooter shooter) {
         this.turret = turret;
         this.limelight = limelight;
@@ -31,8 +29,6 @@ public class LockTurret extends CommandBase {
     @Override
     public void initialize() {
         turret.enable();
-
-        limelightNotifier.startPeriodic(1.0/updateRate);
     }
 
     public void updateLimelight() {
@@ -72,10 +68,17 @@ public class LockTurret extends CommandBase {
         // Rotation2d angleToHub = new Rotation2d(relativePosition.getX(), relativePosition.getY());
         // Rotation2d relativeAngleToRobot = angleToHub.plus(Rotation2d.fromDegrees(180)).plus(angleToHub);
 
-        Rotation2d angleError = new Rotation2d(-limelight.getHorizontalAngleRadians());
-        Rotation2d turnAngle = turret.getPosition().plus(angleError);
+        Translation2d target = limelight.getUpperHubPosition();
+        Pose2d robotPose = drivetrain.getPose();
+        
+        Translation2d positionDifference = robotPose.getTranslation().minus(target);
+        Rotation2d robotToTargetAngle = new Rotation2d(positionDifference.getX(), positionDifference.getY());
+        Rotation2d desiredTurretAngle = robotToTargetAngle.minus(robotPose.getRotation());
+
+        // Rotation2d angleError = new Rotation2d(-limelight.getHorizontalAngleRadians());
+        // Rotation2d turnAngle = turret.getPosition().plus(angleError);
         // System.out.println(angleError + "  " + turnAngle + "   " + turret.getPosition() );
-        turret.setPose(turnAngle);
+        turret.setPose(desiredTurretAngle);
     }
 
     @Override

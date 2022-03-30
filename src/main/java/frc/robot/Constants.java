@@ -249,8 +249,6 @@ public final class Constants {
         public static final int GEARING = 90;
         public static final double THROTTLE_MULTIPLIER = 0.1;
         public static final double LIMIT = Units.degreesToRadians(90);
-
-        public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
     }
 
     /*
@@ -297,5 +295,7 @@ public final class Constants {
         public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.007); // is 0.813 meters
         public static final double MOUNT_ANGLE = 30; // in degrees
         public static final double DISTANCE_OFFSET = 0.677;
+
+        public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
     }
 }
