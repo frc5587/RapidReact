@@ -35,35 +35,30 @@ public class AutoPaths {
     private final Shooter shooter;
 
     // Auto Paths
-    private final RamseteCommandWrapper first1;
-    private final RamseteCommandWrapper first2;
-    private final RamseteCommandWrapper first3;
-    private final RamseteCommandWrapper first4;
-    private final RamseteCommandWrapper first1_2;
-    private final RamseteCommandWrapper first2_2;
-    private final RamseteCommandWrapper first3_2;
-    private final RamseteCommandWrapper first3_3;
-    private final RamseteCommandWrapper first4_2;
-    private final RamseteCommandWrapper second3;
-    private final RamseteCommandWrapper second3_2;
-    private final RamseteCommandWrapper second4;
-    private final RamseteCommandWrapper second4_2;
-    private final RamseteCommandWrapper third3;
-    private final RamseteCommandWrapper third3_2;
-    private final RamseteCommandWrapper third4;
-    private final RamseteCommandWrapper fourth3;
-    private final RamseteCommandWrapper fourth3_2;
-    private final RamseteCommandWrapper finalshoot;
-    private final RamseteCommandWrapper finalshoot_2;
-    private final RamseteCommandWrapper finalshoot_3;
-    private final RamseteCommandWrapper firstSteal1;
-    private final RamseteCommandWrapper firstSteal2;
-    private final RamseteCommandWrapper secondSteal;
-    private final RamseteCommandWrapper secondSteal_2;
-    private final RamseteCommandWrapper taxi1;
-    private final RamseteCommandWrapper taxi2;
-    private final RamseteCommandWrapper taxi3;
-    private final RamseteCommandWrapper taxi4;
+    private RamseteCommandWrapper first1;
+    private RamseteCommandWrapper first2;
+    private RamseteCommandWrapper first3;
+    private RamseteCommandWrapper first4;
+    private RamseteCommandWrapper first1_2Ball;
+    private RamseteCommandWrapper first2_2Ball;
+    private RamseteCommandWrapper first3_2Ball;
+    private RamseteCommandWrapper first4_2Ball;
+    private RamseteCommandWrapper first3_3Ball;
+    private RamseteCommandWrapper first4_3Ball;
+    private RamseteCommandWrapper second3;
+    private RamseteCommandWrapper second4;
+    private RamseteCommandWrapper second3_3Ball;
+    private RamseteCommandWrapper second4_3Ball;
+    private RamseteCommandWrapper finalshoot;
+    private RamseteCommandWrapper finalshoot_2;
+    private RamseteCommandWrapper firstSteal1;
+    private RamseteCommandWrapper firstSteal2;
+    private RamseteCommandWrapper secondSteal;
+    private RamseteCommandWrapper secondSteal_2;
+    private RamseteCommandWrapper taxi1;
+    private RamseteCommandWrapper taxi2;
+    private RamseteCommandWrapper taxi3;
+    private RamseteCommandWrapper taxi4;
 
     /* define auto command groups here so they can be referenced anywhere */
     /** 
@@ -82,16 +77,20 @@ public class AutoPaths {
      */
     public final Command pos3FourBall;
     /**
-     * Do {@link #pos3FourBall}, but shoot before going to the terminal, and then
-     * intake for longer while at the terminal. This allows for a human player to get
-     * a ball into the intake to be shot at the end of the command.
-     */
-    public final Command pos3FiveBall;
-    /**
      * Get the ball against the wall and back up to shoot it. Drive through the next ball
      * on the way to the terminal, where the last ball is retrieved. Back up to shoot both.
      */
     public final Command pos4FourBall;
+    /**
+     * Get the closest ball and then shoot it. Next, get the one against the wall
+     * and shoot it.
+     */
+    public final Command pos3ThreeBall;
+    /**
+     * Get the ball against the wall and turn around to shoot it. Drive through the next ball
+     * and spin around to shoot.
+     */
+    public final Command pos4ThreeBall;
     /**
      * Get the closest ball and shoot that along with the pre-loaded cargo.
      */
@@ -141,55 +140,30 @@ public class AutoPaths {
                 new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         first4 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
-        first1_2 = new RamseteCommandWrapper(drivetrain,
+        first1_2Ball = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first 1"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
-        first2_2 = new RamseteCommandWrapper(drivetrain,
+        first2_2Ball = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first 2"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
-        first3_2 = new RamseteCommandWrapper(drivetrain,
+        first3_2Ball = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
-        first4_2 = new RamseteCommandWrapper(drivetrain,
+        first4_2Ball = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
-        first3_3 = new RamseteCommandWrapper(drivetrain,
-        // ConstrainedTrajectory.constrain(
-                new AutoPath("first 3")
-                // .trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS)
-                , AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first3_3Ball = new RamseteCommandWrapper(drivetrain,
+                new AutoPath("first 3"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first4_3Ball = new RamseteCommandWrapper(drivetrain,
+                new AutoPath("first 4"), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
         second3 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("second 3"), AutoConstants.RAMSETE_CONSTANTS);
-        second3_2 = new RamseteCommandWrapper(drivetrain,
-        // ConstrainedTrajectory.constrain(
-                new AutoPath("second 3")
-                // .trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS)
-                , AutoConstants.RAMSETE_CONSTANTS);
         second4 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("second 4"), AutoConstants.RAMSETE_CONSTANTS);
-        second4_2 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("second 4"), AutoConstants.RAMSETE_CONSTANTS);
-        third3 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("third 3"), AutoConstants.RAMSETE_CONSTANTS);
-        third3_2 = new RamseteCommandWrapper(drivetrain,
-        // ConstrainedTrajectory.constrain(
-                new AutoPath("third 3")
-                // .trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS)
-                , AutoConstants.RAMSETE_CONSTANTS);
-        third4 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("third 4"), AutoConstants.RAMSETE_CONSTANTS);
-        fourth3 = new RamseteCommandWrapper(drivetrain,
-                new AutoPath("fourth 3"), AutoConstants.RAMSETE_CONSTANTS);
-        fourth3_2 = new RamseteCommandWrapper(drivetrain,
-        // ConstrainedTrajectory.constrain(
-                new AutoPath("fourth 3")
-                // .trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS)
-                , AutoConstants.RAMSETE_CONSTANTS);
+        second3_3Ball = new RamseteCommandWrapper(drivetrain,
+                new AutoPath("second 3 2"), AutoConstants.RAMSETE_CONSTANTS);
+        second4_3Ball = new RamseteCommandWrapper(drivetrain,
+                new AutoPath("second 4 2"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
         finalshoot_2 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("finalshoot 3 and 4"), AutoConstants.RAMSETE_CONSTANTS);
-        finalshoot_3 = new RamseteCommandWrapper(drivetrain,
-        // ConstrainedTrajectory.constrain(
-                new AutoPath("finalshoot 3 and 4")
-                // .trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS)
-                , AutoConstants.RAMSETE_CONSTANTS);
         firstSteal1 = new RamseteCommandWrapper(drivetrain,
                 new AutoPath("first steal 1"), AutoConstants.RAMSETE_CONSTANTS);
         firstSteal2 = new RamseteCommandWrapper(drivetrain,
@@ -227,60 +201,54 @@ public class AutoPaths {
                 intakeDuringPath(first3),
                 fullShootCommand(2),
                 intakeDuringPath(second3),
-                // third3,
-                intakeDuringPath(fourth3),
                 finalshoot,
-                fullShootCommand(2));
-
-        this.pos3FiveBall = new SequentialCommandGroup(
-                intakeDuringPath(first3_3),
-                fullShootCommand(2),
-                intakeDuringPath(second3_2),
-                third3_2,
-                fullShootCommand(2),
-                intakeDuringPath(fourth3_2),
-                new ParallelRaceGroup(
-                    new Index(intake, intakePistons, conveyor, rightKicker,
-                    leftKicker, linebreakSensor, drivetrain),
-                    new WaitCommand(0.5)
-                ),
-                finalshoot_3,
                 fullShootCommand(2));
 
         this.pos4FourBall = new SequentialCommandGroup(
                 intakeDuringPath(first4),
-                second4,
                 fullShootCommand(2),
-                intakeDuringPath(third4),
+                intakeDuringPath(second4),
                 finalshoot_2,
                 fullShootCommand(2));
 
         this.pos1NoStash = new SequentialCommandGroup(
-                intakeDuringPath(first1_2),
+                intakeDuringPath(first1_2Ball),
                 fullShootCommand(2));
 
         this.pos2NoStash = new SequentialCommandGroup(
-                intakeDuringPath(first2_2),
+                intakeDuringPath(first2_2Ball),
                 fullShootCommand(2));
 
         this.pos3TwoBall = new SequentialCommandGroup(
-                intakeDuringPath(first3_2),
+                intakeDuringPath(first3_2Ball),
                 fullShootCommand(2));
 
         this.pos4TwoBall = new SequentialCommandGroup(
-                intakeDuringPath(first4_2),
-                second4_2,
+                intakeDuringPath(first4_2Ball),
                 fullShootCommand(2));
         
+        this.pos3ThreeBall = new SequentialCommandGroup(
+                intakeDuringPath(first3_3Ball),
+                fullShootCommand(2),
+                intakeDuringPath(second3_3Ball),
+                fullShootCommand(2));
+
+        this.pos4ThreeBall = new SequentialCommandGroup(
+                intakeDuringPath(first4_3Ball),
+                fullShootCommand(2),
+                intakeDuringPath(second4_3Ball),
+                fullShootCommand(2));
+            
         autoChooser.addOption("1st Position With Stash", pos1stash);
         autoChooser.addOption("2nd Position With Stash", pos2stash);
         autoChooser.addOption("3rd Position 4 Ball", pos3FourBall);
-        autoChooser.addOption("3rd Position 5 Ball", pos3FiveBall);
         autoChooser.addOption("4th Position 4 Ball", pos4FourBall);
         autoChooser.addOption("1st Position No Stash", pos1NoStash);
         autoChooser.addOption("2nd Position No Stash", pos2NoStash);
         autoChooser.addOption("3rd Position 2 Ball", pos3TwoBall);
         autoChooser.addOption("4th Position 2 Ball", pos4TwoBall);
+        autoChooser.addOption("3rd Position 3 Ball", pos3ThreeBall);
+        autoChooser.addOption("4th Position 3 Ball", pos4ThreeBall);
         autoChooser.addOption("Taxi 1st Pos", taxi1);
         autoChooser.addOption("Taxi 2nd Pos", taxi2);
         autoChooser.addOption("Taxi 3rd Pos", taxi3);
@@ -317,12 +285,77 @@ public class AutoPaths {
                         );
     }
 
-
     public SendableChooser<Command> getChooser() {
         return this.autoChooser;
     }
 
     public Command getSelectedCommand() {
         return autoChooser.getSelected();
+    }
+
+    /** 
+     * Creates new RamseteCommandWrappers for all paths using a {@link ConstrainedTrajectory}
+     */
+    public void useConstrainedTrajectories() {
+        first1 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 1").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first2 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 2").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first3 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first4 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first1_2Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 1").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first2_2Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 2").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first3_2Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first4_2Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first3_3Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        first4_3Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                    new AutoPath("first 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                    AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        second3 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("second 3").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        second4 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("second 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        second3_3Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                    new AutoPath("second 3 2").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                    AutoConstants.RAMSETE_CONSTANTS);
+        second4_3Ball = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("second 4 2").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        finalshoot = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("finalshoot 3 and 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        finalshoot_2 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("finalshoot 3 and 4").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        firstSteal1 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first steal 1").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        firstSteal2 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("first steal 2").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        secondSteal = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("secondSteal").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
+        secondSteal_2 = new RamseteCommandWrapper(drivetrain, ConstrainedTrajectory.constrain(
+                new AutoPath("secondSteal").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
+                AutoConstants.RAMSETE_CONSTANTS);
     }
 }
