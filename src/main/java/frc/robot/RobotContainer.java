@@ -41,7 +41,7 @@ public class RobotContainer {
     protected final Turret turret = new Turret();
     private final Shooter shooter = new Shooter();
     private final LinebreakSensor linebreakSensor = new LinebreakSensor();
-    private final Limelight limelight = new Limelight();
+    private final Limelight limelight = new Limelight(drivetrain, turret);
 
     /* Commands */
     // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
