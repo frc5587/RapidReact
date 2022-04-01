@@ -64,7 +64,7 @@ public class RobotContainer {
 
     /* Misc */
     private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, 
-            leftKicker, linebreakSensor, drivetrain, limelight, turret, shooter, climbThrottle);
+            leftKicker, linebreakSensor, drivetrain, limelight, turret, shooter, climbThrottle, false);
     private final PowerDistribution pdh = new PowerDistribution();
 
     /**
