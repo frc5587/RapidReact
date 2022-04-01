@@ -50,8 +50,8 @@ public class RobotContainer {
     // rightJoystick::getY);
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, xb::getRightY,
-            xb::getLeftY);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, 
+            xb::getRightY, xb::getLeftBumperPressed);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker,
             linebreakSensor, drivetrain);
@@ -96,9 +96,10 @@ public class RobotContainer {
 
         /** while the the B button is held, index */
         xb.bButton.and(xb.leftTrigger.negate()).and(xb.rightTrigger.negate()).whileActiveOnce(index);
-        /** when the X button is pressed with the right trigger, extend/retract the intake pistons */
-        xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
 
+        /*
+         * EJECT
+         */
         /** while the B button is held with the left trigger, eject the ball through the intake */
         xb.bButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(bottomBallOut);
         /** while the Y button is held with the left trigger, eject the ball through the shooter */
@@ -122,9 +123,10 @@ public class RobotContainer {
         /*
          * CLIMB
          */
-
-        /** if either joystick is being used with the right trigger, climb with the joystick throttle */
-        (xb.rightStickY.or(xb.leftStickY)).and(xb.rightTrigger).whileActiveOnce(climbThrottle);
+        // While right trigger is held, enable the throttle climb (this blocks the turret as well), and is not interruptible
+        xb.rightTrigger.whileActiveOnce(climbThrottle, false);
+        /** when the X button is pressed with the right trigger, extend/retract the intake pistons */
+        xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
     }
 
     /**

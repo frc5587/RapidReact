@@ -2,16 +2,12 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.TurretConstants;
 
-import java.util.function.DoubleSupplier;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 

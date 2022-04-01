@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.controller.*;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -60,8 +59,7 @@ public final class Constants {
         public static final double VELOCITY_DENOMINATOR = 0.1;
         public static final double VOLTAGE_RAMP_RATE = 0.4;
 
-        // TODO likely in between 0.25 & 0.5. Test these to find the right value
-        public static final double QUICKTURN_CURVE_MULTIPLIER = 0.5;
+        public static final double QUICKTURN_CURVE_MULTIPLIER = 0.75;
     }
 
     public static final class AutoConstants {
@@ -129,6 +127,8 @@ public final class Constants {
         public static final double SPOOL_RADIUS = 0.02;
         public static final double HOOK_GEARING = 16;
         public static final double STICK_GEARING = 15;
+
+        public static final double STEADY_STATE_HOOK_THROTTLE = 0.1; // TODO: make correct
     }
 
     /*
@@ -181,7 +181,6 @@ public final class Constants {
         public static final int FREE_CURRENT_LIMIT = 30;
 
         /* pid/ff values */
-        // TODO: Check out high constraint
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20);
         public static final ProfiledPIDController POSITION_PID = new ProfiledPIDController(
                 4.3574, 0, 0.12733, CONSTRAINTS);
