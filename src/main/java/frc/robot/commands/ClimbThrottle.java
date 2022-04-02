@@ -14,15 +14,16 @@ import java.util.function.DoubleSupplier;
 public class ClimbThrottle extends CommandBase {
     private final ClimbController climb;
     private final Turret turret;
-    private final DoubleSupplier throttleSupplier;
+    private final DoubleSupplier throttleSupplier, stickThrottleSupplier;
     private final BooleanSupplier throttleToggleSupplier;
     private boolean isHookMode = true;
     private NetworkTableEntry toggleEntry = SmartDashboard.getEntry("Hook Mode Enabled");
 
-    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier throttleSupplier, BooleanSupplier throttleToggleSupplier) {
+    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier throttleSupplier, DoubleSupplier stickThrottleSupplier, BooleanSupplier throttleToggleSupplier) {
         this.climb = climb;
         this.turret = turret;
         this.throttleSupplier = throttleSupplier;
+        this.stickThrottleSupplier = stickThrottleSupplier;
         this.throttleToggleSupplier = throttleToggleSupplier;
 
         addRequirements(climb, turret);
@@ -37,18 +38,21 @@ public class ClimbThrottle extends CommandBase {
 
     @Override
     public void execute() {
-        if (throttleToggleSupplier.getAsBoolean()) {
-            isHookMode = !isHookMode;
-        }
+        // if (throttleToggleSupplier.getAsBoolean()) {
+        //     isHookMode = !isHookMode;
+        // }
 
-        if (isHookMode) {
-            climb.setHookThrottle(throttleSupplier.getAsDouble());
-        } else {
-            climb.setStickThrottle(throttleSupplier.getAsDouble());
-            climb.setStickThrottle(ClimbConstants.STEADY_STATE_HOOK_THROTTLE);
-        }
+        // if (isHookMode) {
+        //     climb.setHookThrottle(throttleSupplier.getAsDouble());
+        // } else {
+        //     climb.setStickThrottle(throttleSupplier.getAsDouble());
+        //     climb.setHookThrottle(ClimbConstants.STEADY_STATE_HOOK_THROTTLE);
+        // }
+        climb.setHookThrottle(throttleSupplier.getAsDouble());
+        climb.setStickThrottle(stickThrottleSupplier.getAsDouble());
 
         updateSmartDashboard();
+
     }
 
     @Override

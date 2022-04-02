@@ -51,7 +51,7 @@ public class RobotContainer {
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
     private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, 
-            xb::getRightY, xb::getLeftBumperPressed);
+             xb::getRightY, xb::getLeftY, xb::getLeftBumperPressed);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker,
             linebreakSensor, drivetrain);
