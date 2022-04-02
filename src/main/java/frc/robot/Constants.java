@@ -242,7 +242,7 @@ public final class Constants {
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final PIDController PID = new PIDController(
-                2.4, 0, 0);
+                2, 0, 0);
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.2756, 0.8555, 0.05829);
 
         public static final int GEARING = 90;

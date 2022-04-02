@@ -370,7 +370,7 @@ public class AutoPaths {
     private Command fullShootCommand(double time) {
         return new SequentialCommandGroup(
             timedCommand(time, new SpinUpShooter(shooter, drivetrain, turret, limelight),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter)));
+                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)));
     }
 
     private Command intakeDuringPath(RamseteCommandWrapper path) {

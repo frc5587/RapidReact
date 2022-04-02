@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.*;
@@ -29,10 +30,12 @@ public class SpinUpShooter extends CommandBase {
     @Override
     public void execute() {
         if (limelight.hasTarget()) {
-            shooter.setVelocity(shooter.shootDistanceStationary(limelight.calculateDistance()));
+            // shooter.setVelocity(shooter.shootDistanceStationary(limelight.calculateDistance()));
+            double speed = MathUtil.clamp(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), (turret.getPosition().getRadians() - limelight.getHorizontalAngleRadians()), limelight.calculateDistance()), shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE), shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE));
 
             // TODO, until we test these, imma leave them commented out
-            // shooter.setVelocity(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), (turret.getPositionRadians() - limelight.getHorizontalAngle()), limelight.calculateDistance()));
+            System.out.println(speed + "  " + shooter.shootDistanceStationary(limelight.calculateDistance()));
+            shooter.setVelocity(speed);
             // System.out.println(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), (turret.getPositionRadians() - limelight.getHorizontalAngle()), limelight.calculateDistance()));
         } else {
             shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);

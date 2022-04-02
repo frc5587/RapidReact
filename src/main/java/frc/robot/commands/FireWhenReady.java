@@ -10,12 +10,14 @@ public class FireWhenReady extends CommandBase {
     private final Conveyor conveyor;
     private final Kicker leftKicker, rightKicker;
     private final Shooter shooter;
+    private final Limelight limelight;
 
-    public FireWhenReady(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, Shooter shooter) {
+    public FireWhenReady(Conveyor conveyor, Kicker rightKicker, Kicker leftKicker, Shooter shooter, Limelight limelight) {
         this.conveyor = conveyor;
         this.rightKicker = rightKicker;
         this.leftKicker = leftKicker;
         this.shooter = shooter;
+        this.limelight = limelight;
 
         addRequirements(conveyor, rightKicker, leftKicker);
     }
@@ -30,7 +32,7 @@ public class FireWhenReady extends CommandBase {
 
     @Override
     public void execute() {
-        if (shooter.atSetpoint()) {
+        if (shooter.atSetpoint() && shooter.isInRange(limelight.calculateDistance())) {
             rightKicker.moveDistance(1);
             leftKicker.moveDistance(1);
             conveyor.setVelocity(1);
@@ -40,9 +42,6 @@ public class FireWhenReady extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         conveyor.setControlMode(ControlMode.OFF);
-        rightKicker.disable();
-        leftKicker.disable();
-        shooter.disable();
     }
 
     @Override

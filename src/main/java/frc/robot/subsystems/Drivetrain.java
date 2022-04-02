@@ -2,10 +2,13 @@ package frc.robot.subsystems;
 
 import org.frc5587.lib.subsystems.DrivetrainBase;
 import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.AutoConstants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -98,11 +101,18 @@ public class Drivetrain extends DrivetrainBase {
         super.tankDriveVolts(-leftVolts, -rightVolts);
     }
 
+    public void updateFieldWidget(Translation2d offset) {
+        Pose2d robotPose = getPose();
+        Translation2d adjustedRobotPose = robotPose.getTranslation().plus(offset);
+        field.setRobotPose(adjustedRobotPose.getX(), adjustedRobotPose.getY(), getRotation2d());
+    }
+
     @Override
     public void periodic() {
         super.periodic();
 
-        field.setRobotPose(getPose().getX(), getPose().getY(), getRotation2d());
+        // Pose2d realPose = 
+
         // field.setRobotPose(getEstimatedPose().getX(), getEstimatedPose().getY(), getEstimatedPose().getRotation());
 
         if(SmartDashboard.getBoolean("BrakeMode", true) == true) {

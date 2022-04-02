@@ -39,9 +39,9 @@ public class RobotContainer {
     private final Kicker rightKicker = Kicker.createRightKicker();
     private final Kicker leftKicker = Kicker.createLeftKicker();
     protected final Turret turret = new Turret();
-    private final Shooter shooter = new Shooter();
-    private final LinebreakSensor linebreakSensor = new LinebreakSensor();
     private final Limelight limelight = new Limelight(drivetrain, turret);
+    private final Shooter shooter = new Shooter(limelight);
+    private final LinebreakSensor linebreakSensor = new LinebreakSensor();
 
     /* Commands */
     // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
@@ -59,7 +59,7 @@ public class RobotContainer {
     private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
-    private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter);
+    private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
 
     /* Misc */

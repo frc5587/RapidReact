@@ -17,9 +17,12 @@ public class Shooter extends SubsystemBase {
     private double setpoint = 0;
     private final double shotEfficiency = 0.8; // how efficient the flywheel is a transferring momentum
     private final double flywheelCargoVelocityRatio = 2; // ratio between the velocity of the flywheel and release velocity of cargo
+    private final Limelight limelight;
 
-    public Shooter() {
+    public Shooter(Limelight limelight) {
         configureShooterFalcon();
+
+        this.limelight = limelight;
     }
 
     public void configureShooterFalcon() {
@@ -33,8 +36,8 @@ public class Shooter extends SubsystemBase {
         leaderMotor.setInverted(ShooterConstants.SHOOTER_LEADER_INVERTED);
         followerMotor.setInverted(ShooterConstants.SHOOTER_FOLLOWER_INVERTED);
 
-        leaderMotor.setNeutralMode(NeutralMode.Brake);
-        followerMotor.setNeutralMode(NeutralMode.Brake);
+        leaderMotor.setNeutralMode(NeutralMode.Coast);
+        followerMotor.setNeutralMode(NeutralMode.Coast);
     }
 
     /**
@@ -127,14 +130,11 @@ public class Shooter extends SubsystemBase {
      *          within min/max shoot range, or 0 if the target is not within range
      */
     public double shootDistanceStationary(double distance) {
-        if (distance > ShooterConstants.MAX_SHOOT_DISTANCE ||
-                distance < ShooterConstants.MIN_SHOOT_DISTANCE) {
-            SmartDashboard.putBoolean("In Range", false);
-            return 0.0;
-        } else {
-            SmartDashboard.putBoolean("In Range", true);
-            return shooterRegression(distance);
-        }
+        return shooterRegression(distance);
+    }
+
+    public boolean isInRange(double distance) {
+        return (distance < ShooterConstants.MAX_SHOOT_DISTANCE && distance > ShooterConstants.MIN_SHOOT_DISTANCE);
     }
 
     //TODO: check this documentation!!!
@@ -146,7 +146,7 @@ public class Shooter extends SubsystemBase {
      * @return a velocity based on shooterRegression, adjusted for robot movement
      */
     public double shootDistanceMoving(double velocity, double movingAngle, double distance) {
-        final double effect = 1;
+        final double effect = -1;
         return (horizontalCargoVelocityToShooterVelocity(velocity * Math.cos(movingAngle) * effect) 
                 + shootDistanceStationary(distance));
     }
@@ -161,5 +161,7 @@ public class Shooter extends SubsystemBase {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint)
                     - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
+
+        SmartDashboard.putBoolean("In Range", isInRange(limelight.calculateDistance()));
     }
 }

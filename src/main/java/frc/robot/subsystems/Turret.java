@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 public class Turret extends PIDSubsystem {
     private final CANSparkMax turretMotor = new CANSparkMax(TurretConstants.TURRET_MOTOR, MotorType.kBrushless);
     private final RelativeEncoder turretEncoder = turretMotor.getEncoder();
-    private final Rotation2d upperLimit = new Rotation2d(TurretConstants.LIMIT);
-    private final Rotation2d lowerLimit = new Rotation2d(-TurretConstants.LIMIT);
+    public final Rotation2d upperLimit = new Rotation2d(TurretConstants.LIMIT);
+    public final Rotation2d lowerLimit = new Rotation2d(-TurretConstants.LIMIT);
     private Rotation2d targetPosition = new Rotation2d();
     private Rotation2d targetVelocity = new Rotation2d();
 
