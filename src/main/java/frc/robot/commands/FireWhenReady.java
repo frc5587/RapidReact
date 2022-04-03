@@ -32,7 +32,7 @@ public class FireWhenReady extends CommandBase {
 
     @Override
     public void execute() {
-        if (shooter.atSetpoint() && shooter.isInRange(limelight.calculateDistance())) {
+        if (shooter.atSetpoint() && shooter.isInRange(limelight.calculateDistance()) && limelight.hasTarget()) {
             rightKicker.moveDistance(1);
             leftKicker.moveDistance(1);
             conveyor.setVelocity(1);

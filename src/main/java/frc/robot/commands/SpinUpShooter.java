@@ -29,22 +29,16 @@ public class SpinUpShooter extends CommandBase {
 
     @Override
     public void execute() {
-        if (limelight.hasTarget()) {
-            double speed = MathUtil.clamp(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), (turret.getPosition().getRadians() - limelight.getHorizontalAngleRadians()), limelight.calculateDistance()), shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE), shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE));
+        double distance = limelight.getDistanceToHub();
+        double offAngle = limelight.getRelativeAngleToHub().getRadians();
 
-            shooter.setVelocity(speed);
-        } else {
-            shooter.setVelocity(ShooterConstants.DEFAULT_SPIN_UP_VELOCITY);
-        }
+        double speed = MathUtil.clamp(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance), shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE), shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE));
+
+        shooter.setVelocity(speed);
     }
 
     @Override
     public void end(boolean interrupted) {
         shooter.disable();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

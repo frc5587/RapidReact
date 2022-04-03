@@ -137,7 +137,6 @@ public class Shooter extends SubsystemBase {
         return (distance < ShooterConstants.MAX_SHOOT_DISTANCE && distance > ShooterConstants.MIN_SHOOT_DISTANCE);
     }
 
-    //TODO: check this documentation!!!
     /**
      * Calculates the shooter velocity accounting for the movement of the robot
      * @param velocity the velocity of the robot
@@ -146,7 +145,7 @@ public class Shooter extends SubsystemBase {
      * @return a velocity based on shooterRegression, adjusted for robot movement
      */
     public double shootDistanceMoving(double velocity, double movingAngle, double distance) {
-        final double effect = -1;
+        final double effect = -.8; // TODO: tune this
         return (horizontalCargoVelocityToShooterVelocity(velocity * Math.cos(movingAngle) * effect) 
                 + shootDistanceStationary(distance));
     }

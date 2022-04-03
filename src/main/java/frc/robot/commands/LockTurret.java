@@ -30,12 +30,7 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
-        Translation2d target = limelight.getUpperHubPosition();
-        Pose2d robotPose = drivetrain.getPose();
-        
-        Translation2d positionDifference = robotPose.getTranslation().minus(target);
-        Rotation2d robotToTargetAngle = new Rotation2d(positionDifference.getX(), positionDifference.getY());
-        Rotation2d desiredTurretAngle = robotToTargetAngle.minus(robotPose.getRotation()).minus(Rotation2d.fromDegrees(180));
+        Rotation2d desiredTurretAngle = limelight.getRelativeAngleToHub();
 
         // double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * Math.sin(turret.getPositionRadians() + error);
         // double angleAdjustment = Math.atan2(sideBallTravel, distance);
