@@ -376,8 +376,7 @@ public class AutoPaths {
     private Command intakeDuringPath(RamseteCommandWrapper path) {
         return new ParallelRaceGroup(
                 path,
-                new Index(intake, intakePistons, conveyor, rightKicker,
-                        leftKicker, linebreakSensor, drivetrain));
+                new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain));
     }
 
     public SendableChooser<Command> getChooser() {

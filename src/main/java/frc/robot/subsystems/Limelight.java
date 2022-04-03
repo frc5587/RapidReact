@@ -40,7 +40,7 @@ public class Limelight extends LimelightBase {
 
             Rotation2d relativeAnglePosition = turret.getPosition().plus(angleError).plus(poseAtTime.getRotation()).plus(Rotation2d.fromDegrees(180));
             Translation2d estimatedOffset = new Translation2d(distance * relativeAnglePosition.getCos(), distance * relativeAnglePosition.getSin());
-            // Pose2d estimatedPosition = new Pose2d(estimatedOffset.plus(TurretConstants.HUB_POSITION), drivetrainAngle); 
+
             Translation2d estimatedPastHubPosition = poseAtTime.getTranslation().minus(estimatedOffset);
             Translation2d estimatedCurrentHubPosition = estimatedPastHubPosition.plus(drivetrain.getPose().minus(poseAtTime).getTranslation());
 

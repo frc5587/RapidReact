@@ -24,7 +24,7 @@ public class BottomBallOut extends CommandBase {
         intakePistons.extend();
 
         conveyor.setControlMode(ControlMode.VELOCITY);
-        conveyor.setVelocity(-1);
+        conveyor.setVelocity(-2);
 
         intake.setVelocity(-3);
     }

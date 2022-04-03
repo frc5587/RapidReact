@@ -44,17 +44,12 @@ public class RobotContainer {
     private final LinebreakSensor linebreakSensor = new LinebreakSensor();
 
     /* Commands */
-    // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY,
-    // () -> -joystick.getXCurveDampened());
-    // private final TankDrive tankDrive = new TankDrive(drivetrain, joystick::getY,
-    // rightJoystick::getY);
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, 
-             xb::getRightY, xb::getLeftY, xb::getLeftBumperPressed);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret,
+            xb::getRightY, xb::getLeftY, xb::getLeftBumperPressed);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
-    private final Index index = new Index(intake, intakePistons, conveyor, rightKicker, leftKicker,
-            linebreakSensor, drivetrain);
+    private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
@@ -63,7 +58,7 @@ public class RobotContainer {
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
 
     /* Misc */
-    private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker, 
+    private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker,
             leftKicker, linebreakSensor, drivetrain, limelight, turret, shooter, climbThrottle, false);
     private final PowerDistribution pdh = new PowerDistribution();
 
@@ -100,15 +95,22 @@ public class RobotContainer {
         /*
          * EJECT
          */
-        /** while the B button is held with the left trigger, eject the ball through the intake */
+        /**
+         * while the B button is held with the left trigger, eject the ball through the
+         * intake
+         */
         xb.bButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(bottomBallOut);
-        /** while the Y button is held with the left trigger, eject the ball through the shooter */
-        xb.yButton.and(xb.leftTrigger).whileActiveOnce(topBallOut);
+        /**
+         * while the Y button is held with the left trigger, eject the ball through the
+         * shooter
+         */
+        xb.yButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(topBallOut);
 
         /*
          * TURRET
          */
-        // Allows throttle turret if left x and no target is found, otherwise, operator can override with left trigger
+        // Allows throttle turret if left x and no target is found, otherwise, operator
+        // can override with left trigger
         xb.leftStickX.and(limelightTrigger.negate().or(xb.leftTrigger)).whileActiveOnce(throttleTurret);
 
         /*
@@ -116,16 +118,20 @@ public class RobotContainer {
          */
 
         /** while the A button is held, spin up the shooter to the correct speed */
-        xb.aButton.whileActiveOnce(spinUpShooter);
+        xb.aButton.and(xb.rightTrigger.negate()).whileActiveOnce(spinUpShooter);
         /** when the left bumper is pressed, fire the ball into the at-speed shooter */
-        xb.leftBumper.whileActiveOnce(fireWhenReady);
+        xb.leftBumper.and(xb.rightTrigger.negate()).whileActiveOnce(fireWhenReady);
 
         /*
          * CLIMB
          */
-        // While right trigger is held, enable the throttle climb (this blocks the turret as well), and is not interruptible
+        // While right trigger is held, enable the throttle climb (this blocks the
+        // turret as well), and is not interruptible
         xb.rightTrigger.whileActiveOnce(climbThrottle, false);
-        /** when the X button is pressed with the right trigger, extend/retract the intake pistons */
+        /**
+         * when the X button is pressed with the right trigger, extend/retract the
+         * intake pistons
+         */
         xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
     }
 

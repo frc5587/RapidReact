@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,6 +19,7 @@ public class ClimbThrottle extends CommandBase {
     private final BooleanSupplier throttleToggleSupplier;
     private boolean isHookMode = true;
     private NetworkTableEntry toggleEntry = SmartDashboard.getEntry("Hook Mode Enabled");
+    private SlewRateLimiter hookThrottleLimiter = new SlewRateLimiter(0.5); // TODO: tune this
 
     public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier throttleSupplier, DoubleSupplier stickThrottleSupplier, BooleanSupplier throttleToggleSupplier) {
         this.climb = climb;
@@ -48,7 +50,7 @@ public class ClimbThrottle extends CommandBase {
         //     climb.setStickThrottle(throttleSupplier.getAsDouble());
         //     climb.setHookThrottle(ClimbConstants.STEADY_STATE_HOOK_THROTTLE);
         // }
-        climb.setHookThrottle(throttleSupplier.getAsDouble());
+        climb.setHookThrottle(hookThrottleLimiter.calculate(throttleSupplier.getAsDouble()));
         climb.setStickThrottle(stickThrottleSupplier.getAsDouble());
 
         updateSmartDashboard();
