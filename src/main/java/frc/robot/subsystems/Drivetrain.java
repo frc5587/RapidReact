@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import org.frc5587.lib.subsystems.DrivetrainBase;
 import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.AutoConstants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;

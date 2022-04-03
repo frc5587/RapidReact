@@ -14,7 +14,6 @@ public class Index extends CommandBase {
     private final Conveyor conveyor;
     private final LinebreakSensor linebreakSensor;
     private final Drivetrain drivetrain;
-    private boolean crossed = false;
 
     public Index(Intake intake, IntakePistons intakePistons, Conveyor conveyor, LinebreakSensor linebreakSensor, Drivetrain drivetrain) {
         this.intake = intake;
@@ -34,8 +33,6 @@ public class Index extends CommandBase {
         if(!linebreakSensor.isCrossed()) {
             conveyor.setVelocity(3);
         }
-
-        crossed = false;
     }
 
     @Override

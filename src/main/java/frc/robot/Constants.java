@@ -128,7 +128,7 @@ public final class Constants {
         public static final double HOOK_GEARING = 16;
         public static final double STICK_GEARING = 15;
 
-        public static final double STEADY_STATE_HOOK_THROTTLE = 0.1; // TODO: make correct
+        public static final double STEADY_STATE_HOOK_THROTTLE = 0.1;
     }
 
     /*
@@ -210,7 +210,6 @@ public final class Constants {
         public static final int FREE_CURRENT_LIMIT = 30;
 
         /* pid/ff values */
-        // TODO Should be the same as conveyor, check constraints
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10);
         public static final ProfiledPIDController RIGHT_KICKER_PID = new ProfiledPIDController(
                 4.4195, 0, 0, CONSTRAINTS);

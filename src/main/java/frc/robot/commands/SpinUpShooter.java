@@ -10,13 +10,11 @@ import frc.robot.Constants.ShooterConstants;
 public class SpinUpShooter extends CommandBase {
     private final Shooter shooter;
     private final Drivetrain drivetrain;
-    private final Turret turret;
     private final Limelight limelight;
 
-    public SpinUpShooter(Shooter shooter, Drivetrain drivetrain, Turret turret, Limelight limelight) {
+    public SpinUpShooter(Shooter shooter, Drivetrain drivetrain, Limelight limelight) {
         this.shooter = shooter;
         this.drivetrain = drivetrain;
-        this.turret = turret;
         this.limelight = limelight;
 
         addRequirements(shooter);

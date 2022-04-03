@@ -53,7 +53,7 @@ public class RobotContainer {
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
-    private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, turret, limelight);
+    private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
 

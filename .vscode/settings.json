@@ -29,8 +29,10 @@
   ],
 "java.test.defaultConfig": "WPIlibUnitTests",
 "cSpell.words": [
+    "autoposdiagram",
     "cheesyish",
     "Devs",
+    "finalshoot",
     "kalman",
     "Linebreak",
     "Pathweaver",

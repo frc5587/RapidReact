@@ -369,7 +369,7 @@ public class AutoPaths {
 
     private Command fullShootCommand(double time) {
         return new SequentialCommandGroup(
-            timedCommand(time, new SpinUpShooter(shooter, drivetrain, turret, limelight),
+            timedCommand(time, new SpinUpShooter(shooter, drivetrain, limelight),
                 new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)));
     }
 

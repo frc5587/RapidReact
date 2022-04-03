@@ -1,9 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
@@ -32,9 +30,14 @@ public class LockTurret extends CommandBase {
     public void execute() {
         Rotation2d desiredTurretAngle = limelight.getRelativeAngleToHub();
 
-        // double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * Math.sin(turret.getPositionRadians() + error);
-        // double angleAdjustment = Math.atan2(sideBallTravel, distance);
-        // double totalError = error + angleAdjustment;
+        double distance = limelight.getDistanceToHub();
+        Rotation2d offAngle = limelight.getRelativeAngleToHub();
+
+        double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * offAngle.getSin();
+        Rotation2d angleAdjustment = new Rotation2d(Math.atan2(sideBallTravel, distance));
+
+        final double effect = 1;
+        desiredTurretAngle = desiredTurretAngle.plus(angleAdjustment.times(effect));
         
         Rotation2d clampedTurretAngle = new Rotation2d(MathUtil.clamp(desiredTurretAngle.getRadians(), turret.lowerLimit.getRadians(), turret.upperLimit.getRadians()));
         turret.setPose(clampedTurretAngle);

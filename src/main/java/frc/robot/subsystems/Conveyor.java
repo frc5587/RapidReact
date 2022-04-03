@@ -127,14 +127,6 @@ public class Conveyor extends ProfiledPIDSubsystem {
         return Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity()) * ConveyorConstants.WHEEL_RADIUS / ConveyorConstants.GEARING;
     }
 
-    public boolean hasBall() {
-        /* 
-        * TODO Check if velocity slows/voltage decreases when ball is in conveyor. 
-        * Use this to return a boolean on if the conveyor has a ball.
-        */
-        return false;
-    }
-
     @Override
     protected void useOutput(double output, State setpoint) {
         conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(setpoint.velocity));
