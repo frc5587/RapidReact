@@ -64,6 +64,10 @@ public class Limelight extends LimelightBase {
         return upperHub.getDistance(drivetrain.getPose().getTranslation());
     }
 
+    public boolean hasAcceptableHorizontalError(double radiansError) {
+        return Math.abs(getHorizontalAngleRadians()) < radiansError;
+    }
+
     @Override
     public void periodic() {
         Translation2d offset = LimelightConstants.HUB_POSITION.minus(upperHub);
