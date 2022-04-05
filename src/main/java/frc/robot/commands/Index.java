@@ -27,8 +27,11 @@ public class Index extends CommandBase {
 
     @Override
     public void initialize() {
+        conveyor.setIndexRunning(true);
+        
         intakePistons.extend();
         conveyor.setControlMode(ControlMode.VELOCITY);
+
         /* If the linebreak sensor is not crossed, move the conveyor to push balls into its view */
         if(!linebreakSensor.isCrossed()) {
             conveyor.setVelocity(3);
@@ -37,7 +40,7 @@ public class Index extends CommandBase {
 
     @Override
     public void execute() {
-        if(linebreakSensor.isCrossed()) {
+        if(linebreakSensor.isCrossed() && !conveyor.isShooterControlled()) {
             conveyor.setVelocity(0);
         }
         /** Run intake by the speed of robot with a minimum velocity */
@@ -53,8 +56,12 @@ public class Index extends CommandBase {
     public void end(boolean interrupted) {
         intakePistons.retract();
         intake.stop();
+        
+        if (!conveyor.isShooterControlled()) {
+            conveyor.setControlMode(ControlMode.POSITION);
+            conveyor.moveDistance(0.1);
+        }
 
-        conveyor.setControlMode(ControlMode.POSITION);
-        conveyor.moveDistance(0.1);
+        conveyor.setIndexRunning(false);
     }
 }

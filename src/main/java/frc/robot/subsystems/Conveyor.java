@@ -21,6 +21,9 @@ public class Conveyor extends ProfiledPIDSubsystem {
     private double velocitySetpoint = 0;
     private ControlMode controlMode = ControlMode.OFF;
 
+    private boolean isShooterControlled = false;
+    private boolean isIndexRunning = false;
+
     /** 
      * The control mode of the conveyor, used to change PID usage
      * <p>
@@ -139,5 +142,21 @@ public class Conveyor extends ProfiledPIDSubsystem {
         if (controlMode == ControlMode.VELOCITY) {
             conveyorMotor.setVoltage(ConveyorConstants.CONVEYOR_FF.calculate(velocitySetpoint) + ConveyorConstants.VELOCITY_PID.calculate(velocitySetpoint));
         }
+    }
+
+    public void setShooterControlled(boolean isShooterControlled) {
+        this.isShooterControlled = isShooterControlled;
+    }
+
+    public boolean isShooterControlled() {
+        return isShooterControlled;
+    }
+    
+    public void setIndexRunning(boolean isIndexRunning) {
+        this.isIndexRunning = isIndexRunning;
+    }
+
+    public boolean isIndexRunning() {
+        return isIndexRunning;
     }
 }
