@@ -46,7 +46,7 @@ public class RobotContainer {
     /* Commands */
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret,
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
             xb::getRightY, xb::getLeftY, xb::getLeftBumperPressed);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
@@ -132,7 +132,7 @@ public class RobotContainer {
          * when the X button is pressed with the right trigger, extend/retract the
          * intake pistons
          */
-        xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
+        // xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
     }
 
     /**

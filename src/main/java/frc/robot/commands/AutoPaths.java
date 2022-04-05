@@ -119,7 +119,7 @@ public class AutoPaths {
      * towards the next near ball, pauses there to fire all of them, then continues
      * to the player station to get the two balls, the comes back and shoots
      */
-    public final Command pos4FiveBall;
+    // public final Command pos4FiveBall;
 
     public final boolean usingPathPlannerPaths;
     SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -301,21 +301,21 @@ public class AutoPaths {
                 intakeDuringPath(second4_3Ball),
                 fullShootCommand(2));
 
-        this.pos4FiveBall = new SequentialCommandGroup(
-            new ParallelRaceGroup(
-                new SequentialCommandGroup(pos4_5BallPath1, new WaitCommand(1)),
-                new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
-                new SpinUpShooter(shooter, drivetrain, limelight),
-                new SequentialCommandGroup(
-                    new WaitCommand(3.5),
-                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)
-            ),
-            new ParallelCommandGroup(
-                new ParallelRaceGroup(pos4_5BallPath2, new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
-                new SequentialCommandGroup(new WaitCommand(6), new SpinUpShooter(shooter, drivetrain, limelight)),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)
-            )
-        );
+        // this.pos4FiveBall = new SequentialCommandGroup(
+        //     new ParallelRaceGroup(
+        //         new SequentialCommandGroup(pos4_5BallPath1, new WaitCommand(1)),
+        //         new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
+        //         new SpinUpShooter(shooter, drivetrain, limelight),
+        //         new SequentialCommandGroup(
+        //             new WaitCommand(3.5),
+        //             new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)
+        //     ),
+        //     new ParallelCommandGroup(
+        //         new ParallelRaceGroup(pos4_5BallPath2, new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
+        //         new SequentialCommandGroup(new WaitCommand(6), new SpinUpShooter(shooter, drivetrain, limelight)),
+        //         new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)
+        //     )
+        // );
         
         autoChooser.addOption("1st Position With Stash", pos1stash);
         autoChooser.addOption("2nd Position With Stash", pos2stash);
@@ -327,7 +327,7 @@ public class AutoPaths {
         autoChooser.addOption("4th Position 2 Ball", pos4TwoBall);
         autoChooser.addOption("3rd Position 3 Ball", pos3ThreeBall);
         autoChooser.addOption("4th Position 3 Ball", pos4ThreeBall);
-        autoChooser.addOption("4th Position 5 Ball", pos4FiveBall);
+        // autoChooser.addOption("4th Position 5 Ball", pos4FiveBall);
         autoChooser.addOption("Taxi 1st Pos", taxi1);
         autoChooser.addOption("Taxi 2nd Pos", taxi2);
         autoChooser.addOption("Taxi 3rd Pos", taxi3);

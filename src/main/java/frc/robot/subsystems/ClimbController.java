@@ -27,16 +27,22 @@ public class ClimbController extends SubsystemBase {
     private final MotorControllerGroup stickMotors = new MotorControllerGroup(rightStickClimb, leftStickClimb);
 
     protected boolean loaded;
-    protected double hookPosition;
-    protected double stickPosition;
+    // protected double hookPosition;
+    // protected double stickPosition;
 
     private ClimbHook climbHookLoaded = new ClimbHook(ClimbConstants.HOOK_LOADED_PID, this, hookMotors);
     private ClimbHook climbHookUnloaded = new ClimbHook(ClimbConstants.HOOK_UNLOADED_PID, this, hookMotors);
     private ClimbStick climbStickLoaded = new ClimbStick(ClimbConstants.STICK_LOADED_PID, this, stickMotors);
     private ClimbStick climbStickUnloaded = new ClimbStick(ClimbConstants.STICK_UNLOADED_PID, this, stickMotors);
 
+    private final double stickStartingPos = .06 * ClimbConstants.STICK_GEARING / (2 * Math.PI * ClimbConstants.SPOOL_RADIUS); 
+
     public ClimbController() {
         configureClimbMotors();
+
+        unload();
+
+        setStickPosition(0);
     }
 
     public void configureClimbMotors() {
@@ -66,14 +72,15 @@ public class ClimbController extends SubsystemBase {
     public void resetEncoders() {
         rightHookEncoder.setPosition(0);
         leftHookEncoder.setPosition(0);
-        rightStickEncoder.setPosition(0);
-        leftStickEncoder.setPosition(0);
+        rightStickEncoder.setPosition(stickStartingPos);
+        leftStickEncoder.setPosition(stickStartingPos);
     }
 
     /**
      * sets the hook motors to a given percentOutput throttle
      */
     public void setHookThrottle(double throttle) {
+        // disable();
         hookMotors.set(throttle);
     }
 
@@ -81,6 +88,7 @@ public class ClimbController extends SubsystemBase {
      * sets the stick motors to a given percentOutput throttle
      */
     public void setStickThrottle(double throttle) {
+        // disable();
         stickMotors.set(throttle);
     }
 
@@ -98,13 +106,6 @@ public class ClimbController extends SubsystemBase {
         loaded = false;
     }
 
-    public void enable() {
-        climbHookLoaded.enable();
-        climbHookUnloaded.enable();
-        climbStickLoaded.enable();
-        climbStickUnloaded.enable();
-    }
-
     public void disable() {
         climbHookLoaded.disable();
         climbHookUnloaded.disable();
@@ -116,14 +117,30 @@ public class ClimbController extends SubsystemBase {
      * @param position The desired hook position in meters
      */
     public void setHookPosition(double position) {
-        hookPosition = position;
+        if(loaded) {
+            climbHookLoaded.enable();
+            climbHookLoaded.setGoal(position);
+            climbHookUnloaded.disable();
+        } else {
+            climbHookUnloaded.enable();
+            climbHookUnloaded.setGoal(position);
+            climbHookLoaded.disable();
+        }
     }
 
     /**
      * @param position The desired stick position in meters
      */
     public void setStickPosition(double position) {
-        stickPosition = position;
+        if(loaded) {
+            climbStickLoaded.enable();
+            climbStickLoaded.setGoal(position);
+            climbStickUnloaded.disable();
+        } else {
+            climbStickUnloaded.enable();
+            climbStickUnloaded.setGoal(position);
+            climbStickLoaded.disable();
+        }
     }
 
     /**
@@ -143,14 +160,6 @@ public class ClimbController extends SubsystemBase {
 
     @Override
     public void periodic() {
-        super.periodic();
-
-        if(loaded) {
-            climbHookLoaded.setGoal(hookPosition);
-            climbStickLoaded.setGoal(stickPosition);
-        } else {
-            climbHookUnloaded.setGoal(hookPosition);
-            climbStickUnloaded.setGoal(stickPosition);
-        }
+        System.out.println(getStickPosition());
     }
 }

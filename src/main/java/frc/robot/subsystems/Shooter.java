@@ -145,7 +145,7 @@ public class Shooter extends SubsystemBase {
      * @return a velocity based on shooterRegression, adjusted for robot movement
      */
     public double shootDistanceMoving(double velocity, double movingAngle, double distance) {
-        final double effect = -.8; // TODO: tune this
+        final double effect = -1; 
         return (horizontalCargoVelocityToShooterVelocity(velocity * Math.cos(movingAngle) * effect) 
                 + shootDistanceStationary(distance));
     }

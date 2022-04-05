@@ -21,9 +21,9 @@ public class ClimbHook extends ProfiledPIDSubsystem {
     @Override
     protected void useOutput(double output, State setpoint) {
         if(climbController.loaded) {
-            hookMotors.setVoltage(ClimbConstants.LOADED_HOOK_FF.calculate(setpoint.velocity));
+            hookMotors.setVoltage(ClimbConstants.LOADED_HOOK_FF.calculate(setpoint.velocity) + output);
         } else if (!climbController.loaded) {
-            hookMotors.setVoltage(ClimbConstants.UNLOADED_HOOK_FF.calculate(setpoint.velocity));
+            hookMotors.setVoltage(ClimbConstants.UNLOADED_HOOK_FF.calculate(setpoint.velocity) + output);
         }
     }
 

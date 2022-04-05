@@ -15,20 +15,22 @@ import java.util.function.DoubleSupplier;
 public class ClimbThrottle extends CommandBase {
     private final ClimbController climb;
     private final Turret turret;
+    private final IntakePistons intakePistons;
     private final DoubleSupplier throttleSupplier, stickThrottleSupplier;
     private final BooleanSupplier throttleToggleSupplier;
     private boolean isHookMode = true;
     private NetworkTableEntry toggleEntry = SmartDashboard.getEntry("Hook Mode Enabled");
-    private SlewRateLimiter hookThrottleLimiter = new SlewRateLimiter(0.5); // TODO: tune this
+    private SlewRateLimiter hookThrottleLimiter = new SlewRateLimiter(0); 
 
-    public ClimbThrottle(ClimbController climb, Turret turret, DoubleSupplier throttleSupplier, DoubleSupplier stickThrottleSupplier, BooleanSupplier throttleToggleSupplier) {
+    public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, DoubleSupplier throttleSupplier, DoubleSupplier stickThrottleSupplier, BooleanSupplier throttleToggleSupplier) {
         this.climb = climb;
         this.turret = turret;
+        this.intakePistons = intakePistons;
         this.throttleSupplier = throttleSupplier;
         this.stickThrottleSupplier = stickThrottleSupplier;
         this.throttleToggleSupplier = throttleToggleSupplier;
 
-        addRequirements(climb, turret);
+        addRequirements(climb, turret, intakePistons);
     }
 
     @Override
@@ -40,18 +42,15 @@ public class ClimbThrottle extends CommandBase {
 
     @Override
     public void execute() {
-        // if (throttleToggleSupplier.getAsBoolean()) {
-        //     isHookMode = !isHookMode;
-        // }
-
-        // if (isHookMode) {
-        //     climb.setHookThrottle(throttleSupplier.getAsDouble());
-        // } else {
-        //     climb.setStickThrottle(throttleSupplier.getAsDouble());
-        //     climb.setHookThrottle(ClimbConstants.STEADY_STATE_HOOK_THROTTLE);
-        // }
-        climb.setHookThrottle(hookThrottleLimiter.calculate(throttleSupplier.getAsDouble()));
-        climb.setStickThrottle(stickThrottleSupplier.getAsDouble());
+        double hookThrottle = throttleSupplier.getAsDouble();
+        if (hookThrottle > 0) {
+            intakePistons.extend();
+        } else if (hookThrottle < 0) {
+            intakePistons.retract();
+        }
+        
+        climb.setHookThrottle(hookThrottle);
+        climb.setStickThrottle(-stickThrottleSupplier.getAsDouble());
 
         updateSmartDashboard();
 

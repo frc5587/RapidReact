@@ -12,7 +12,7 @@ public class ThrottleTurret extends CommandBase {
     private final Turret turret;
     private final DoubleSupplier throttleSupplier;
 
-    private final double multiplier = 1;
+    private final double multiplier = 0.25;
 
     public ThrottleTurret(Turret turret, Limelight limelight, DoubleSupplier throttleSupplier) {
         this.turret = turret;

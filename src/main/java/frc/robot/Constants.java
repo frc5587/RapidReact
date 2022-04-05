@@ -56,7 +56,7 @@ public final class Constants {
         public static final double ENCODER_EPR = 2048;
         public static final double GEARING = (54. / 20.) * (50. / 12.);
         public static final boolean INVERT_GYRO = false;
-        public static final double VELOCITY_DENOMINATOR = 0.1;
+        public static final double VELOCITY_DENOMINATOR = 0.2;
         public static final double VOLTAGE_RAMP_RATE = 0.4;
 
         public static final double QUICKTURN_CURVE_MULTIPLIER = 0.75;
@@ -100,8 +100,8 @@ public final class Constants {
         /* motor inversions */
         public static final boolean RIGHT_HOOK_MOTOR_INVERTED = true;
         public static final boolean LEFT_HOOK_MOTOR_INVERTED = false;
-        public static final boolean RIGHT_STICK_ARM_MOTOR_INVERTED = true;
-        public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = false;
+        public static final boolean RIGHT_STICK_ARM_MOTOR_INVERTED = false;
+        public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = true;
 
         /* motor current limits */
         public static final int STALL_CURRENT_LIMIT = 40;
@@ -118,7 +118,7 @@ public final class Constants {
         public static final ElevatorFeedforward LOADED_HOOK_FF = new ElevatorFeedforward(0, 0, 0, 0);
 
         public static final ProfiledPIDController STICK_UNLOADED_PID = new ProfiledPIDController(
-                0, 0, 0, CONSTRAINTS);
+                60, 0, 0, CONSTRAINTS);
         public static final ProfiledPIDController STICK_LOADED_PID = new ProfiledPIDController(
                 0, 0, 0, CONSTRAINTS);
         public static final ElevatorFeedforward UNLOADED_STICK_FF = new ElevatorFeedforward(0, 0, 0);
@@ -162,7 +162,7 @@ public final class Constants {
         public static final double GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
 
-        public static final double DRIVETRAIN_VELOCITY_OFFSET = 1;
+        public static final double DRIVETRAIN_VELOCITY_OFFSET = 2;
         public static final double MIN_VELOCITY = 4;
     }
 
@@ -241,7 +241,7 @@ public final class Constants {
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final PIDController PID = new PIDController(
-                2, 0, 0);
+                1.5, 0, 0.015);
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.2756, 0.8555, 0.05829);
 
         public static final int GEARING = 90;
