@@ -51,7 +51,7 @@ public class RobotContainer {
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
-    private final TopBallOut topBallOut = new TopBallOut(conveyor, rightKicker, leftKicker, linebreakSensor, shooter);
+    private final TopBallOut topBallOut = new TopBallOut(rightKicker, leftKicker, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight);
