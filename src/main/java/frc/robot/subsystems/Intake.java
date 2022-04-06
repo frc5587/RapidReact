@@ -1,54 +1,61 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants.IntakeConstants;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.RelativeEncoder;
 
 /**
-Use a motor to control a wheel in order to intake & outtake balls to the robot.
+Use a motor to control a wheel that will move balls into & out of the kicker
 */
 public class Intake extends SubsystemBase {
-    private CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
-    private RelativeEncoder encoder = motor.getEncoder();
+    private final CANSparkMax motor = new CANSparkMax(IntakeConstants.INTAKE_MOTOR, MotorType.kBrushless);
+    private final RelativeEncoder encoder = motor.getEncoder();
     
     private double setpoint = 0;
 
     public Intake() {
-        configureMotors();
+        configureIntakeSpark();
     }
 
+    public void configureIntakeSpark() {
+        resetEncoders();
+        motor.restoreFactoryDefaults();
+        motor.setInverted(IntakeConstants.MOTOR_INVERTED);
+        motor.setIdleMode(IdleMode.kBrake);
+        motor.setSmartCurrentLimit(IntakeConstants.STALL_CURRENT_LIMIT, IntakeConstants.FREE_CURRENT_LIMIT);
+    }
+
+    /**
+     * Sets the intake motor to a given percentOutput
+     */
+    public void setThrottle(double percentOutput) {
+        motor.set(percentOutput);
+    }
+
+    /**
+     * Sets the setpoint of the PID Controller
+     * @param velocity velocity in m/s of the wheel surface
+     */
     public void setVelocity(double velocity) {
         setpoint = velocity;
     }
 
-    public void configureMotors() {
-        resetEncoders();
-        motor.restoreFactoryDefaults();
-        motor.setInverted(IntakeConstants.INVERTED);
-        motor.setIdleMode(IdleMode.kBrake);
-    }
-
-    public void moveWithThrottle(double throttle) {
-        motor.set(throttle);
-    }
-
     public void stop() {
-        motor.set(0);
-        setpoint = 0;
+        setVelocity(0);
     }
     
     public void resetEncoders() {
         encoder.setPosition(0);
     }
 
-    /*
-    Convert velocity RPM to meters per second of the surface of the wheel
-    */
+    /**
+     * Convert velocity RPM to meters per second of the surface of the wheel
+     */
     protected double getMeasurement() {
         return (encoder.getVelocity() / 60) * (2 * Math.PI) * (IntakeConstants.WHEEL_RADIUS / IntakeConstants.GEARING);
     }

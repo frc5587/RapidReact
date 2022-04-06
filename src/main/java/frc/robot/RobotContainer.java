@@ -4,14 +4,15 @@
 
 package frc.robot;
 
-import org.frc5587.lib.control.*;
-
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import org.frc5587.lib.control.DeadbandJoystick;
+import org.frc5587.lib.control.DeadbandXboxController;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -23,51 +24,124 @@ import edu.wpi.first.wpilibj2.command.button.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // Controllers
-  private final DeadbandXboxController xboxController = new DeadbandXboxController(1);
+    /* Controllers */
+    private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
+    // Second joystick for TankDrive
+    // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
+    private final DeadbandXboxController xb = new DeadbandXboxController(1);
 
-  // Subsystems
-  private final Intake intake = new Intake();
-  private final IntakePistons intakePistons = new IntakePistons();
+    /* Subsystems */
+    private final Drivetrain drivetrain = new Drivetrain();
+    private final ClimbController climbController = new ClimbController();
+    private final Intake intake = new Intake();
+    private final IntakePistons intakePistons = new IntakePistons();
+    private final Conveyor conveyor = new Conveyor();
+    private final Kicker rightKicker = Kicker.createRightKicker();
+    private final Kicker leftKicker = Kicker.createLeftKicker();
+    protected final Turret turret = new Turret();
+    private final Limelight limelight = new Limelight(drivetrain, turret);
+    private final Shooter shooter = new Shooter(limelight);
+    private final LinebreakSensor linebreakSensor = new LinebreakSensor();
 
-  // Others
+    /* Commands */
+    private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
+            joystick::getTrigger);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
+            xb::getRightY, xb::getLeftY, xb::getLeftBumperPressed);
+    private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
+    private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
+    private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
+    private final TopBallOut topBallOut = new TopBallOut(rightKicker, leftKicker, shooter);
+    private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
+    private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, limelight);
+    private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight);
+    private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
-   * it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    // Instantiate controller bindings
-    JoystickButton aButton = new JoystickButton(xboxController, XboxController.Button.kA.value);
-    Trigger leftTrigger = new Trigger(() -> xboxController.getLeftTriggerAxis() > 0);
+    /* Misc */
+    private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker,
+            leftKicker, linebreakSensor, drivetrain, limelight, turret, shooter, climbThrottle, false);
+    private final PowerDistribution pdh = new PowerDistribution();
 
     /**
-     * INTAKE
+     * The container for the robot. Contains subsystems, OI devices, and commands.
      */
-    aButton.and(leftTrigger.negate())
-        .whileActiveOnce(new IntakeIn(intake, intakePistons));
-    aButton.and(leftTrigger)
-        .whileActiveOnce(new IntakeOut(intake, intakePistons));
-  }
+    public RobotContainer() {
+        /* Clear sticky fault LEDs on PDH upon deploy */
+        pdh.clearStickyFaults();
+        /* Start USB camera capture */
+        CameraServer.startAutomaticCapture();
+        /* Set default commands */
+        drivetrain.setDefaultCommand(curveDrive);
+        // drivetrain.setDefaultCommand(tankDrive);
+        turret.setDefaultCommand(lockTurret);
+        /* Configure the button bindings */
+        configureButtonBindings();
+    }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   * 
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    return null;
-  }
+    /**
+     * Use this method to define your button->command mappings. Buttons are created
+     * within {@link DeadbandXboxController}.
+     */
+    private void configureButtonBindings() {
+        Trigger limelightTrigger = new Trigger(limelight::hasTarget);
+
+        /*
+         * INDEX
+         */
+
+        /** while the the B button is held, index */
+        xb.bButton.and(xb.leftTrigger.negate()).and(xb.rightTrigger.negate()).whileActiveOnce(index);
+
+        /*
+         * EJECT
+         */
+        /**
+         * while the B button is held with the left trigger, eject the ball through the
+         * intake
+         */
+        xb.bButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(bottomBallOut);
+        /**
+         * while the Y button is held with the left trigger, eject the ball through the
+         * shooter
+         */
+        xb.yButton.and(xb.leftTrigger).and(xb.rightTrigger.negate()).whileActiveOnce(topBallOut);
+
+        /*
+         * TURRET
+         */
+        // Allows throttle turret if left x and no target is found, otherwise, operator
+        // can override with left trigger
+        xb.leftStickX.and(limelightTrigger.negate().or(xb.leftTrigger)).whileActiveOnce(throttleTurret);
+
+        /*
+         * SHOOTER
+         */
+
+        /** while the A button is held, spin up the shooter to the correct speed */
+        xb.aButton.and(xb.rightTrigger.negate()).whileActiveOnce(spinUpShooter);
+        /** when the left bumper is pressed, fire the ball into the at-speed shooter */
+        xb.leftBumper.and(xb.rightTrigger.negate()).whileActiveOnce(fireWhenReady);
+
+        /*
+         * CLIMB
+         */
+        // While right trigger is held, enable the throttle climb (this blocks the
+        // turret as well), and is not interruptible
+        xb.rightTrigger.whileActiveOnce(climbThrottle, false);
+        /**
+         * when the X button is pressed with the right trigger, extend/retract the
+         * intake pistons
+         */
+        // xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
+    }
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     * 
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        return autoPaths.getSelectedCommand();
+        // return null;
+    }
 }
