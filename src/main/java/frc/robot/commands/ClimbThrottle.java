@@ -43,9 +43,10 @@ public class ClimbThrottle extends CommandBase {
     @Override
     public void execute() {
         double hookThrottle = throttleSupplier.getAsDouble();
-        if (hookThrottle > 0) {
+        
+        if (hookThrottle < 0) {
             intakePistons.extend();
-        } else if (hookThrottle < 0) {
+        } else if (hookThrottle > 0) {
             intakePistons.retract();
         }
         

@@ -148,7 +148,7 @@ public class AutoPaths {
         this.usingPathPlannerPaths = pathPlannerPaths;
 
         // Cool Paths
-        pos4_5BallPath1 = new RamseteCommandWrapper(drivetrain, new AutoPath("pos4 5ball path1", true), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        pos4_5BallPath1 = (new RamseteCommandWrapper(drivetrain, new AutoPath("pos4 5ball path1", true), AutoConstants.RAMSETE_CONSTANTS)).setOdometryToFirstPoseOnStart();
         pos4_5BallPath2 = new RamseteCommandWrapper(drivetrain, new AutoPath("pos4 5ball path2", true), AutoConstants.RAMSETE_CONSTANTS);
 
 
@@ -303,13 +303,12 @@ public class AutoPaths {
 
         this.pos4FiveBall = new SequentialCommandGroup(
             new ParallelRaceGroup(
-                new SequentialCommandGroup(pos4_5BallPath1, new WaitCommand(1)),
-                new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
+                new SequentialCommandGroup(pos4_5BallPath1, new WaitCommand(.5)),
+                new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain),
                 new SpinUpShooter(shooter, drivetrain, limelight),
                 new SequentialCommandGroup(
-                    new WaitCommand(3.5),
-                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)
-            ),
+                    new WaitCommand(4.5), // make this bigger maybe
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight))),
             new ParallelCommandGroup(
                 new ParallelRaceGroup(pos4_5BallPath2, new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
                 new SequentialCommandGroup(new WaitCommand(6), new SpinUpShooter(shooter, drivetrain, limelight)),

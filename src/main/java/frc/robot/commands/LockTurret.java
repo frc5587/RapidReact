@@ -38,7 +38,6 @@ public class LockTurret extends CommandBase {
         
         final double effect = 1;
         angleAdjustment = angleAdjustment.times(effect);
-        System.out.println(angleAdjustment.getDegrees());
         desiredTurretAngle = desiredTurretAngle.plus(angleAdjustment);
         
         Rotation2d clampedTurretAngle = new Rotation2d(MathUtil.clamp(desiredTurretAngle.getRadians(), turret.lowerLimit.getRadians(), turret.upperLimit.getRadians()));

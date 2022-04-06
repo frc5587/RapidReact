@@ -148,7 +148,7 @@ public final class Constants {
         public static final int INTAKE_MOTOR = 20;
 
         /* motor inversions */
-        public static final boolean MOTOR_INVERTED = false;
+        public static final boolean MOTOR_INVERTED = true;
 
         /* motor current limits */
         public static final int STALL_CURRENT_LIMIT = 35;
@@ -174,7 +174,7 @@ public final class Constants {
         public static final int CONVEYOR_MOTOR = 30;
 
         /* motor inversions */
-        public static final boolean MOTOR_INVERTED = false;
+        public static final boolean MOTOR_INVERTED = true;
 
         /* motor current limits */
         public static final int STALL_CURRENT_LIMIT = 35;
@@ -246,7 +246,7 @@ public final class Constants {
 
         public static final int GEARING = 90;
         public static final double THROTTLE_MULTIPLIER = 0.1;
-        public static final double LIMIT = Units.degreesToRadians(90);
+        public static final double LIMIT = Units.degreesToRadians(100);
     }
 
     /*

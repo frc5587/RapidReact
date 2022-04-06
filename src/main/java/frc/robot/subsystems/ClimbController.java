@@ -157,9 +157,4 @@ public class ClimbController extends SubsystemBase {
     public double getStickPosition() {
         return Units.rotationsToRadians(rightStickEncoder.getPosition()) * ClimbConstants.SPOOL_RADIUS / ClimbConstants.STICK_GEARING;
     }
-
-    @Override
-    public void periodic() {
-        System.out.println(getStickPosition());
-    }
 }

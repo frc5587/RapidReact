@@ -38,11 +38,11 @@ public class Turret extends PIDSubsystem {
     }
 
     public boolean isMoveAllowed(Rotation2d position) {
-        return isInBounds(position) || ((Math.abs(getPosition().getRadians())) > (Math.abs(position.getRadians())));
+        return isInBounds(position) || ((Math.abs(getPosition().getRadians())) >= (Math.abs(position.getRadians())));
     }
 
     public boolean isInBounds(Rotation2d position) {
-        return (position.getRadians() < upperLimit.getRadians() && position.getRadians() > lowerLimit.getRadians());
+        return (position.getRadians() <= upperLimit.getRadians() && position.getRadians() >= lowerLimit.getRadians());
     }
 
     public boolean isTurretInBounds() {
