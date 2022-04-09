@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.*;
 
@@ -46,12 +47,19 @@ public class ClimbThrottle extends CommandBase {
         
         if (hookThrottle < 0) {
             intakePistons.extend();
+            hookThrottle *=.3;
         } else if (hookThrottle > 0) {
             intakePistons.retract();
         }
-        
-        climb.setHookThrottle(hookThrottle);
+
+        if (throttleToggleSupplier.getAsBoolean()) {
+            climb.setHookThrottle(-1);
+        } else {
+            climb.setHookThrottle(hookThrottle);
+        }
+
         climb.setStickThrottle(-stickThrottleSupplier.getAsDouble());
+
 
         updateSmartDashboard();
 

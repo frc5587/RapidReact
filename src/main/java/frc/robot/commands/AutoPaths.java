@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class AutoPaths {
@@ -62,6 +64,9 @@ public class AutoPaths {
     private RamseteCommandWrapper taxi4;
     private RamseteCommandWrapper pos4_5BallPath1;
     private RamseteCommandWrapper pos4_5BallPath2;
+
+    private NetworkTableEntry chooseAutoPath = SmartDashboard.getEntry("Choose Auto Path");
+    private Notifier chooseAutoNotifier = new Notifier(this::blinkIfNoPath);
 
     /* define auto command groups here so they can be referenced anywhere */
     /**
@@ -307,12 +312,15 @@ public class AutoPaths {
                 new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain),
                 new SpinUpShooter(shooter, drivetrain, limelight),
                 new SequentialCommandGroup(
-                    new WaitCommand(4.5), // make this bigger maybe
-                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight))),
+                    new WaitCommand(4.25), 
+                    new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret))),
+            new ParallelRaceGroup(
+                new ParallelCommandGroup(pos4_5BallPath2, new ParallelRaceGroup(new WaitCommand(5), new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain))),
+                new SequentialCommandGroup(new WaitCommand(6), new SpinUpShooter(shooter, drivetrain, limelight))
+            ),
             new ParallelCommandGroup(
-                new ParallelRaceGroup(pos4_5BallPath2, new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain)),
-                new SequentialCommandGroup(new WaitCommand(6), new SpinUpShooter(shooter, drivetrain, limelight)),
-                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)
+                new SpinUpShooter(shooter, drivetrain, limelight),
+                new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret)
             )
         );
         
@@ -333,6 +341,8 @@ public class AutoPaths {
         autoChooser.addOption("Taxi 4th Pos", taxi4);
         autoChooser.setDefaultOption("NO COMMAND", null);
         SmartDashboard.putData(autoChooser);
+
+        chooseAutoNotifier.startPeriodic(0.1);
     }
 
     private Command timedCommand(double time, Command... commands) {
@@ -348,7 +358,7 @@ public class AutoPaths {
     private Command fullShootCommand(double time) {
         return new SequentialCommandGroup(
                 timedCommand(time, new SpinUpShooter(shooter, drivetrain, limelight),
-                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight)));
+                        new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret)));
     }
 
     private Command intakeDuringPath(RamseteCommandWrapper path) {
@@ -481,5 +491,14 @@ public class AutoPaths {
                     new AutoPath("secondSteal").trajectory, AutoConstants.TRAJECTORY_CONSTRAINTS),
                     AutoConstants.RAMSETE_CONSTANTS);
         }
+    }
+
+    private void blinkIfNoPath() {
+        if (getSelectedCommand() == null) {
+            chooseAutoPath.setBoolean(!chooseAutoPath.getBoolean(false));
+        } else {
+            chooseAutoPath.setBoolean(true);
+        }
+
     }
 }

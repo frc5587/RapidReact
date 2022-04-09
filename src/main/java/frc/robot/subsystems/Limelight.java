@@ -52,12 +52,18 @@ public class Limelight extends LimelightBase {
         return upperHub;
     }
 
-    public Rotation2d getRelativeAngleToHub() {
+    public Rotation2d getAngleAroundHubTheRobotIs() {
         Pose2d robotPose = drivetrain.getPose();
         Translation2d positionDifference = robotPose.getTranslation().minus(upperHub);
         Rotation2d robotToTargetAngle = new Rotation2d(positionDifference.getX(), positionDifference.getY());
+        
+        return robotToTargetAngle;
+    }
 
-        return robotToTargetAngle.minus(robotPose.getRotation()).minus(Rotation2d.fromDegrees(180));
+    public Rotation2d getRelativeAngleToHub() {
+        Pose2d robotPose = drivetrain.getPose();
+
+        return getAngleAroundHubTheRobotIs().minus(robotPose.getRotation()).minus(Rotation2d.fromDegrees(180));
     }
 
     public double getDistanceToHub() {

@@ -51,7 +51,7 @@ public final class Constants {
                 DrivetrainConstants.HARD_CURRENT_LIMIT,
                 DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY);
 
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6.3065);
+        public static final double WHEEL_DIAMETER = .505 / Math.PI;
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
         public static final double GEARING = (54. / 20.) * (50. / 12.);

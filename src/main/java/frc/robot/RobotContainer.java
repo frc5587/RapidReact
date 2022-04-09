@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     /* Controllers */
-    private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5);
+    private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5, 0.02);
     // Second joystick for TankDrive
     // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
@@ -47,15 +47,17 @@ public class RobotContainer {
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
     private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
-            xb::getRightY, xb::getLeftY, xb::getLeftBumperPressed);
+            xb::getRightY, xb::getLeftY, xb::getXButton);
     private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final TopBallOut topBallOut = new TopBallOut(rightKicker, leftKicker, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, limelight);
-    private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight);
+    private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight, turret);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
+
+    private final GotoHubSpot gotoHubSpot = new GotoHubSpot(drivetrain, limelight);
 
     /* Misc */
     private final AutoPaths autoPaths = new AutoPaths(intake, intakePistons, conveyor, rightKicker,
@@ -84,6 +86,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
+        Trigger thumbTrigger = new Trigger(() -> joystick.getRawButton(2));
+        
+        thumbTrigger.whileActiveOnce(gotoHubSpot);
 
         /*
          * INDEX
