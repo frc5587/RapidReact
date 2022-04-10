@@ -312,7 +312,7 @@ public class AutoPaths {
                 new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain),
                 new SpinUpShooter(shooter, drivetrain, limelight),
                 new SequentialCommandGroup(
-                    new WaitCommand(4.25), 
+                    new WaitCommand(4), 
                     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret))),
             new ParallelRaceGroup(
                 new ParallelCommandGroup(pos4_5BallPath2, new ParallelRaceGroup(new WaitCommand(5), new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain))),

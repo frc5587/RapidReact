@@ -11,7 +11,7 @@ public class SpinUpShooter extends CommandBase {
     private final Shooter shooter;
     private final Drivetrain drivetrain;
     private final Limelight limelight;
-    private final double distanceOffset = 0.2;
+    private final double distanceOffset = 0.1;
 
     public SpinUpShooter(Shooter shooter, Drivetrain drivetrain, Limelight limelight) {
         this.shooter = shooter;
