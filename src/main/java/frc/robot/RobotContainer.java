@@ -48,7 +48,6 @@ public class RobotContainer {
             joystick::getTrigger);
     private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
             xb::getRightY, xb::getLeftY, xb::getXButton);
-    private final ToggleIntakePistons toggleIntakePistons = new ToggleIntakePistons(intakePistons);
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final TopBallOut topBallOut = new TopBallOut(rightKicker, leftKicker, shooter);
