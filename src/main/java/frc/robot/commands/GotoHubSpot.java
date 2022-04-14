@@ -51,15 +51,9 @@ public class GotoHubSpot extends CommandBase {
         // }
 
         if (distance > ideal + acceptableError) {
-            
             ramseteCommand = new RamseteCommandWrapper(drivetrain, start, new ArrayList<Translation2d>(), endPoint, AutoConstants.RAMSETE_CONSTANTS);
             ramseteCommand.schedule();
         }
-    }
-
-    @Override
-    public void execute() {
-        
     }
 
     @Override
