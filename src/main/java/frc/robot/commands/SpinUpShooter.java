@@ -39,7 +39,7 @@ public class SpinUpShooter extends CommandBase {
 
         double speed = MathUtil.clamp(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance), shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE), shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE));
 
-        shooter.setVelocity(speedEntry.getDouble(0));
+        shooter.setVelocity(speed);
     }
 
     @Override

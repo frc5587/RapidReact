@@ -35,13 +35,13 @@ public class LockTurret extends CommandBase {
 
         double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * offAngle.getSin();
         Rotation2d angleAdjustment = new Rotation2d(Math.atan2(sideBallTravel, distance));
-        
+
         final double effect = 1;
         angleAdjustment = angleAdjustment.times(effect);
         desiredTurretAngle = desiredTurretAngle.plus(angleAdjustment);
-        
+
         Rotation2d clampedTurretAngle = new Rotation2d(MathUtil.clamp(desiredTurretAngle.getRadians(), turret.lowerLimit.getRadians(), turret.upperLimit.getRadians()));
-        turret.setPose(clampedTurretAngle);
+        turret.setPose(clampedTurretAngle);//,  new Rotation2d(drivetrain.getAngularVelocity() * .01));
     }
 
     @Override

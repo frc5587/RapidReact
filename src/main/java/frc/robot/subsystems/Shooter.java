@@ -4,6 +4,7 @@ import frc.robot.Constants.ShooterConstants;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,7 +16,7 @@ public class Shooter extends SubsystemBase {
     private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
     private boolean enabled = false;
     private double setpoint = 0;
-    private final double shotEfficiency = 0.7; // how efficient the flywheel is a transferring momentum
+    private final double shotEfficiency = .9; // how efficient the flywheel is a transferring momentum
     private final double flywheelCargoVelocityRatio = 1; // ratio between the velocity of the flywheel and release velocity of cargo
     private final Limelight limelight;
 
@@ -106,7 +107,9 @@ public class Shooter extends SubsystemBase {
     public double shooterRegression(double distance) {
         // return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
         // return (2.04956 * distance) + 6.03747;
-        return (0.0224585 * Math.pow(distance, 5)) + (-0.610957 * Math.pow(distance, 4)) + (6.29263 * Math.pow(distance, 3)) + (-30.3546 * Math.pow(distance, 2)) + (69.8555 * distance) + -49.946;
+        // return (0.0224585 * Math.pow(distance, 5)) + (-0.610957 * Math.pow(distance, 4)) + (6.29263 * Math.pow(distance, 3)) + (-30.3546 * Math.pow(distance, 2)) + (69.8555 * distance) + -49.946;
+        double velocity = (0.0287179 * Math.pow(distance, 5)) + (-.663869 * Math.pow(distance, 4)) + (5.75152 * Math.pow(distance, 3)) + (-22.9436 * Math.pow(distance, 2)) + (43.6606 * distance) + (-20.8364);
+        return MathUtil.clamp(velocity, 8, 28);
     }
 
     /* ! this is highly approximate */
@@ -166,5 +169,6 @@ public class Shooter extends SubsystemBase {
         }
 
         SmartDashboard.putBoolean("In Range", isInRange(limelight.calculateDistance()));
+        // System.out.println((getVelocity() - setpoint) / getVelocity());
     }
 }

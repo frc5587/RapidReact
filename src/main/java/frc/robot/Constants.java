@@ -241,7 +241,7 @@ public final class Constants {
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final PIDController PID = new PIDController(
-                1.5, 0, 0.015);
+                2, 0, 0.03);
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.2756, 0.8555, 0.05829);
 
         public static final int GEARING = 90;
@@ -272,7 +272,7 @@ public final class Constants {
                 DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY);
 
         /* pid/ff values */
-        public static final PIDController PID = new PIDController(0.42876, 0, 0);
+        public static final PIDController PID = new PIDController(1, 0, 0);
         public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.76075, 0.35258, 0.03031);
 
         public static final double GEARING = 1;

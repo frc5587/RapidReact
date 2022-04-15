@@ -42,7 +42,7 @@ public class FireWhenReady extends CommandBase {
         if (shooter.atSetpoint() && shooter.isInRange(limelight.calculateDistance()) && turret.inProperPosition()) {
             rightKicker.moveDistance(1);
             leftKicker.moveDistance(1);
-            conveyor.setVelocity(2.5);
+            conveyor.setVelocity(2.25);
         } else if (!shooter.atSetpoint()) {
             rightKicker.moveDistance(0);
             leftKicker.moveDistance(0);
