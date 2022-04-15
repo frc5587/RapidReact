@@ -308,11 +308,11 @@ public class AutoPaths {
 
         this.pos4FiveBall = new SequentialCommandGroup(
             new ParallelRaceGroup(
-                new SequentialCommandGroup(pos4_5BallPath1, new WaitCommand(1)),
+                new SequentialCommandGroup(pos4_5BallPath1, new WaitCommand(2)),
                 new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain),
                 new SpinUpShooter(shooter, drivetrain, limelight),
                 new SequentialCommandGroup(
-                    new WaitCommand(3), 
+                    new WaitCommand(4), 
                     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret))),
             new ParallelRaceGroup(
                 new ParallelCommandGroup(pos4_5BallPath2, new ParallelRaceGroup(new WaitCommand(5), new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain))),
