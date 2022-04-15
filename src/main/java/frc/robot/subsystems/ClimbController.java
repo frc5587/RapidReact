@@ -35,14 +35,14 @@ public class ClimbController extends SubsystemBase {
     private ClimbStick climbStickLoaded = new ClimbStick(ClimbConstants.STICK_LOADED_PID, this, stickMotors);
     private ClimbStick climbStickUnloaded = new ClimbStick(ClimbConstants.STICK_UNLOADED_PID, this, stickMotors);
 
-    private final double stickStartingPos = .09 * ClimbConstants.STICK_GEARING / (2 * Math.PI * ClimbConstants.SPOOL_RADIUS); 
+    private final double stickStartingPos = .1 * ClimbConstants.STICK_GEARING / (2 * Math.PI * ClimbConstants.SPOOL_RADIUS); 
 
     public ClimbController() {
         configureClimbMotors();
 
         unload();
 
-        // setStickPosition(0);
+        setStickPosition(0);
     }
 
     public void configureClimbMotors() {

@@ -13,7 +13,6 @@ public class SpinUpShooter extends CommandBase {
     private final Shooter shooter;
     private final Drivetrain drivetrain;
     private final Limelight limelight;
-    private final double distanceOffset = 0.1;
     private final NetworkTableEntry speedEntry = SmartDashboard.getEntry("Shooter test speed");
 
     public SpinUpShooter(Shooter shooter, Drivetrain drivetrain, Limelight limelight) {
@@ -38,7 +37,7 @@ public class SpinUpShooter extends CommandBase {
         double distance = limelight.getDistanceToHub();
         double offAngle = limelight.getRelativeAngleToHub().getRadians();
 
-        double speed = MathUtil.clamp(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance - distanceOffset), shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE), shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE));
+        double speed = MathUtil.clamp(shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance), shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE), shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE));
 
         shooter.setVelocity(speedEntry.getDouble(0));
     }

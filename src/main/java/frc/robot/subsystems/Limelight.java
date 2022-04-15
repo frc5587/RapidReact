@@ -79,6 +79,7 @@ public class Limelight extends LimelightBase {
         Translation2d offset = LimelightConstants.HUB_POSITION.minus(upperHub);
         drivetrain.updateFieldWidget(offset);
 
+        SmartDashboard.putNumber("Predicted distance", getDistanceToHub());
         SmartDashboard.putNumber("Limelight Distance", calculateDistance());
         SmartDashboard.putBoolean("Has Target", hasTarget());
     }

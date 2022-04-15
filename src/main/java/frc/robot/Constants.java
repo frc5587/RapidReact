@@ -279,19 +279,21 @@ public final class Constants {
         public static final double ENCODER_EPR = 2048;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
         public static final double VELOCITY_DENOMINATOR = 0.1;
-        public static final double SHOOTER_ANGLE = 70;
-        public static final double MIN_SHOOT_DISTANCE = Units.inchesToMeters(100);
-        public static final double MAX_SHOOT_DISTANCE = Units.inchesToMeters(180);
-        public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
+        public static final double SHOOTER_ANGLE = 64;
+        // public static final double MIN_SHOOT_DISTANCE = Units.inchesToMeters(100);
+        // public static final double MAX_SHOOT_DISTANCE = Units.inchesToMeters(180);
+        public static final double MIN_SHOOT_DISTANCE = 1.9;
+        public static final double MAX_SHOOT_DISTANCE = 8.5;
+        public static final double DEFAULT_SPIN_UP_VELOCITY = 13;
     }
 
     /*
      * LIMELIGHT CONSTANTS
      */
     public static final class LimelightConstants {
-        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101); // is 2.578 meters;
-        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.5); // is 0.813 meters
-        public static final double MOUNT_ANGLE = 28; // in degrees
+        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101.5); // is 2.578 meters;
+        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(33.25); // is 0.813 meters
+        public static final double MOUNT_ANGLE = 29; // in degrees
         public static final double DISTANCE_OFFSET = 0.677;
 
         public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));

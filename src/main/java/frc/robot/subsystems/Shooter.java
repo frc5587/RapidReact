@@ -15,8 +15,8 @@ public class Shooter extends SubsystemBase {
     private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
     private boolean enabled = false;
     private double setpoint = 0;
-    private final double shotEfficiency = 0.8; // how efficient the flywheel is a transferring momentum
-    private final double flywheelCargoVelocityRatio = 2; // ratio between the velocity of the flywheel and release velocity of cargo
+    private final double shotEfficiency = 0.7; // how efficient the flywheel is a transferring momentum
+    private final double flywheelCargoVelocityRatio = 1; // ratio between the velocity of the flywheel and release velocity of cargo
     private final Limelight limelight;
 
     public Shooter(Limelight limelight) {
@@ -104,7 +104,9 @@ public class Shooter extends SubsystemBase {
      * @return a shooter velocity after calculation
      */
     public double shooterRegression(double distance) {
-        return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        // return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        // return (2.04956 * distance) + 6.03747;
+        return (0.0224585 * Math.pow(distance, 5)) + (-0.610957 * Math.pow(distance, 4)) + (6.29263 * Math.pow(distance, 3)) + (-30.3546 * Math.pow(distance, 2)) + (69.8555 * distance) + -49.946;
     }
 
     /* ! this is highly approximate */
