@@ -289,9 +289,9 @@ public final class Constants {
      * LIMELIGHT CONSTANTS
      */
     public static final class LimelightConstants {
-        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(103); // is 2.578 meters;
-        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.007); // is 0.813 meters
-        public static final double MOUNT_ANGLE = 30; // in degrees
+        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101); // is 2.578 meters;
+        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.5); // is 0.813 meters
+        public static final double MOUNT_ANGLE = 28; // in degrees
         public static final double DISTANCE_OFFSET = 0.677;
 
         public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));

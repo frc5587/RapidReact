@@ -42,7 +42,7 @@ public class ClimbController extends SubsystemBase {
 
         unload();
 
-        setStickPosition(0);
+        // setStickPosition(0);
     }
 
     public void configureClimbMotors() {

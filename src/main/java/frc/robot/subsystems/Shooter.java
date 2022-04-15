@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
-    private static final double error_threshold = 0.01;
+    private static final double error_threshold = 0.03;
 
     private final WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
     private final WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
@@ -158,6 +158,8 @@ public class Shooter extends SubsystemBase {
 
         if (isEnabled()) {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint)
+                    - ShooterConstants.PID.calculate(setpoint - getVelocity()));
+                    SmartDashboard.putNumber("Shooter voltage", ShooterConstants.SHOOTER_FF.calculate(setpoint)
                     - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
 
