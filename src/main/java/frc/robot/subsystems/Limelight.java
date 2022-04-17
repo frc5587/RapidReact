@@ -63,6 +63,10 @@ public class Limelight extends LimelightBase {
     public Rotation2d getRelativeAngleToHub() {
         Pose2d robotPose = drivetrain.getPose();
 
+        return getRelativeAngleToHub(robotPose);
+    }
+
+    public Rotation2d getRelativeAngleToHub(Pose2d robotPose) {
         return getAngleAroundHubTheRobotIs().minus(robotPose.getRotation()).minus(Rotation2d.fromDegrees(180));
     }
 
