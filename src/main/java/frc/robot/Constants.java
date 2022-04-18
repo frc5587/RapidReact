@@ -51,7 +51,7 @@ public final class Constants {
                 DrivetrainConstants.HARD_CURRENT_LIMIT,
                 DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY);
 
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(6.3065);
+        public static final double WHEEL_DIAMETER = .505 / Math.PI;
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
         public static final double GEARING = (54. / 20.) * (50. / 12.);
@@ -241,7 +241,7 @@ public final class Constants {
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
         public static final PIDController PID = new PIDController(
-                1.5, 0, 0.015);
+                2, 0, 0.03);
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.2756, 0.8555, 0.05829);
 
         public static final int GEARING = 90;
@@ -272,26 +272,28 @@ public final class Constants {
                 DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY);
 
         /* pid/ff values */
-        public static final PIDController PID = new PIDController(.8, 0, 0);
-        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.64689, 0.33756, 0.029811);
+        public static final PIDController PID = new PIDController(1, 0, 0);
+        public static final SimpleMotorFeedforward SHOOTER_FF = new SimpleMotorFeedforward(0.76075, 0.35258, 0.03031);
 
         public static final double GEARING = 1;
         public static final double ENCODER_EPR = 2048;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
         public static final double VELOCITY_DENOMINATOR = 0.1;
-        public static final double SHOOTER_ANGLE = 70;
-        public static final double MIN_SHOOT_DISTANCE = Units.inchesToMeters(100);
-        public static final double MAX_SHOOT_DISTANCE = Units.inchesToMeters(180);
-        public static final double DEFAULT_SPIN_UP_VELOCITY = 17.6;
+        public static final double SHOOTER_ANGLE = 64;
+        // public static final double MIN_SHOOT_DISTANCE = Units.inchesToMeters(100);
+        // public static final double MAX_SHOOT_DISTANCE = Units.inchesToMeters(180);
+        public static final double MIN_SHOOT_DISTANCE = 1.9;
+        public static final double MAX_SHOOT_DISTANCE = 8.5;
+        public static final double DEFAULT_SPIN_UP_VELOCITY = 13;
     }
 
     /*
      * LIMELIGHT CONSTANTS
      */
     public static final class LimelightConstants {
-        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(103); // is 2.578 meters;
-        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(32.007); // is 0.813 meters
-        public static final double MOUNT_ANGLE = 30; // in degrees
+        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101.5); // is 2.578 meters;
+        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(33.25); // is 0.813 meters
+        public static final double MOUNT_ANGLE = 29; // in degrees
         public static final double DISTANCE_OFFSET = 0.677;
 
         public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));

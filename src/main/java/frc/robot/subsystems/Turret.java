@@ -5,6 +5,9 @@ import frc.robot.Constants.TurretConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.frc5587.lib.math.MathHelper;
+
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,6 +21,7 @@ public class Turret extends PIDSubsystem {
     public final Rotation2d lowerLimit = new Rotation2d(-TurretConstants.LIMIT);
     private Rotation2d targetPosition = new Rotation2d();
     private Rotation2d targetVelocity = new Rotation2d();
+    private final double acceptableError = Math.toRadians(2);
 
     public Turret() {
         super(TurretConstants.PID);
@@ -102,10 +106,19 @@ public class Turret extends PIDSubsystem {
 
     }
 
+    public boolean inProperPosition() {
+        return MathHelper.epsilonEquals(getPosition().getRadians(), targetPosition.getRadians(), acceptableError) && !targetAtBounds();
+    }
+
+    public boolean targetAtBounds() {
+        return targetPosition.equals(lowerLimit) || targetPosition.equals(upperLimit);
+    }
+
     @Override
     public void periodic() {
         super.periodic();
 
         SmartDashboard.putNumber("Turret Pos Degrees", getPosition().getDegrees());
+        SmartDashboard.putBoolean("Turret in position", inProperPosition());
     }
 }

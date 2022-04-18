@@ -8,15 +8,15 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
-    private static final double error_threshold = 0.01;
+    private static final double error_threshold = 0.02;
 
     private final WPI_TalonFX leaderMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_LEADER_MOTOR);
     private final WPI_TalonFX followerMotor = new WPI_TalonFX(ShooterConstants.SHOOTER_FOLLOWER_MOTOR);
     private final MotorControllerGroup shooterMotors = new MotorControllerGroup(leaderMotor, followerMotor);
     private boolean enabled = false;
     private double setpoint = 0;
-    private final double shotEfficiency = 0.8; // how efficient the flywheel is a transferring momentum
-    private final double flywheelCargoVelocityRatio = 2; // ratio between the velocity of the flywheel and release velocity of cargo
+    private final double shotEfficiency = .6; // how efficient the flywheel is a transferring momentum
+    private final double flywheelCargoVelocityRatio = 1; // ratio between the velocity of the flywheel and release velocity of cargo
     private final Limelight limelight;
 
     public Shooter(Limelight limelight) {
@@ -103,8 +103,13 @@ public class Shooter extends SubsystemBase {
      * @param distance the distance from the target in meters
      * @return a shooter velocity after calculation
      */
-    public double shooterRegression(double distance) {
-        return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+    public static double shooterRegression(double distance) {
+        // return ((0.248525 * Math.pow(distance, 2)) + Math.pow(0.0156791, ((-1.00889 * distance) + 4.25483)) + 15.3616);
+        // return (2.04956 * distance) + 6.03747;
+        // return (0.0224585 * Math.pow(distance, 5)) + (-0.610957 * Math.pow(distance, 4)) + (6.29263 * Math.pow(distance, 3)) + (-30.3546 * Math.pow(distance, 2)) + (69.8555 * distance) + -49.946;
+        double velocity = (0.0287179 * Math.pow(distance, 5)) + (-.663869 * Math.pow(distance, 4)) + (5.75152 * Math.pow(distance, 3)) + (-22.9436 * Math.pow(distance, 2)) + (43.6606 * distance) + (-20.8364);
+        // return MathUtil.clamp(velocity, 4, 40);
+        return velocity;
     }
 
     /* ! this is highly approximate */
@@ -115,6 +120,15 @@ public class Shooter extends SubsystemBase {
     /* ! this is highly approximate */
     public double horizontalCargoVelocityToShooterVelocity(double horizontalVelocity) {
         return flywheelCargoVelocityRatio * horizontalVelocity / (Math.cos(ShooterConstants.SHOOTER_ANGLE) * shotEfficiency);
+    }
+
+    public double simpleShootDistanceMoving(double robotVelocity, double movingAngle, double distance) {
+        double radialVelocity = Math.cos(movingAngle) * robotVelocity;
+        double travelDistance = timeOfFlight(distance) * radialVelocity;
+
+        return shootDistanceStationary(distance - travelDistance);
+
+
     }
 
     /* ! this is highly approximate */
@@ -129,7 +143,7 @@ public class Shooter extends SubsystemBase {
      * @return  a calculated velocity from shooterRegression if the target is
      *          within min/max shoot range, or 0 if the target is not within range
      */
-    public double shootDistanceStationary(double distance) {
+    public static double shootDistanceStationary(double distance) {
         return shooterRegression(distance);
     }
 
@@ -158,6 +172,8 @@ public class Shooter extends SubsystemBase {
 
         if (isEnabled()) {
             shooterMotors.setVoltage(ShooterConstants.SHOOTER_FF.calculate(setpoint)
+                    - ShooterConstants.PID.calculate(setpoint - getVelocity()));
+                    SmartDashboard.putNumber("Shooter voltage", ShooterConstants.SHOOTER_FF.calculate(setpoint)
                     - ShooterConstants.PID.calculate(setpoint - getVelocity()));
         }
 

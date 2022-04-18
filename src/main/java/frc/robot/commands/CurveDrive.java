@@ -29,8 +29,7 @@ public class CurveDrive extends CommandBase {
         double curve = curveSupplier.getAsDouble();
         boolean quickTurn = quickTurnSupplier.getAsBoolean();
 
-        curve *= quickTurn? DrivetrainConstants.QUICKTURN_CURVE_MULTIPLIER : 1;
-        curve = Math.sin(curve * Math.PI / 2); // TODO: try this out
+        curve *= quickTurn ? DrivetrainConstants.QUICKTURN_CURVE_MULTIPLIER : 1;
         drivetrain.curvatureDrive(throttle, curve, quickTurn);
     }
 

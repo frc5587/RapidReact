@@ -61,10 +61,10 @@ public class Drivetrain extends DrivetrainBase {
         leftFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
         rightFollower.configSupplyCurrentLimit(DrivetrainConstants.SUPPLY_CURRENT_LIMIT_CONFIGURATION);
 
-        leftLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
-        rightLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
-        leftFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
-        rightFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        // leftLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        // rightLeader.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        // leftFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
+        // rightFollower.configOpenloopRamp(DrivetrainConstants.VOLTAGE_RAMP_RATE);
 
         resetEncoders();
     }

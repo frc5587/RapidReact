@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
@@ -28,20 +30,25 @@ public class LockTurret extends CommandBase {
 
     @Override
     public void execute() {
-        Rotation2d desiredTurretAngle = limelight.getRelativeAngleToHub();
+        // Rotation2d desiredTurretAngle = limelight.getRelativeAngleToHub();
 
         double distance = limelight.getDistanceToHub();
-        Rotation2d offAngle = limelight.getRelativeAngleToHub();
+        // Rotation2d offAngle = limelight.getRelativeAngleToHub();
 
-        double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * offAngle.getSin();
-        Rotation2d angleAdjustment = new Rotation2d(Math.atan2(sideBallTravel, distance));
+        // double sideBallTravel = shooter.timeOfFlight(distance) * drivetrain.getLinearVelocity() * offAngle.getSin();
+        // Rotation2d angleAdjustment = new Rotation2d(Math.atan2(sideBallTravel, distance));
         
-        final double effect = 1;
-        angleAdjustment = angleAdjustment.times(effect);
-        desiredTurretAngle = desiredTurretAngle.plus(angleAdjustment);
+        // final double effect = 1;
+        // angleAdjustment = angleAdjustment.times(effect);
+        // desiredTurretAngle = desiredTurretAngle.plus(angleAdjustment);
+
+        Twist2d robotTravel = new Twist2d(drivetrain.getLinearVelocity() * shooter.timeOfFlight(distance), 0, 0); 
+        Pose2d newPose = drivetrain.getPose().exp(robotTravel);
+
+        Rotation2d desiredTurretAngle = limelight.getRelativeAngleToHub(newPose);
         
         Rotation2d clampedTurretAngle = new Rotation2d(MathUtil.clamp(desiredTurretAngle.getRadians(), turret.lowerLimit.getRadians(), turret.upperLimit.getRadians()));
-        turret.setPose(clampedTurretAngle);
+        turret.setPose(clampedTurretAngle);//,  new Rotation2d(drivetrain.getAngularVelocity() * .01));
     }
 
     @Override

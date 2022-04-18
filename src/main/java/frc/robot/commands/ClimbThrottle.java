@@ -1,11 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.*;
 
 import java.util.function.BooleanSupplier;
@@ -20,7 +18,6 @@ public class ClimbThrottle extends CommandBase {
     private final BooleanSupplier throttleToggleSupplier;
     private boolean isHookMode = true;
     private NetworkTableEntry toggleEntry = SmartDashboard.getEntry("Hook Mode Enabled");
-    private SlewRateLimiter hookThrottleLimiter = new SlewRateLimiter(0); 
 
     public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, DoubleSupplier throttleSupplier, DoubleSupplier stickThrottleSupplier, BooleanSupplier throttleToggleSupplier) {
         this.climb = climb;
@@ -46,12 +43,19 @@ public class ClimbThrottle extends CommandBase {
         
         if (hookThrottle < 0) {
             intakePistons.extend();
+            hookThrottle *= .4;
         } else if (hookThrottle > 0) {
             intakePistons.retract();
         }
-        
-        climb.setHookThrottle(hookThrottle);
+
+        if (throttleToggleSupplier.getAsBoolean()) {
+            climb.setHookThrottle(-1);
+        } else {
+            climb.setHookThrottle(hookThrottle);
+        }
+
         climb.setStickThrottle(-stickThrottleSupplier.getAsDouble());
+
 
         updateSmartDashboard();
 
