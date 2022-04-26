@@ -18,6 +18,8 @@ public class SpinUpShooter extends CommandBase {
     private final double maxShooterVelocity = Shooter.shootDistanceStationary(ShooterConstants.MAX_SHOOT_DISTANCE);
     private final double minShooterVelocity = Shooter.shootDistanceStationary(ShooterConstants.MIN_SHOOT_DISTANCE);
 
+    private final double offset = 0.1;
+
     public SpinUpShooter(Shooter shooter, Drivetrain drivetrain, Limelight limelight) {
         this.shooter = shooter;
         this.drivetrain = drivetrain;
@@ -39,9 +41,11 @@ public class SpinUpShooter extends CommandBase {
     public void execute() {
         double distance = limelight.getDistanceToHub();
         double offAngle = limelight.getRelativeAngleToHub().getRadians();
-        double rawVelocity = shooter.shootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance);
+        System.out.println(distance + "**");
+        double rawVelocity = shooter.simpleShootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance - offset);
 
         double clampedVelocity = MathUtil.clamp(rawVelocity, minShooterVelocity, maxShooterVelocity);
+        // sys
 
         shooter.setVelocity(clampedVelocity);
     }

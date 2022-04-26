@@ -46,6 +46,7 @@ public class FireWhenReady extends CommandBase {
         } else if (!shooter.atSetpoint()) {
             rightKicker.moveDistance(0);
             leftKicker.moveDistance(0);
+            conveyor.setVelocity(0);
         }
     }
 
