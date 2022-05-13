@@ -64,6 +64,8 @@ public class AutoPaths {
     private RamseteCommandWrapper taxi4;
     private RamseteCommandWrapper pos4_5BallPath1;
     private RamseteCommandWrapper pos4_5BallPath2;
+    private RamseteCommandWrapper pos1_2ball1stashPath1;
+    private RamseteCommandWrapper pos1_2ball1stashPath2;
 
     private NetworkTableEntry chooseAutoPath = SmartDashboard.getEntry("Choose Auto Path");
     private Notifier chooseAutoNotifier = new Notifier(this::blinkIfNoPath);
@@ -126,6 +128,8 @@ public class AutoPaths {
      */
     public final Command pos4FiveBall;
 
+    public final Command newPose1Shoot2Stash1;
+
     public final boolean usingPathPlannerPaths;
     SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -156,6 +160,8 @@ public class AutoPaths {
         pos4_5BallPath1 = (new RamseteCommandWrapper(drivetrain, new AutoPath("pos4 5ball path1", true), AutoConstants.RAMSETE_CONSTANTS)).setOdometryToFirstPoseOnStart();
         pos4_5BallPath2 = new RamseteCommandWrapper(drivetrain, new AutoPath("pos4 5ball path2", true), AutoConstants.RAMSETE_CONSTANTS);
 
+        pos1_2ball1stashPath1 = new RamseteCommandWrapper(drivetrain, new AutoPath("first 1", true), AutoConstants.RAMSETE_CONSTANTS).setOdometryToFirstPoseOnStart();
+        pos1_2ball1stashPath2 = new RamseteCommandWrapper(drivetrain, new AutoPath("pos1 stash", true), AutoConstants.RAMSETE_CONSTANTS);
 
 
         // Auto Paths
@@ -250,7 +256,7 @@ public class AutoPaths {
         }
         this.pos1stash = new SequentialCommandGroup(
                 intakeDuringPath(first1),
-                fullShootCommand(2),
+                fullShootCommand(6),
                 intakeDuringPath(firstSteal1),
                 intakeDuringPath(secondSteal),
                 timedCommand(2, new TopBallOut(rightKicker, leftKicker, shooter)),
@@ -280,11 +286,11 @@ public class AutoPaths {
 
         this.pos1NoStash = new SequentialCommandGroup(
                 intakeDuringPath(first1_2Ball),
-                fullShootCommand(2));
+                fullShootCommand(6));
 
         this.pos2NoStash = new SequentialCommandGroup(
                 intakeDuringPath(first2_2Ball),
-                fullShootCommand(2));
+                fullShootCommand(6));
 
         this.pos3TwoBall = new SequentialCommandGroup(
                 intakeDuringPath(first3_2Ball),
@@ -312,7 +318,7 @@ public class AutoPaths {
                 new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain),
                 new SpinUpShooter(shooter, drivetrain, limelight),
                 new SequentialCommandGroup(
-                    new WaitCommand(4), 
+                    new WaitCommand(3.5), 
                     new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret))),
             new ParallelRaceGroup(
                 new ParallelCommandGroup(pos4_5BallPath2, new ParallelRaceGroup(new WaitCommand(5), new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain))),
@@ -322,6 +328,13 @@ public class AutoPaths {
                 new SpinUpShooter(shooter, drivetrain, limelight),
                 new FireWhenReady(conveyor, rightKicker, leftKicker, shooter, limelight, turret)
             )
+        );
+
+        newPose1Shoot2Stash1 = new SequentialCommandGroup(
+            intakeDuringPath(pos1_2ball1stashPath1),
+            fullShootCommand(4),
+            intakeDuringPath(pos1_2ball1stashPath2),
+            new BottomBallOut(intake, intakePistons, conveyor)
         );
         
         autoChooser.addOption("1st Position With Stash", pos1stash);
@@ -339,6 +352,7 @@ public class AutoPaths {
         autoChooser.addOption("Taxi 2nd Pos", taxi2);
         autoChooser.addOption("Taxi 3rd Pos", taxi3);
         autoChooser.addOption("Taxi 4th Pos", taxi4);
+        autoChooser.addOption("1st Postion 2 Ball 1 Stash", newPose1Shoot2Stash1);
         autoChooser.setDefaultOption("NO COMMAND", null);
         SmartDashboard.putData(autoChooser);
 

@@ -55,6 +55,7 @@ public class RobotContainer {
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight, turret);
     private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
+    private final MakeClimbCoast makeClimbCoast = new MakeClimbCoast(climbController);
 
     private final GotoHubSpot gotoHubSpot = new GotoHubSpot(drivetrain, limelight);
 
@@ -131,7 +132,8 @@ public class RobotContainer {
          */
         // While right trigger is held, enable the throttle climb (this blocks the
         // turret as well), and is not interruptible
-        xb.rightTrigger.whileActiveOnce(climbThrottle, false);
+        xb.rightTrigger.and(xb.leftTrigger.negate()).whileActiveOnce(climbThrottle, false);
+        xb.rightTrigger.and(xb.leftTrigger).whileActiveOnce(makeClimbCoast);
         /**
          * when the X button is pressed with the right trigger, extend/retract the
          * intake pistons

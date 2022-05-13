@@ -16,8 +16,6 @@ public class ClimbThrottle extends CommandBase {
     private final IntakePistons intakePistons;
     private final DoubleSupplier throttleSupplier, stickThrottleSupplier;
     private final BooleanSupplier throttleToggleSupplier;
-    private boolean isHookMode = true;
-    private NetworkTableEntry toggleEntry = SmartDashboard.getEntry("Hook Mode Enabled");
 
     public ClimbThrottle(ClimbController climb, Turret turret, IntakePistons intakePistons, DoubleSupplier throttleSupplier, DoubleSupplier stickThrottleSupplier, BooleanSupplier throttleToggleSupplier) {
         this.climb = climb;
@@ -54,20 +52,14 @@ public class ClimbThrottle extends CommandBase {
             climb.setHookThrottle(hookThrottle);
         }
 
+        SmartDashboard.putNumber("Hook Throttle", throttleSupplier.getAsDouble());
+        SmartDashboard.putNumber("Hook Set", hookThrottle);
         climb.setStickThrottle(-stickThrottleSupplier.getAsDouble());
-
-
-        updateSmartDashboard();
-
     }
 
     @Override
     public void end(boolean interrupted) {
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
-    }
-
-    public void updateSmartDashboard() {
-        toggleEntry.setBoolean(isHookMode);
     }
 }

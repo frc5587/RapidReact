@@ -26,7 +26,7 @@ public class TopBallOut extends CommandBase {
         leftKicker.enable();
 
         shooter.enable();
-        shooter.setVelocity(10);
+        shooter.setVelocity(5);
     }
 
     @Override

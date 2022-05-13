@@ -33,7 +33,7 @@
               "_title": "USB Camera 0",
               "Crosshair/Show crosshair": false,
               "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": false,
+              "Controls/Show controls": true,
               "Controls/Rotation": "NONE",
               "compression": -1.0,
               "fps": -1,
@@ -55,17 +55,6 @@
               "Visuals/Show Outside Circles": false
             }
           },
-          "3,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Turret Pos Degrees",
-              "_title": "Turret Pos Degrees"
-            }
-          },
           "3,1": {
             "size": [
               3,
@@ -83,17 +72,6 @@
               "fps": -1,
               "imageWidth": 0,
               "imageHeight": 0
-            }
-          },
-          "4,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Toggle Button",
-              "_source0": "network_table:///SmartDashboard/BrakeMode",
-              "_title": "BrakeMode"
             }
           },
           "5,0": {
@@ -144,7 +122,7 @@
               "_title": "Shooter Velocity"
             }
           },
-          "2,4": {
+          "3,0": {
             "size": [
               1,
               1
@@ -226,6 +204,28 @@
               "_source0": "network_table:///SmartDashboard/Shooter Setpoint",
               "_title": "Shooter Setpoint"
             }
+          },
+          "2,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Shooter test speed",
+              "_title": "Shooter test speed"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Toggle Button",
+              "_source0": "network_table:///SmartDashboard/BrakeMode",
+              "_title": "BrakeMode"
+            }
           }
         }
       }
@@ -283,12 +283,62 @@
           }
         }
       }
+    },
+    {
+      "title": "Tab 3",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "2,0": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/Hook Set",
+              "_title": "SmartDashboard/Hook Set",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": true,
+              "Y-axis/Upper bound": 1.0,
+              "Y-axis/Lower bound": -1.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/Hook Set": true
+            }
+          },
+          "6,0": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "Graph",
+              "_source0": "network_table:///SmartDashboard/Hook Throttle",
+              "_title": "SmartDashboard/Hook Throttle",
+              "Graph/Visible time": 30.0,
+              "Graph/X-axis auto scrolling": true,
+              "Y-axis/Automatic bounds": true,
+              "Y-axis/Upper bound": 1.0,
+              "Y-axis/Lower bound": -1.0,
+              "Y-axis/Unit": "ul",
+              "Visible data/SmartDashboard/Hook Throttle": true
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {
-    "x": -7.199999809265137,
-    "y": -7.199999809265137,
-    "width": 1550.4000244140625,
-    "height": 838.4000244140625
+    "x": -6.400000095367432,
+    "y": 1.600000023841858,
+    "width": 1547.199951171875,
+    "height": 828.7999877929688
   }
 }

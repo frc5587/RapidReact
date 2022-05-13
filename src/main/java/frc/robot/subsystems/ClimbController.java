@@ -35,7 +35,7 @@ public class ClimbController extends SubsystemBase {
     private ClimbStick climbStickLoaded = new ClimbStick(ClimbConstants.STICK_LOADED_PID, this, stickMotors);
     private ClimbStick climbStickUnloaded = new ClimbStick(ClimbConstants.STICK_UNLOADED_PID, this, stickMotors);
 
-    private final double stickStartingPos = .1 * ClimbConstants.STICK_GEARING / (2 * Math.PI * ClimbConstants.SPOOL_RADIUS); 
+    private final double stickStartingPos = .02 * ClimbConstants.STICK_GEARING / (2 * Math.PI * ClimbConstants.SPOOL_RADIUS); 
 
     public ClimbController() {
         configureClimbMotors();
@@ -67,6 +67,20 @@ public class ClimbController extends SubsystemBase {
         leftHookClimb.setSmartCurrentLimit(ClimbConstants.STALL_CURRENT_LIMIT, ClimbConstants.FREE_CURRENT_LIMIT);
         rightStickClimb.setSmartCurrentLimit(ClimbConstants.STALL_CURRENT_LIMIT, ClimbConstants.FREE_CURRENT_LIMIT);
         leftStickClimb.setSmartCurrentLimit(ClimbConstants.STALL_CURRENT_LIMIT, ClimbConstants.FREE_CURRENT_LIMIT);
+    }
+
+    public void setIdleMode(boolean isBreakMode) {
+        if (isBreakMode) {
+            rightHookClimb.setIdleMode(IdleMode.kBrake);
+            leftHookClimb.setIdleMode(IdleMode.kBrake);
+            rightStickClimb.setIdleMode(IdleMode.kBrake);
+            leftStickClimb.setIdleMode(IdleMode.kBrake);
+        } else {
+            rightHookClimb.setIdleMode(IdleMode.kCoast);
+            leftHookClimb.setIdleMode(IdleMode.kCoast);
+            rightStickClimb.setIdleMode(IdleMode.kCoast);
+            leftStickClimb.setIdleMode(IdleMode.kCoast);
+        }
     }
 
     public void resetEncoders() {

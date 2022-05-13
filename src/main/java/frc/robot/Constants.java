@@ -104,8 +104,8 @@ public final class Constants {
         public static final boolean LEFT_STICK_ARM_MOTOR_INVERTED = true;
 
         /* motor current limits */
-        public static final int STALL_CURRENT_LIMIT = 40;
-        public static final int FREE_CURRENT_LIMIT = 35;
+        public static final int STALL_CURRENT_LIMIT = 45;
+        public static final int FREE_CURRENT_LIMIT = 45;
 
         /* pid/ff values */
         // TODO Characterize climb & check TrapezoidProfile constraints
@@ -136,8 +136,8 @@ public final class Constants {
      */
     public static final class IntakePistonsConstants {
         /* solenoid channels */
-        public static final int FORWARD_CHANNEL = 0;
-        public static final int REVERSE_CHANNEL = 3;
+        public static final int FORWARD_CHANNEL = 2;
+        public static final int REVERSE_CHANNEL = 0;
     }
 
     /*
@@ -292,8 +292,8 @@ public final class Constants {
      */
     public static final class LimelightConstants {
         public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101.5); // is 2.578 meters;
-        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(33.25); // is 0.813 meters
-        public static final double MOUNT_ANGLE = 29; // in degrees
+        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(33); // is 0.813 meters
+        public static final double MOUNT_ANGLE = 30; // in degrees
         public static final double DISTANCE_OFFSET = 0.677;
 
         public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
