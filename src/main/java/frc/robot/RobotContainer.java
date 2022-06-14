@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+
 import org.frc5587.lib.control.DeadbandJoystick;
 import org.frc5587.lib.control.DeadbandXboxController;
 
@@ -26,8 +27,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
     /* Controllers */
     private final DeadbandJoystick joystick = new DeadbandJoystick(0, 1.5, 0.02);
-    // Second joystick for TankDrive
-    // private final DeadbandJoystick rightJoystick = new DeadbandJoystick(2, 1.5);
     private final DeadbandXboxController xb = new DeadbandXboxController(1);
 
     /* Subsystems */
@@ -46,6 +45,7 @@ public class RobotContainer {
     /* Commands */
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
+    private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getX());
     private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
             xb::getRightY, xb::getLeftY, xb::getXButton);
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
@@ -74,7 +74,7 @@ public class RobotContainer {
         CameraServer.startAutomaticCapture();
         /* Set default commands */
         drivetrain.setDefaultCommand(curveDrive);
-        // drivetrain.setDefaultCommand(tankDrive);
+        // drivetrain.setDefaultCommand(arcadeDrive);
         turret.setDefaultCommand(lockTurret);
         /* Configure the button bindings */
         configureButtonBindings();
@@ -88,6 +88,7 @@ public class RobotContainer {
         Trigger limelightTrigger = new Trigger(limelight::hasTarget);
         Trigger thumbTrigger = new Trigger(() -> joystick.getRawButton(2));
         
+        /** when the Joystick thumb trigger is pressed, auto-drive to the ideal shooting spot */
         thumbTrigger.whileActiveOnce(gotoHubSpot);
 
         /*
@@ -100,6 +101,7 @@ public class RobotContainer {
         /*
          * EJECT
          */
+
         /**
          * while the B button is held with the left trigger, eject the ball through the
          * intake
@@ -114,8 +116,12 @@ public class RobotContainer {
         /*
          * TURRET
          */
-        // Allows throttle turret if left x and no target is found, otherwise, operator
-        // can override with left trigger
+
+        
+        /**
+         * Allows throttle turret if left x and no target is found, otherwise, operator
+         * can override with left trigger
+         */
         xb.leftStickX.and(limelightTrigger.negate().or(xb.leftTrigger)).whileActiveOnce(throttleTurret);
 
         /*
@@ -130,15 +136,11 @@ public class RobotContainer {
         /*
          * CLIMB
          */
-        // While right trigger is held, enable the throttle climb (this blocks the
-        // turret as well), and is not interruptible
+
+        /** While right trigger is held, enable the throttle climb (this blocks the
+         * turret as well), and is not interruptible */
         xb.rightTrigger.and(xb.leftTrigger.negate()).whileActiveOnce(climbThrottle, false);
         xb.rightTrigger.and(xb.leftTrigger).whileActiveOnce(makeClimbCoast);
-        /**
-         * when the X button is pressed with the right trigger, extend/retract the
-         * intake pistons
-         */
-        // xb.bButton.and(xb.rightTrigger).whenActive(toggleIntakePistons);
     }
 
     /**
@@ -148,6 +150,5 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return autoPaths.getSelectedCommand();
-        // return null;
     }
 }

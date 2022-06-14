@@ -5,15 +5,7 @@ import org.frc5587.lib.auto.AutoPath;
 import org.frc5587.lib.auto.ConstrainedTrajectory;
 
 import frc.robot.Constants.AutoConstants;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.IntakePistons;
-import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.LinebreakSensor;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -122,7 +114,7 @@ public class AutoPaths {
      */
     public final Command pos4TwoBall;
     /**
-     * Gets the closets ball, then starts starting spinning up and firing as it head
+     * Gets the closest ball, then starts starting spinning up and firing as it head
      * towards the next near ball, pauses there to fire all of them, then continues
      * to the player station to get the two balls, the comes back and shoots
      */
