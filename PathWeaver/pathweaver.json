@@ -1,0 +1,15 @@
+{
+  "lengthUnit": "Meter",
+  "exportUnit": "Same as Project",
+  "maxVelocity": 3.0,
+  "maxAcceleration": 1.0,
+  "trackWidth": 0.7,
+  "robotWidth": 0.9398,
+  "robotLength": 0.9398,
+  "smallRange": 0.0,
+  "largeRange": 0.0,
+  "smallRangeEnabled": true,
+  "largeRangeEnabled": true,
+  "gameName": "Rapid React",
+  "outputDir": "../src/main/deploy/paths"
+}

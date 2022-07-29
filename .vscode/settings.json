@@ -1,6 +1,8 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
+  "editor.detectIndentation": false,
+  "editor.tabSize": 4,
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -25,5 +27,16 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests"
+"java.test.defaultConfig": "WPIlibUnitTests",
+"cSpell.words": [
+    "autoposdiagram",
+    "cheesyish",
+    "Devs",
+    "finalshoot",
+    "kalman",
+    "Linebreak",
+    "Pathweaver",
+    "QUICKTURN",
+    "Vels"
+]
 }
