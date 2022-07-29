@@ -45,17 +45,17 @@ public class RobotContainer {
     /* Commands */
     private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
             joystick::getTrigger);
-    private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getX());
-    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
-            xb::getRightY, xb::getLeftY, xb::getXButton);
+    // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getX());
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final TopBallOut topBallOut = new TopBallOut(rightKicker, leftKicker, shooter);
     private final ThrottleTurret throttleTurret = new ThrottleTurret(turret, limelight, xb::getLeftX);
+    private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
     private final SpinUpShooter spinUpShooter = new SpinUpShooter(shooter, drivetrain, limelight);
     private final FireWhenReady fireWhenReady = new FireWhenReady(conveyor, leftKicker, rightKicker, shooter, limelight, turret);
-    private final LockTurret lockTurret = new LockTurret(turret, limelight, drivetrain, shooter);
     private final MakeClimbCoast makeClimbCoast = new MakeClimbCoast(climbController);
+    private final ClimbThrottle climbThrottle = new ClimbThrottle(climbController, turret, intakePistons,
+    xb::getRightY, xb::getLeftY, xb::getXButton);
 
     private final GotoHubSpot gotoHubSpot = new GotoHubSpot(drivetrain, limelight);
 
