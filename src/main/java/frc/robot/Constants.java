@@ -28,6 +28,10 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    /*
+     * DRIVETRAIN
+     */
     public static final class DrivetrainConstants {
         /* motor ids */
         public static final int LEFT_LEADER = 10;
@@ -35,9 +39,10 @@ public final class Constants {
         public static final int RIGHT_LEADER = 15;
         public static final int RIGHT_FOLLOWER = 16;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
+        
         public static final boolean LEFT_ENCODERS_INVERTED = true;
         public static final boolean RIGHT_ENCODERS_INVERTED = true;
 
@@ -51,6 +56,7 @@ public final class Constants {
                 DrivetrainConstants.HARD_CURRENT_LIMIT,
                 DrivetrainConstants.SMART_CURRENT_LIMIT_DELAY);
 
+        /* DriveConstants values */
         public static final double WHEEL_DIAMETER = .505 / Math.PI;
         public static final int HISTORY_LIMIT = 32;
         public static final double ENCODER_EPR = 2048;
@@ -62,28 +68,34 @@ public final class Constants {
         public static final double QUICKTURN_CURVE_MULTIPLIER = 0.75;
     }
 
+    /*
+     * AUTO
+     */
     public static final class AutoConstants {
-        public static final SimpleMotorFeedforward FEEDFORWARD = new SimpleMotorFeedforward(
+        /* pid/ff values */
+        public static final SimpleMotorFeedforward DRIVETRAIN_FF = new SimpleMotorFeedforward(
                 0.66725, 2.3304, 0.3317);
         public static final PIDController PID_CONTROLLER = new PIDController(3.2003, 0, 0);
 
+        /* kinematics */
         public static final double TRACK_WIDTH = 0.7;
 
-        public static final double THEORETICAL_TOP_SPEED = (12 - FEEDFORWARD.ks) / FEEDFORWARD.kv;
+        public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
+            TRACK_WIDTH);
 
+        /* Ramsete values */
         public static final double MAXIMUM_VELOCITY = 2; // m/s
         public static final double MAXIMUM_ACCELERATION = 1; // m/s^2
         public static final double CENTRIPETAL_ACCELERATION = 1; // m/s^2
 
-        public static final DifferentialDriveKinematics DRIVETRAIN_KINEMATICS = new DifferentialDriveKinematics(
-                TRACK_WIDTH);
-
+        /* Ramsete */
         public static final RamseteConstants RAMSETE_CONSTANTS = new RamseteConstants(
-                FEEDFORWARD, PID_CONTROLLER, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
+            DRIVETRAIN_FF, PID_CONTROLLER, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
                 CENTRIPETAL_ACCELERATION, DRIVETRAIN_KINEMATICS);
         
+        /* trajectory */
         public static final TrajectoryConstraints TRAJECTORY_CONSTRAINTS = new TrajectoryConstraints(
-                FEEDFORWARD, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
+            DRIVETRAIN_FF, MAXIMUM_VELOCITY, MAXIMUM_ACCELERATION, 
                 CENTRIPETAL_ACCELERATION, DRIVETRAIN_KINEMATICS);
     }
 
@@ -97,7 +109,7 @@ public final class Constants {
         public static final int RIGHT_STICK_ARM_MOTOR = 55;
         public static final int LEFT_STICK_ARM_MOTOR = 56;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean RIGHT_HOOK_MOTOR_INVERTED = true;
         public static final boolean LEFT_HOOK_MOTOR_INVERTED = false;
         public static final boolean RIGHT_STICK_ARM_MOTOR_INVERTED = false;
@@ -110,6 +122,7 @@ public final class Constants {
         /* pid/ff values */
         // TODO Characterize climb & check TrapezoidProfile constraints
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(0.3, 1);
+
         public static final ProfiledPIDController HOOK_UNLOADED_PID = new ProfiledPIDController(
                 0, 0, 0, CONSTRAINTS);
         public static final ProfiledPIDController HOOK_LOADED_PID = new ProfiledPIDController(
@@ -127,8 +140,6 @@ public final class Constants {
         public static final double SPOOL_RADIUS = 0.02;
         public static final double HOOK_GEARING = 16;
         public static final double STICK_GEARING = 15;
-
-        public static final double STEADY_STATE_HOOK_THROTTLE = 0.1;
     }
 
     /*
@@ -147,13 +158,12 @@ public final class Constants {
         /* motor ids */
         public static final int INTAKE_MOTOR = 20;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean MOTOR_INVERTED = true;
 
         /* motor current limits */
         public static final int STALL_CURRENT_LIMIT = 35;
         public static final int FREE_CURRENT_LIMIT = 30;
-        public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // in seconds
 
         /* pid/ff values */
         public static final PIDController PID = new PIDController(1.5841, 0, 0);
@@ -162,7 +172,7 @@ public final class Constants {
         public static final double GEARING = 10;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(1);
 
-        public static final double DRIVETRAIN_VELOCITY_OFFSET = 2;
+        public static final double DRIVETRAIN_VELOCITY_OFFSET = 2; // Intake will move at the Drivetrain's velocity multiplied by this value
         public static final double MIN_VELOCITY = 4;
     }
 
@@ -173,7 +183,7 @@ public final class Constants {
         /* motor ids */
         public static final int CONVEYOR_MOTOR = 30;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean MOTOR_INVERTED = true;
 
         /* motor current limits */
@@ -182,6 +192,7 @@ public final class Constants {
 
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20);
+
         public static final ProfiledPIDController POSITION_PID = new ProfiledPIDController(
                 4.3574, 0, 0.12733, CONSTRAINTS);
         public static final ProfiledPIDController VELOCITY_PID = new ProfiledPIDController(
@@ -201,7 +212,7 @@ public final class Constants {
         public static final int RIGHT_KICKER_MOTOR = 35;
         public static final int LEFT_KICKER_MOTOR = 36;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean RIGHT_KICKER_INVERTED = true;
         public static final boolean LEFT_KICKER_INVERTED = false;
 
@@ -211,6 +222,7 @@ public final class Constants {
 
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10);
+
         public static final ProfiledPIDController RIGHT_KICKER_PID = new ProfiledPIDController(
                 4.4195, 0, 0, CONSTRAINTS);
         public static final ProfiledPIDController LEFT_KICKER_PID = new ProfiledPIDController(
@@ -231,7 +243,7 @@ public final class Constants {
         /* motor ids */
         public static final int TURRET_MOTOR = 45;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean TURRET_MOTOR_INVERTED = false;
 
         /* motor current limits */
@@ -240,13 +252,14 @@ public final class Constants {
 
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(6, 6);
+
         public static final PIDController PID = new PIDController(
                 2, 0, 0.03);
         public static final SimpleMotorFeedforward TURRET_FF = new SimpleMotorFeedforward(0.2756, 0.8555, 0.05829);
 
         public static final int GEARING = 90;
         public static final double THROTTLE_MULTIPLIER = 0.1;
-        public static final double LIMIT = Units.degreesToRadians(100);
+        public static final double LIMIT = Units.degreesToRadians(100); // Turret will not move past this position in either direction
     }
 
     /*
@@ -257,14 +270,14 @@ public final class Constants {
         public static final int SHOOTER_LEADER_MOTOR = 40;
         public static final int SHOOTER_FOLLOWER_MOTOR = 41;
 
-        /* motor inversions */
+        /* inversions */
         public static final boolean SHOOTER_LEADER_INVERTED = false;
         public static final boolean SHOOTER_FOLLOWER_INVERTED = true;
 
         /* motor current limits */
         public static final int SMART_CURRENT_LIMIT = 35;
         public static final int HARD_CURRENT_LIMIT = 40;
-        public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // seconds
+        public static final double SMART_CURRENT_LIMIT_DELAY = 0.2; // in seconds
         public static final SupplyCurrentLimitConfiguration SUPPLY_CURRENT_LIMIT_CONFIGURATION = new SupplyCurrentLimitConfiguration(
                 true,
                 DrivetrainConstants.SMART_CURRENT_LIMIT,
@@ -279,21 +292,19 @@ public final class Constants {
         public static final double ENCODER_EPR = 2048;
         public static final double WHEEL_RADIUS = Units.inchesToMeters(2);
         public static final double VELOCITY_DENOMINATOR = 0.1;
+
         public static final double SHOOTER_ANGLE = 64;
-        // public static final double MIN_SHOOT_DISTANCE = Units.inchesToMeters(100);
-        // public static final double MAX_SHOOT_DISTANCE = Units.inchesToMeters(180);
-        public static final double MIN_SHOOT_DISTANCE = 1.9;
-        public static final double MAX_SHOOT_DISTANCE = 8.5;
-        public static final double DEFAULT_SPIN_UP_VELOCITY = 13;
+        public static final double MIN_SHOOT_DISTANCE = 1.9; // in meters
+        public static final double MAX_SHOOT_DISTANCE = 8.5; // in meters
     }
 
     /*
      * LIMELIGHT CONSTANTS
      */
     public static final class LimelightConstants {
-        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101.5); // is 2.578 meters;
-        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(33); // is 0.813 meters
-        public static final double MOUNT_ANGLE = 30; // in degrees
+        public static final double GOAL_HEIGHT_METERS = Units.inchesToMeters(101.5);
+        public static final double LENS_HEIGHT_METERS = Units.inchesToMeters(33);
+        public static final double MOUNT_ANGLE = 30;
         public static final double DISTANCE_OFFSET = 0.677;
 
         public static final Translation2d HUB_POSITION = new Translation2d(Units.inchesToMeters(324), Units.inchesToMeters(162));
