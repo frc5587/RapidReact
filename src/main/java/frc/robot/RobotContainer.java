@@ -9,6 +9,7 @@ import frc.robot.subsystems.*;
 
 import org.frc5587.lib.control.DeadbandJoystick;
 import org.frc5587.lib.control.DeadbandXboxController;
+import org.frc5587.lib.subsystems.LimelightBase.LedValues;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -78,6 +79,8 @@ public class RobotContainer {
         turret.setDefaultCommand(lockTurret);
         /* Configure the button bindings */
         configureButtonBindings();
+        /* Turn on Limelight LEDs */
+        limelight.setLEDs(LedValues.ON);
     }
 
     /**

@@ -147,8 +147,8 @@ public final class Constants {
      */
     public static final class IntakePistonsConstants {
         /* solenoid channels */
-        public static final int FORWARD_CHANNEL = 2;
-        public static final int REVERSE_CHANNEL = 0;
+        public static final int FORWARD_CHANNEL = 8;
+        public static final int REVERSE_CHANNEL = 11;
     }
 
     /*
