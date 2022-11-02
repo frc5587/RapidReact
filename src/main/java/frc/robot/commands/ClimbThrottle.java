@@ -42,7 +42,7 @@ public class ClimbThrottle extends CommandBase {
             intakePistons.extend();
             hookThrottle *= .4;
         } else if (hookThrottle > 0) {
-            intakePistons.retract();
+            intakePistons.extend();
         }
 
         if (throttleToggleSupplier.getAsBoolean()) {
@@ -60,5 +60,6 @@ public class ClimbThrottle extends CommandBase {
     public void end(boolean interrupted) {
         climb.setHookThrottle(0);
         climb.setStickThrottle(0);
+        intakePistons.retract();
     }
 }

@@ -9,7 +9,6 @@ import frc.robot.subsystems.*;
 
 import org.frc5587.lib.control.DeadbandJoystick;
 import org.frc5587.lib.control.DeadbandXboxController;
-import org.frc5587.lib.subsystems.LimelightBase.LedValues;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -39,14 +38,14 @@ public class RobotContainer {
     private final Kicker rightKicker = Kicker.createRightKicker();
     private final Kicker leftKicker = Kicker.createLeftKicker();
     protected final Turret turret = new Turret();
-    private final Limelight limelight = new Limelight(drivetrain, turret);
+    public final Limelight limelight = new Limelight(drivetrain, turret);
     private final Shooter shooter = new Shooter(limelight);
     private final LinebreakSensor linebreakSensor = new LinebreakSensor();
 
     /* Commands */
-    private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
-            joystick::getTrigger);
-    // private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getX());
+    // private final CurveDrive curveDrive = new CurveDrive(drivetrain, joystick::getY, () -> -joystick.getX(),
+    //         joystick::getTrigger);
+    private final ArcadeDrive arcadeDrive = new ArcadeDrive(drivetrain, joystick::getY, () -> -joystick.getX());
     private final Index index = new Index(intake, intakePistons, conveyor, linebreakSensor, drivetrain);
     private final BottomBallOut bottomBallOut = new BottomBallOut(intake, intakePistons, conveyor);
     private final TopBallOut topBallOut = new TopBallOut(rightKicker, leftKicker, shooter);
@@ -74,13 +73,12 @@ public class RobotContainer {
         /* Start USB camera capture */
         CameraServer.startAutomaticCapture();
         /* Set default commands */
-        drivetrain.setDefaultCommand(curveDrive);
+        drivetrain.setDefaultCommand(arcadeDrive);
         // drivetrain.setDefaultCommand(arcadeDrive);
         turret.setDefaultCommand(lockTurret);
         /* Configure the button bindings */
         configureButtonBindings();
         /* Turn on Limelight LEDs */
-        limelight.setLEDs(LedValues.ON);
     }
 
     /**
