@@ -9,11 +9,13 @@ import frc.robot.subsystems.*;
 
 import org.frc5587.lib.control.DeadbandJoystick;
 import org.frc5587.lib.control.DeadbandXboxController;
+import org.frc5587.lib.subsystems.LimelightBase.LedValues;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,7 +40,7 @@ public class RobotContainer {
     private final Kicker rightKicker = Kicker.createRightKicker();
     private final Kicker leftKicker = Kicker.createLeftKicker();
     protected final Turret turret = new Turret();
-    public final Limelight limelight = new Limelight(drivetrain, turret);
+    private final Limelight limelight = new Limelight(drivetrain, turret);
     private final Shooter shooter = new Shooter(limelight);
     private final LinebreakSensor linebreakSensor = new LinebreakSensor();
 
@@ -78,6 +80,8 @@ public class RobotContainer {
         turret.setDefaultCommand(lockTurret);
         /* Configure the button bindings */
         configureButtonBindings();
+        /* Turn on Limelight LEDs */
+        limelight.setLEDs(LedValues.ON);
     }
 
     /**
