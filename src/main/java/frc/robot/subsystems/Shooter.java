@@ -144,13 +144,12 @@ public class Shooter extends SubsystemBase {
      * @return  a calculated velocity from shooterRegression if the target is
      *          within min/max shoot range, or 0 if the target is not within range
      */
-    public double shootDistanceStationary(double distance) {
+    public static double shootDistanceStationary(double distance) {
         return shooterRegression(distance);
     }
 
     public boolean isInRange(double distance) {
-        // return (distance < ShooterConstants.MAX_SHOOT_DISTANCE && distance > ShooterConstants.MIN_SHOOT_DISTANCE);
-        return true;
+        return (distance < ShooterConstants.MAX_SHOOT_DISTANCE && distance > ShooterConstants.MIN_SHOOT_DISTANCE);
     }
 
     /**

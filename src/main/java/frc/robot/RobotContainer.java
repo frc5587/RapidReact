@@ -73,12 +73,11 @@ public class RobotContainer {
         /* Start USB camera capture */
         CameraServer.startAutomaticCapture();
         /* Set default commands */
+        // drivetrain.setDefaultCommand(curveDrive);
         drivetrain.setDefaultCommand(arcadeDrive);
-        // drivetrain.setDefaultCommand(arcadeDrive);
         turret.setDefaultCommand(lockTurret);
         /* Configure the button bindings */
         configureButtonBindings();
-        /* Turn on Limelight LEDs */
     }
 
     /**
