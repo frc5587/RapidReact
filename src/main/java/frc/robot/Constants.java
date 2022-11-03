@@ -147,8 +147,8 @@ public final class Constants {
      */
     public static final class IntakePistonsConstants {
         /* solenoid channels */
-        public static final int FORWARD_CHANNEL = 2;
-        public static final int REVERSE_CHANNEL = 0;
+        public static final int FORWARD_CHANNEL = 8;
+        public static final int REVERSE_CHANNEL = 11;
     }
 
     /*
@@ -187,8 +187,8 @@ public final class Constants {
         public static final boolean MOTOR_INVERTED = true;
 
         /* motor current limits */
-        public static final int STALL_CURRENT_LIMIT = 35;
-        public static final int FREE_CURRENT_LIMIT = 30;
+        public static final int STALL_CURRENT_LIMIT = 45;
+        public static final int FREE_CURRENT_LIMIT = 40;
 
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 20);
@@ -217,8 +217,8 @@ public final class Constants {
         public static final boolean LEFT_KICKER_INVERTED = false;
 
         /* motor current limits */
-        public static final int STALL_CURRENT_LIMIT = 35;
-        public static final int FREE_CURRENT_LIMIT = 30;
+        public static final int STALL_CURRENT_LIMIT = 45;
+        public static final int FREE_CURRENT_LIMIT = 40;
 
         /* pid/ff values */
         public static final TrapezoidProfile.Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(2, 10);

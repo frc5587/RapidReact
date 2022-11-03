@@ -34,7 +34,7 @@ public class Index extends CommandBase {
 
         /* If the linebreak sensor is not crossed, move the conveyor to push balls into its view */
         if(!linebreakSensor.isCrossed()) {
-            conveyor.setVelocity(3);
+            conveyor.setVelocity(6);
         }
     }
 

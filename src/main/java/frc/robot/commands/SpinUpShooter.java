@@ -45,7 +45,6 @@ public class SpinUpShooter extends CommandBase {
         double rawVelocity = shooter.simpleShootDistanceMoving(drivetrain.getLinearVelocity(), offAngle, distance - offset);
 
         double clampedVelocity = MathUtil.clamp(rawVelocity, minShooterVelocity, maxShooterVelocity);
-        // sys
 
         shooter.setVelocity(clampedVelocity);
     }
