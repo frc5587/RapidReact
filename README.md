@@ -1,8 +1,5 @@
 # RapidReact
 
-**Note: The `main` branch reflects code at the time of competition. Since then, the Climb subsystem has been removed from the robot. Please use the `current` branch for the most update code.**
-
-
 Titan Robotics' codebase for the 2022 FRC RapidReact competition.
 
 ## Development
